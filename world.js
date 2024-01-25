@@ -1,5 +1,4 @@
 class World {
-
     constructor() {
         this.cnvMain = document.getElementById("cnv1");
         this.ctxMain = this.cnvMain.getContext("2d");
