@@ -1,0 +1,3 @@
+function boosts(loc, diam){
+
+}
