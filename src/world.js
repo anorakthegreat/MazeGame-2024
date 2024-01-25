@@ -3,14 +3,6 @@ class World {
         this.cnvMain = document.getElementById("cnv1");
         this.ctxMain = this.cnvMain.getContext("2d");
         this.cnvMainLoc = new JSVector(0, 0);
-        this.dims = {
-          top: -1500,
-          left: -2000,
-          bottom: 1500,
-          right: 2000,
-          width: 4000,
-          height: 3000,
-        };
         
         
         // performance

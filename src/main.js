@@ -1,5 +1,5 @@
 /* @type {World} */
-const world;
+let  world;
 
 window.addEventListener("load", init);
 
