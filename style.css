@@ -4,9 +4,22 @@
 
 body {
     margin: 0;
+    background-color: #2e2d2b;
 }
 
 canvas {
     width: 100vw;
     height: 100vh;
+}
+#title{
+    text-align: center;
+    color: #ad0707;
+}
+#status{
+    width:100px;
+    height:700px;
+    border: 10px solid #FFFFFF;
+    background-color: purple;
+    margin-top: 20px;
+    margin-right: 500px;
 }
