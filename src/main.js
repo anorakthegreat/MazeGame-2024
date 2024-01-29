@@ -4,7 +4,7 @@ let  world;
 window.addEventListener("load", init);
 
 function init() {
-    world = new Wolrd();
+    world = new World();
     run();
 }
 
