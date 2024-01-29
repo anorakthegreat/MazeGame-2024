@@ -39,10 +39,10 @@ class World {
         this.ctxMain.beginPath();
         this.ctxMain.lineWidth = 12;
         this.ctxMain.strokeRect(
-          this.dims.left,
-          this.dims.top,
-          this.dims.width,
-          this.dims.height
+          0,
+          0,
+          this.cnvMain.width,
+          this.cnvMain.height
         );
         this.ctxMain.stroke();
         this.ctxMain.restore();
