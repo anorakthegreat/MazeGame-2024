@@ -1,7 +1,7 @@
 class World {
     constructor() {
         this.canvas = document.getElementById("canvas");
-        this.contex = this.canvas.getContext("2d");
+        this.context = this.canvas.getContext("2d");
 
         this.maze = new Maze();
         // this.maze = new Hero();
