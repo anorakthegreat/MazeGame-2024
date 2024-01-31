@@ -1,61 +1,55 @@
 /* A maze */
 class Maze {
-    constructor() {
+    constructor(context){
         this.grid = [];
-    }
-
-    /* A cell int the maze */
-    Cell = class Cell {
-        constructor(type) {
-            this.type = type;
-            this.item = null;
+        this.context = context;
+        for(let r = 0; r<5; r++){
+            this.grid[r] = [];
+            for(let c = 0; c<5; c++){
+                this.grid[r][c] = new Cell(this.context, r, c);
+            }
         }
-        
-        /* Acts like an enum */
-        Type = Object.freeze({
-            PATH: Symbol("PATH"),
-            WALL: Symbol("WALL")
-        });
-        
+        this.start();
     }
-    
-    /**
-     * (Re)Generate a maze
-     * @param {number} rows - the amount of rows the new maze will have
-     * @param {number} columns - the amount of columns the new maze will have
-     * @return {void} this function doesn't return anything
-     */
-    generate(rows, columns) {
-        // Hard-coded maze for now; (Thanks, Bard)
-        const hardCodedMaze = [
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        ];
 
-        rows = hardCodedMaze.length;
-        columns = hardCodedMaze[0].length;
-        this.grid = [];
-        for (let row = 0; i < rows; ++i) {
-            this.grid[row] = [];
-            for (let column = 0; i < columns; ++i) {
-                const type = (hardCodedMaze[row][column] == 1)
-                      ? Cell.Type.WALL
-                      : Cell.Type.PATH;
-                this.grid[row][column] = new Cell(type);
+    start(){
+        let ran = Math.random()*2;
+        if(ran<1){
+            this.grid[0][0].rightWall = false;
+            this.explore(0, 1);
+        }
+        else{
+            this.grid[0][0].bottomWall = false;
+            this.explore(1, 0);
+        }
+    }
+
+    explore(i1, i2){
+            let goTo = [];//make array of available places to move to next 
+            if(this.grid[i1-1][i2] && !this.grid[i1-1][i2].visited && this.grid[i1][i2].walls[0]){
+                goTo.push(this.grid[i1-1][i2]);
+            }
+            if(this.grid[i1][i2+1] && !this.grid[i1][i2+1].visited && this.grid[i1][i2].walls[0]){
+                goTo.push(this.grid[i1][i2+1]);
+            }
+            if(this.grid[i1+1][i2] && !this.grid[i1+1][i2].visited && this.grid[i1][i2].walls[0]){
+                goTo.push(this.grid[i1+1][i2]);
+            }
+            if(this.grid[i1][i2-1] && !this.grid[i1][i2-1].visited && this.grid[i1][i2].walls[0]){
+                goTo.push(this.grid[i1][i2-1]);
+            }
+            //choose one to go to 
+            let go = Math.floor(Math.random()*goTo.length);
+            console.log(goTo[go]);
+    }
+
+    render(){
+        this.context.clearRect(0, 0, 300, 300);
+        for(let r = 0; r<5; r++){
+            for(let c = 0; c<5; c++){
+                this.grid[r][c].render();
             }
         }
     }
+    
 }

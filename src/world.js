@@ -3,7 +3,7 @@ class World {
         this.canvas = document.getElementById("canvas");
         this.context = this.canvas.getContext("2d");
 
-        this.maze = new Maze();
+        this.maze = new Maze(this.context);
         // this.maze = new Hero();
         this.enemies = [];
 
@@ -21,6 +21,7 @@ class World {
 
     run() {
         this.framecount++;
+        this.maze.render();
     }
 }
 
