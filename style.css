@@ -10,16 +10,19 @@ body {
 canvas {
     width: 100vw;
     height: 100vh;
+    float: left;
 }
 #title{
     text-align: center;
     color: #ad0707;
 }
-#status{
+#help{
+    float:top;
     width:100px;
     height:700px;
     border: 10px solid #FFFFFF;
     background-color: purple;
-    margin-top: 20px;
-    margin-right: 500px;
+}
+#sidebar{
+    list-style-type: none;
 }
