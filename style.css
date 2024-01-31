@@ -16,13 +16,17 @@ canvas {
     text-align: center;
     color: #ad0707;
 }
-#help{
-    float:top;
-    width:100px;
-    height:700px;
-    border: 10px solid #FFFFFF;
-    background-color: purple;
+#infoDiv{
+    background-color: black;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
-#sidebar{
-    list-style-type: none;
+.info{
+    color: #ad0707;
+    font-size: 20px;
+}
+#pause:hover{
+    background-color:white;
 }

@@ -10,17 +10,19 @@
     <script src="src/jsvector.js"></script>
     <script src="src/hero.js"></script>
     <script src="src/boosts.js"></script>
+    <script src="src/panel.js"></script>
   </head>
 
   <body>
     <h1 id="title">A-Maze-Ing</h1>
-    <canvas id="cnv1"></canvas>
-    <div id="help">
-      <ul id="sidebar">
-        <li>Instructions</li>
-        <li>Item Guide</li>
-        <li>Click this if you Keep Failing</li>
-      </ul>
+    <div id="infoDiv">
+      <div class="info">Health</div>
+      <div class="info">Weapon</div>
+      <div class="info">Level</div>
+      <div class="info">Score</div>
+      <div class="info">Time</div>
+      <div class="info" id="pause">Pause</div>
     </div>
+    <canvas id="cnv1"></canvas>
   </body>
 </html>
