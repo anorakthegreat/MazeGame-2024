@@ -4,58 +4,31 @@ class Maze {
         this.grid = [];
     }
 
-    /* A cell int the maze */
-    Cell = class Cell {
-        constructor(type) {
-            this.type = type;
-            this.item = null;
-        }
-        
-        /* Acts like an enum */
-        Type = Object.freeze({
-            PATH: Symbol("PATH"),
-            WALL: Symbol("WALL")
-        });
-        
+    /**
+     * Determine if the enemy can move through the maze in a certain direction
+     * @param {"left"|"right"|"up"|"down"} direction - the direction of the posible move
+     * @param {JSVector} point - the point the charcter is at
+     * @throws {Error} if the `direction` is incorrect
+     */
+    canMoveInDirectionAtPont(direction, point) {
+        switch (direction) {
+        case "up":
+            
+        case "down":
+
+        case "left":
+            
+        case "right":
+
+        default:
+            throw new Error("Bad direction");
+        }  
     }
-    
+
     /**
      * (Re)Generate a maze
      * @param {number} rows - the amount of rows the new maze will have
      * @param {number} columns - the amount of columns the new maze will have
-     * @return {void} this function doesn't return anything
      */
-    generate(rows, columns) {
-        // Hard-coded maze for now; (Thanks, Bard)
-        const hardCodedMaze = [
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        ];
-
-        rows = hardCodedMaze.length;
-        columns = hardCodedMaze[0].length;
-        this.grid = [];
-        for (let row = 0; i < rows; ++i) {
-            this.grid[row] = [];
-            for (let column = 0; i < columns; ++i) {
-                const type = (hardCodedMaze[row][column] == 1)
-                      ? Cell.Type.WALL
-                      : Cell.Type.PATH;
-                this.grid[row][column] = new Cell(type);
-            }
-        }
-    }
+    generate(rows, columns) {}
 }
