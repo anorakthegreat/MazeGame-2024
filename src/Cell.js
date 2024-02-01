@@ -1,10 +1,22 @@
 class Cell{
-    constructor(context, i1, i2){
+    constructor(context, i1, i2, rowNum, colNum){
         this.row = i1;
         this.col = i2;
-        this.vistied = false;
+        this.visited = false;
         this.item;
         this.walls = [true, true, true, true];//top, right, bottom, left (like a clock) 
+        if(i1 === 0){
+            this.walls[0] = null;
+        }
+        if(i1 === rowNum-1){
+            this.walls[2] = null;
+        }
+        if(i2 === 0){
+            this.walls[3] = null;
+        }
+        if(i2 === colNum-1){
+            this.walls[1] = null;
+        }
         this.context = context;
     }
 
@@ -20,7 +32,7 @@ class Cell{
         if(this.walls[0]){//top wall 
             this.context.save()
             this.context.beginPath();
-            this.context.strokeStyle = "rgba(86, 3, 252)";
+            this.context.strokeStyle = "rgba(86, 3, 252, 1)";
             this.context.lineWidth = 2;
             this.context.moveTo(topLx, topLy);
             this.context.lineTo(topRx, topRy);
@@ -31,7 +43,7 @@ class Cell{
         if(this.walls[1]){//right wall 
             this.context.save()
             this.context.beginPath();
-            this.context.strokeStyle = "rgba(86, 3, 252)";
+            this.context.strokeStyle = "rgba(86, 3, 252, 1)";
             this.context.lineWidth = 2;
             this.context.moveTo(topRx, topRy);
             this.context.lineTo(bottomRx, bottomRy);
@@ -42,7 +54,7 @@ class Cell{
         if(this.walls[2]){//bottom wall 
             this.context.save()
             this.context.beginPath();
-            this.context.strokeStyle = "rgba(86, 3, 252)";
+            this.context.strokeStyle = "rgba(86, 3, 252, 1)";
             this.context.lineWidth = 2;
             this.context.moveTo(bottomRx, bottomRy);
             this.context.lineTo(bottomLx, bottomLy);
@@ -53,7 +65,7 @@ class Cell{
         if(this.walls[3]){//left wall 
             this.context.save()
             this.context.beginPath();
-            this.context.strokeStyle = "rgba(86, 3, 252)";
+            this.context.strokeStyle = "rgba(86, 3, 252, 1)";
             this.context.lineWidth = 2;
             this.context.moveTo(bottomLx, bottomLy);
             this.context.lineTo(topLx, topLy);
@@ -61,7 +73,10 @@ class Cell{
             this.context.closePath();
             this.context.restore();
         }
-        
+        if(this.visited){
+            this.context.rect(topLx, topLy, bottomRx, bottomRy);
+            this.context.fill();
+        }
     }
 
 }
