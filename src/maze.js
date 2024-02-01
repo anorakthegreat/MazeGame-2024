@@ -27,33 +27,41 @@ class Maze {
         }
     }
 
-    explore(i1, i2){
+    explore(r, c){
         //make array of available places to move to next 
         let goTo = [];
         //if the cell is a wall, don't add those neighbors to the next place to go 
-            if(i1 !== 0){
-                let topNeighbor = this.grid[i1-1][i2];
-                if(!topNeighbor.visited && topNeighbor.walls[0]){
+            if(r !== 0){
+                let topNeighbor = this.grid[r-1][c];
+                if(!topNeighbor.visited && this.grid[r][c].walls[0]){
                     goTo.push(topNeighbor);
+                    console.log("top");
                 }
+              
             }
-            if(i2 !== this.grid[0].length-1){
-                let rightNeighbor = this.grid[i1][i2+1];
-                if(!rightNeighbor.visited && rightNeighbor.walls[0]){
+            if(c !== this.grid[0].length-1){
+                let rightNeighbor = this.grid[r][c+1];
+                if(!rightNeighbor.visited && this.grid[r][c].walls[1]){
                     goTo.push(rightNeighbor);
+                    console.log("right");
                 }
+              
             }
-            if(i1 !== this.grid.length-1){
-                let bottomNeighbor = this.grid[i1+1][i2];
-                if(!bottomNeighbor.visited && bottomNeighbor.walls[0]){
+            if(r !== this.grid.length-1){
+                let bottomNeighbor = this.grid[r+1][c];
+                if(!bottomNeighbor.visited && this.grid[r][c].walls[2]){
                     goTo.push(bottomNeighbor);
+                    console.log("bottom");
                 }
+               
             }
-            if(i2 !== 0){
-                let leftNeighbor = this.grid[i1][i2-1];
-                if(!leftNeighbor.visited && leftNeighbor.walls[0]){
+            if(c !== 0){
+                let leftNeighbor = this.grid[r][c-1];
+                if(!leftNeighbor.visited && this.grid[r][c].walls[3]){
                     goTo.push(leftNeighbor);
+                    console.log("left");
                 }
+             
             }
             //choose one to go to 
             let go = Math.floor(Math.random()*goTo.length);

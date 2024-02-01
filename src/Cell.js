@@ -1,22 +1,10 @@
 class Cell{
-    constructor(context, i1, i2, rowNum, colNum){
-        this.row = i1;
-        this.col = i2;
+    constructor(context, r, c, rowNum, colNum){
+        this.row = r;
+        this.col = c;
         this.visited = false;
         this.item;
         this.walls = [true, true, true, true];//top, right, bottom, left (like a clock) 
-        if(i1 === 0){
-            this.walls[0] = null;
-        }
-        if(i1 === rowNum-1){
-            this.walls[2] = null;
-        }
-        if(i2 === 0){
-            this.walls[3] = null;
-        }
-        if(i2 === colNum-1){
-            this.walls[1] = null;
-        }
         this.context = context;
     }
 
