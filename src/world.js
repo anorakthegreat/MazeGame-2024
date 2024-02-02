@@ -12,6 +12,21 @@ class World {
         this.maze = new Maze();
         this.enemies = [];
         
+        window.addEventListener("keydown", (event) => {
+            switch (event.key) {
+            case "ArrowDown":
+                break;
+            case "ArrowUp":
+                break;
+            case "ArrowLeft":
+                break;
+            case "ArrowRight":
+                break;
+            default:
+                break;
+            }
+        });
+
         // performance (from Ecosystem)
         this.framerate = 60;
         this.framecount = 0;
