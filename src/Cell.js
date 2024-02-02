@@ -1,27 +1,36 @@
 class Cell{
-    constructor(context, r, c, rowNum, colNum){
+    constructor(context, r, c, cellWidth){
         this.row = r;
         this.col = c;
         this.visited = false;
         this.item;
+        this.cellWidth = cellWidth;
         this.walls = [true, true, true, true];//top, right, bottom, left (like a clock) 
         this.context = context;
+        this.g = 0;
     }
 
     render(){
-        let topLx = this.row*20;
-        let topLy = this.col*20;
-        let topRx = this.row*20;
-        let topRy = this.col*20 + 20;
-        let bottomRx = this.row*20 + 20;
-        let bottomRy = this.col*20 + 20;
-        let bottomLx = this.row*20 + 20;
-        let bottomLy = this.col*20;
+        let topLx = this.col*this.cellWidth;
+        let topLy = this.row*this.cellWidth;
+        let topRx = topLx + this.cellWidth;
+        let topRy = topLy;
+        let bottomRx = topRx;
+        let bottomRy = topRy + this.cellWidth;
+        let bottomLx = topLx;
+        let bottomLy = topLy + this.cellWidth;
+        if(this.visited && this.g === 0){
+        console.log(topLx);
+        console.log(topLy)
+        console.log(bottomRx)
+        console.log(bottomRy)
+        this.g++;
+        }
         if(this.walls[0]){//top wall 
             this.context.save()
             this.context.beginPath();
             this.context.strokeStyle = "rgba(86, 3, 252, 1)";
-            this.context.lineWidth = 2;
+            this.context.lineWidth = 5;
             this.context.moveTo(topLx, topLy);
             this.context.lineTo(topRx, topRy);
             this.context.stroke();
@@ -32,7 +41,7 @@ class Cell{
             this.context.save()
             this.context.beginPath();
             this.context.strokeStyle = "rgba(86, 3, 252, 1)";
-            this.context.lineWidth = 2;
+            this.context.lineWidth = 5;
             this.context.moveTo(topRx, topRy);
             this.context.lineTo(bottomRx, bottomRy);
             this.context.stroke();
@@ -43,7 +52,7 @@ class Cell{
             this.context.save()
             this.context.beginPath();
             this.context.strokeStyle = "rgba(86, 3, 252, 1)";
-            this.context.lineWidth = 2;
+            this.context.lineWidth = 5;
             this.context.moveTo(bottomRx, bottomRy);
             this.context.lineTo(bottomLx, bottomLy);
             this.context.stroke();
@@ -54,7 +63,7 @@ class Cell{
             this.context.save()
             this.context.beginPath();
             this.context.strokeStyle = "rgba(86, 3, 252, 1)";
-            this.context.lineWidth = 2;
+            this.context.lineWidth = 5;
             this.context.moveTo(bottomLx, bottomLy);
             this.context.lineTo(topLx, topLy);
             this.context.stroke();
@@ -62,10 +71,22 @@ class Cell{
             this.context.restore();
         }
         if(this.visited){
-            this.context.rect(topLx, topLy, bottomRx, bottomRy);
-            this.context.fillStyle = "rgba(0, 0, 0, 0.5)";
+            this.context.rect(topLx, topLy, this.cellWidth, this.cellWidth);
+            this.context.fillStyle = "rgba(0, 0, 0, 0.2)";
             this.context.fill();
         }
     }
 
+    topWall(){
+        return this.walls[0];
+    }
+    rightWall(){
+        return this.walls[1];
+    }
+    bottomWall(){
+        return this.walls[2];
+    }
+    leftWall(){
+        return this.walls[3];
+    }
 }
