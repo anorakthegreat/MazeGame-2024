@@ -2,10 +2,14 @@ class World {
     constructor() {
         this.canvas = document.getElementById("cnv1");
         this.context = this.canvas.getContext("2d");
-
-        this.maze = new Maze();
+        this.hero = new Hero();
+        // this.maze = new Maze();
         // this.maze = new Hero();
         this.enemies = [];
+
+        const devicePixelRatio = window.devicePixelRatio || 1;
+        this.canvas.width = this.canvas.clientWidth * devicePixelRatio;
+        this.canvas.height = this.canvas.clientHeight * devicePixelRatio;
 
         // performance (from Ecosystem)
         this.framerate = 60;
@@ -20,7 +24,12 @@ class World {
 
 
     run() {
+        // console.log('AHh')
+        let ctx = this.context
         this.framecount++;
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        this.hero.run(this.context, this.canvas)
     }
 }
 
