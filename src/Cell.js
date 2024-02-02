@@ -63,6 +63,7 @@ class Cell{
         }
         if(this.visited){
             this.context.rect(topLx, topLy, bottomRx, bottomRy);
+            this.context.fillStyle = "rgba(0, 0, 0, 0.5)";
             this.context.fill();
         }
     }

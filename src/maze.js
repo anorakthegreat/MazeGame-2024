@@ -4,6 +4,7 @@ class Maze {
         this.grid = [];
         this.row = row;
         this.col = col;
+        this.count = 0;
         this.context = context;
         for(let r = 0; r<5; r++){
             this.grid[r] = [];
@@ -28,6 +29,7 @@ class Maze {
     }
 
     explore(r, c){
+        this.grid[r][c].visited = true;
         //make array of available places to move to next 
         let goTo = [];
         //if the cell is a wall, don't add those neighbors to the next place to go 
@@ -35,7 +37,6 @@ class Maze {
                 let topNeighbor = this.grid[r-1][c];
                 if(!topNeighbor.visited && this.grid[r][c].walls[0]){
                     goTo.push(topNeighbor);
-                    console.log("top");
                 }
               
             }
@@ -43,7 +44,6 @@ class Maze {
                 let rightNeighbor = this.grid[r][c+1];
                 if(!rightNeighbor.visited && this.grid[r][c].walls[1]){
                     goTo.push(rightNeighbor);
-                    console.log("right");
                 }
               
             }
@@ -51,7 +51,6 @@ class Maze {
                 let bottomNeighbor = this.grid[r+1][c];
                 if(!bottomNeighbor.visited && this.grid[r][c].walls[2]){
                     goTo.push(bottomNeighbor);
-                    console.log("bottom");
                 }
                
             }
@@ -59,15 +58,19 @@ class Maze {
                 let leftNeighbor = this.grid[r][c-1];
                 if(!leftNeighbor.visited && this.grid[r][c].walls[3]){
                     goTo.push(leftNeighbor);
-                    console.log("left");
                 }
              
             }
+            if(goTo.length > 0 && this.count === 0){
             //choose one to go to 
             let go = Math.floor(Math.random()*goTo.length);
-            console.log(go);
-            console.log(goTo);
-            console.log(goTo[go]);
+            // console.log(go);
+            // console.log(goTo);
+            // console.log(goTo[go]);
+            let newCell = goTo[go];
+            this.count++;
+            this.explore(newCell.row, newCell.col);
+            }
     }
 
     render(){
