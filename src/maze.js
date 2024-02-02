@@ -1,17 +1,47 @@
 /* A maze */
 class Maze {
     constructor(world) {
+	/* @type {Cell[][]} */
         this.grid = [];
+
+	/* @type {World} */
         this.world = world;
+
+	/* @type {number} */
+	this.wallWidthPerCell = 0; // Like css padding if the
+				     // padding is the wall and the
+				     // element is the path
     }
 
     /**
      * Determine if the enemy can move through the maze in a certain direction
-     * @param {"left"|"right"|"top"|"bottom"} direction - the direction of the posible move
+     * @param {"left"|"right"|"up"|"down"} direction - the direction of the posible move
      * @param {JSVector} point - the point the charcter is at
      */
     canMoveInDirectionAtPont(direction, point) {
-        return !this.grid[point.y][point.x].walls[direction];
+	switch (direction) {
+        case "up":
+            break;
+        case "down":
+            break;
+        case "left":
+            break;
+        case "right":
+            break;
+        default:
+            throw new Error("Invalid direction");
+        }
+    }
+
+    /**
+     * Get the cell a vector sits upon
+     * @param {JSVector} position - the position of the character/object
+     * @return {Cell} the cell the vector is on top of
+     */
+    getCellAtPosition(position) {
+	const row = Math.floor(position.y);
+	const column = Math.floor(position.x);
+	return this.grid[row][column];
     }
 
     /**
@@ -153,13 +183,12 @@ class Maze {
         }
 
         // Render the player
-        const y = -0.5 * blockWidth * player.height;
+        const y = -0.5 * blockWidth * player.width;
         const x = -0.5 * blockWidth * player.width;
-        const height = (blockWidth * player.height);
         const width = (blockWidth * player.width);
         context.fillStyle = "green";
-        context.fillRect(x, y, width, height);
-        context.strokeRect(x, y, width, height);
+        context.fillRect(x, y, width, width);
+        context.strokeRect(x, y, width, width);
         
         context.restore();
     }
