@@ -15,6 +15,14 @@ canvas {
 #title{
     text-align: center;
     color: #ad0707;
+    font-family: "Sixtyfour", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+        "BLED" 0,
+        "SCAN" 0;
+    text-shadow: -1px 1px 2px #fff, 1px 1px 2px #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;
 }
 #infoDiv{
     background-color: black;
@@ -22,11 +30,27 @@ canvas {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    height: 110px;
 }
-.info{
+.infoTile{
+    font-family: "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
     color: #ad0707;
     font-size: 20px;
+    width:100px;
+    height:90px;
+    /* background-color:#8f8181; */
+    background-image: linear-gradient(white,#8f8181, #211e1e );
+    border-radius: 50%;
+    margin-left:4%;
+    margin-top:10px;
+    padding-top:15px;
+    box-shadow: 0 0 6px 6px #8f8181;
+    cursor: pointer;
+    
 }
 #pause:hover{
     background-color:white;
 }
+ 
