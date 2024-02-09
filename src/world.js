@@ -3,7 +3,14 @@ class World {
         this.canvas = document.getElementById("cnv1");
         this.context = this.canvas.getContext("2d");
 
-        this.maze = new Maze();
+//from Diego 
+        // Scales canvas correctly
+        const devicePixelRatio = window.devicePixelRatio || 1;
+        this.canvas.width = this.canvas.clientWidth * devicePixelRatio;
+        this.canvas.height = this.canvas.clientHeight * devicePixelRatio;
+        // this.context.scale(devicePixelRatio, devicePixelRatio);
+
+        this.maze = new Maze(this.context, 15, 15);
         // this.maze = new Hero();
         this.enemies = [];
 
@@ -21,6 +28,7 @@ class World {
 
     run() {
         this.framecount++;
+        this.maze.render();
     }
 }
 
