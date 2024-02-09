@@ -60,14 +60,14 @@ class Maze {
             this.grid[newRow][newCol].walls[3] = false;
         }
         //if bottom neighbor, remove bottom wall of current and top wall of new 
-        if (currentRow > newRow && currentCol === newCol){
+        if (currentRow < newRow && currentCol === newCol){
             this.grid[currentRow][currentCol].walls[2] = false;
             this.grid[newRow][newCol].walls[0] = false;
         }
-        //if top neighbor, remove top wall of current and bottom wall of new 
-        if (currentRow > newRow && currentCol === newCol){
-            this.grid[currentRow][currentCol].walls[0] = false;
-            this.grid[newRow][newCol].walls[2] = false;
+        //if left neighbor, remove left wall of current and right wall of new 
+        if (currentRow === newRow && currentCol > newCol){
+            this.grid[currentRow][currentCol].walls[3] = false;
+            this.grid[newRow][newCol].walls[1] = false;
         }
     }
 

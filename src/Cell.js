@@ -68,11 +68,6 @@ class Cell {
             this.context.fillStyle = "rgba(255, 0, 0, 0.2)";
             this.context.fill();
         }
-        if (this.closed) {
-            this.context.rect(topLx, topLy, this.cellWidth, this.cellWidth);
-            this.context.fillStyle = "rgba(0, 0, 255, 0.2)";
-            this.context.fill();
-        }
     }
 
     topWall() {
