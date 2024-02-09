@@ -1,32 +1,25 @@
-class Cell{
-    constructor(context, r, c, cellWidth){
+class Cell {
+    constructor(context, r, c, cellWidth) {
         this.row = r;
         this.col = c;
+        //visited during explore 
         this.visited = false;
         this.item;
         this.cellWidth = cellWidth;
         this.walls = [true, true, true, true];//top, right, bottom, left (like a clock) 
         this.context = context;
-        this.g = 0;
     }
 
-    render(){
-        let topLx = this.col*this.cellWidth;
-        let topLy = this.row*this.cellWidth;
+    render() {
+        let topLx = this.col * this.cellWidth;
+        let topLy = this.row * this.cellWidth;
         let topRx = topLx + this.cellWidth;
         let topRy = topLy;
         let bottomRx = topRx;
         let bottomRy = topRy + this.cellWidth;
         let bottomLx = topLx;
         let bottomLy = topLy + this.cellWidth;
-        if(this.visited && this.g === 0){
-        console.log(topLx);
-        console.log(topLy)
-        console.log(bottomRx)
-        console.log(bottomRy)
-        this.g++;
-        }
-        if(this.walls[0]){//top wall 
+        if (this.walls[0]) {//top wall 
             this.context.save()
             this.context.beginPath();
             this.context.strokeStyle = "rgba(86, 3, 252, 1)";
@@ -37,7 +30,7 @@ class Cell{
             this.context.closePath();
             this.context.restore();
         }
-        if(this.walls[1]){//right wall 
+        if (this.walls[1]) {//right wall 
             this.context.save()
             this.context.beginPath();
             this.context.strokeStyle = "rgba(86, 3, 252, 1)";
@@ -48,7 +41,7 @@ class Cell{
             this.context.closePath();
             this.context.restore();
         }
-        if(this.walls[2]){//bottom wall 
+        if (this.walls[2]) {//bottom wall 
             this.context.save()
             this.context.beginPath();
             this.context.strokeStyle = "rgba(86, 3, 252, 1)";
@@ -59,7 +52,7 @@ class Cell{
             this.context.closePath();
             this.context.restore();
         }
-        if(this.walls[3]){//left wall 
+        if (this.walls[3]) {//left wall 
             this.context.save()
             this.context.beginPath();
             this.context.strokeStyle = "rgba(86, 3, 252, 1)";
@@ -70,28 +63,28 @@ class Cell{
             this.context.closePath();
             this.context.restore();
         }
-        if(this.visited){
+        if (this.visited) {
             this.context.rect(topLx, topLy, this.cellWidth, this.cellWidth);
             this.context.fillStyle = "rgba(255, 0, 0, 0.2)";
             this.context.fill();
         }
-        if(this.closed){
+        if (this.closed) {
             this.context.rect(topLx, topLy, this.cellWidth, this.cellWidth);
             this.context.fillStyle = "rgba(0, 0, 255, 0.2)";
             this.context.fill();
         }
     }
 
-    topWall(){
+    topWall() {
         return this.walls[0];
     }
-    rightWall(){
+    rightWall() {
         return this.walls[1];
     }
-    bottomWall(){
+    bottomWall() {
         return this.walls[2];
     }
-    leftWall(){
+    leftWall() {
         return this.walls[3];
     }
 }
