@@ -8,7 +8,6 @@ class Panel{
       this.panel.id = panelJSON[number].id
       this.panel.style.width = 450+"px"
       this.panel.style.height = 290+"px"
-      this.panel.style.backgroundImage = 'url("'+panelJSON[number].pic+'")'
       this.panel.style.position = "absolute"
       this.panel.style.align = "center"
       this.panel.style.top = -800+"px"

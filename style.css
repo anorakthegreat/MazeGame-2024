@@ -12,7 +12,7 @@ canvas {
     height: 100vh;
     float: left;
 }
-#title{
+.title{
     text-align: center;
     color: #ad0707;
     font-family: "Sixtyfour", sans-serif;
@@ -40,7 +40,6 @@ canvas {
     font-size: 20px;
     width:100px;
     height:90px;
-    /* background-color:#8f8181; */
     background-image: linear-gradient(white,#8f8181, #211e1e );
     border-radius: 50%;
     margin-left:4%;
@@ -53,4 +52,26 @@ canvas {
 #pause:hover{
     background-color:white;
 }
+.button{
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 110px;
+    font-family: "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    color: #ad0707;
+    font-size: 20px;
+    width:100px;
+    height:90px;
+    background-image: linear-gradient(white,#8f8181, #211e1e );
+    border-radius: 50%;
+    margin-left:4%;
+    margin-top:10px;
+    padding-top:15px;
+    box-shadow: 0 0 6px 6px #8f8181;
+    cursor: pointer;
+}
+
  
