@@ -15,7 +15,7 @@ class Enemy {
         this.position = initialPosition.copy();
 
         /* @type {number} */
-        this.radius = 0.25;
+        this.width = 0.25;
 
         /* @type {JSVector[]} but should be treaded like a stack */
         this.path = [];
@@ -33,9 +33,156 @@ class Enemy {
 
     /* Update the enemy's position */
     update() {
-        let currentTile = this.position.copy();
+        if (this.pathType == "wander") {}
+        else if (this.pathType == "seek") {}
+        else {
+            throw new Error(`pathType has an invalid value: ${this.pathType}`);
+        }
+        const currentTile = this.position.copy();
         currentTile.floor();
         
-        
+    }
+
+    /* Check the walls of the maze for collisions */
+    checkWalls() {
+        const actualY = this.position.y;
+        const actualX = this.position.x;
+        const cellY = Math.floor(actualY + 0.5);
+        const cellX = Math.floor(actualX + 0.5);
+        const maze = this.world.maze;
+        const cell = maze.grid[cellY][cellX];
+
+        const wallWidth = maze.wallWidth;
+        const cellWidth = 1;
+
+        // Top
+        if (cell.topWall() && (actualY < cellY + wallWidth)) {
+            this.position.y = cellY + wallWidth;
+        }
+        // Bottom
+        else if (cell.bottomWall() && (actualY + this.width > cellY + cellWidth - wallWidth)) {
+            this.position.y = cellY + cellWidth - wallWidth - this.width;
+        }
+        // Left
+        if (cell.leftWall() && (actualX < cellX + wallWidth)) {
+            this.position.x = cellX + wallWidth;
+        }
+        // Right
+        else if (cell.rightWall() && (actualY + this.width > cellX + cellWidth - wallWidth)) {
+            this.position.x = cellX + cellWidth - wallWidth - this.width;
+        }
+    }
+
+    updatePath() {
+        this.path = [];
+        let solution = breadthFirstSearch();
+
+        let point = solution;
+        while (point !== null) {
+            path.push(point);
+            point = point.parent;
+        }
+    }
+
+    // https://en.wikipedia.org/wiki/Breadth-first_search#Pseudocode
+    breadthFirstSearch() {
+        let queue = new Queue(0);
+        let visited = Array.from(new Array(this.world.maze.length), () => {
+            return Array.from(new Array(this.world.maze[0].length), () => {
+                return false;
+            });
+        });
+        visited[0][0] = true;
+
+        while (!queue.empty()) {
+            let point = queue.pop();
+
+            if (point.equals(goal))
+                return point;
+
+            // Top
+            if (
+                point.y > 0 
+                && !visited[point.y - 1][point.x] 
+                && !maze[point.y - 1][point.x].topWall()
+            ) {
+                visited[point.y - 1][point.x] = true;
+                let neighbor = new Point(point.x, point.y - 1, point);
+                queue.push(neighbor);
+            }
+
+            // Bottom
+            if (
+                point.y < visited.length - 1 
+                && !visited[point.y + 1][point.x] 
+                    && !maze[point.y + 1][point.x].bottomWall()
+            ) {
+                visited[point.y + 1][point.x] = true;
+                let neighbor = new Point(point.x, point.y + 1, point);
+                queue.push(neighbor);
+            }
+
+            // Left
+            if (
+                point.x > 0 
+                && !visited[point.y][point.x - 1] 
+                && !maze[point.y][point.x - 1].leftWall()
+            ) {
+                visited[point.y][point.x - 1] = true;
+                let neighbor = new Point(point.x - 1, point.y, point);
+                queue.push(neighbor);
+            }
+
+            // Right
+            if (
+                point.x < visited[0].length - 1 
+                && !visited[point.y][point.x + 1] 
+                && !maze[point.y][point.x + 1].rightWall()
+            ) {
+                visited[point.y][point.x + 1] = true;
+                let neighbor = new Point(point.x + 1, point.y, point);
+                queue.push(neighbor);
+            }
+        }
+    }
+}
+
+class Point {
+    constructor(x, y, parent=null) {
+        this.x = x;
+        this.y = y;
+        this.parent = parent;
+    }
+
+    equals(point) {
+        return this.x === point.x &&
+               this.y === point.y;
+    }
+}
+
+
+// Interesting JS queueueueue implementation
+// https://www.geeksforgeeks.org/implementation-queue-javascript/
+class Queue {
+    constructor() {
+        this.items = {};
+        this.frontIndex = 0;
+        this.backIndex = 0;
+    }
+    
+    enqueue(item) {
+        this.items[this.backIndex] = item;
+        this.backIndex++
+    }
+    
+    dequeue() {
+        const item = this.items[this.frontIndex];
+        delete this.items[this.frontIndex];
+        ++this.frontIndex;
+        return item;
+    }
+    
+    peek() {
+        return this.items[this.frontIndex];
     }
 }
