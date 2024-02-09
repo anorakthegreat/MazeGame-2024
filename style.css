@@ -42,7 +42,7 @@ canvas {
     height:90px;
     background-image: linear-gradient(white,#8f8181, #211e1e );
     border-radius: 50%;
-    margin-left:4%;
+    margin:auto;
     margin-top:10px;
     padding-top:15px;
     box-shadow: 0 0 6px 6px #8f8181;
@@ -63,13 +63,13 @@ canvas {
     font-style: normal;
     color: #ad0707;
     font-size: 20px;
-    width:100px;
+    width:180px;
     height:90px;
     background-image: linear-gradient(white,#8f8181, #211e1e );
     border-radius: 50%;
-    margin-left:4%;
+    margin:auto;
     margin-top:10px;
-    padding-top:15px;
+    padding-top:25px;
     box-shadow: 0 0 6px 6px #8f8181;
     cursor: pointer;
 }
