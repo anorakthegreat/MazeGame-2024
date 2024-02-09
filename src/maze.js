@@ -5,15 +5,15 @@ class Maze {
         this.col = col;//num of cols in the maze 
         this.context = context;
         //width of the square cells 
-        this.cellWidth = 100;
+        this.cellWidth = 50;
         //width of the walls
-        this.wallWidth = 10;
+        this.wallWidth = 5;
         //array for all the cells 
         this.grid = [];
         for (let r = 0; r < this.row; r++) {
             this.grid[r] = [];
             for (let c = 0; c < this.col; c++) {
-                this.grid[r][c] = new Cell(this.context, r, c, this.cellWidth);
+                this.grid[r][c] = new Cell(this.context, r, c, this.cellWidth, this.wallWidth);
             }
         }
         //keep track of cells visited 
