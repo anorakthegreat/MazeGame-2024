@@ -4,12 +4,17 @@ class World {
         this.context = this.canvas.getContext("2d");
         this.hero = new Hero();
         // this.maze = new Maze();
-        // this.maze = new Hero();
-        this.enemies = [];
 
+//from Diego 
+        // Scales canvas correctly
         const devicePixelRatio = window.devicePixelRatio || 1;
         this.canvas.width = this.canvas.clientWidth * devicePixelRatio;
         this.canvas.height = this.canvas.clientHeight * devicePixelRatio;
+        // this.context.scale(devicePixelRatio, devicePixelRatio);
+
+        this.maze = new Maze(this.context, 15, 15);
+        // this.maze = new Hero();
+        this.enemies = [];
 
         // performance (from Ecosystem)
         this.framerate = 60;
@@ -30,6 +35,7 @@ class World {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
         this.hero.run(this.context, this.canvas)
+        this.maze.render();
     }
 }
 
