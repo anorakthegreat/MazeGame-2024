@@ -64,9 +64,14 @@ class Cell {
             this.context.closePath();
             this.context.restore();
         }
-        // if (this.visited) {
+        // if (world.maze.grid[this.row][this.col] === world.maze.entry) {
         //     this.context.rect(topLx, topLy, this.cellWidth, this.cellWidth);
         //     this.context.fillStyle = "rgba(255, 0, 0, 0.2)";
+        //     this.context.fill();
+        // }
+        // if(world.maze.grid[this.row][this.col] === world.maze.exit){
+        //     this.context.rect(topLx, topLy, this.cellWidth, this.cellWidth);
+        //     this.context.fillStyle = "rgba(255, 0, 255, 0.2)";
         //     this.context.fill();
         // }
     }

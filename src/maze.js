@@ -16,10 +16,47 @@ class Maze {
                 this.grid[r][c] = new Cell(this.context, r, c, this.cellWidth, this.wallWidth);
             }
         }
+        //entry and exit of maze 
+        this.entry = this.grid[0][0];
+        this.exit = this.grid[row-1][col-1];
         //keep track of cells visited 
         this.path = [];
         //begin mazeGen before rendering 
         this.explore(0, 0);
+        //make entry and exit 
+        this.entryExit();
+    }
+
+    entryExit(){
+        //always start at top left, remove left and top wall to signify entrance 
+        this.entry.walls[0] = false; 
+        this.entry.walls[3] = false;
+        //make a random exit on the right or bottom of the maze 
+        if(Math.random()*2 > 1){//right wall exit 
+            let r = Math.floor(Math.random()*this.grid.length);
+            let exit = this.grid[r][this.grid[0].length-1];
+            //remove right wall 
+            exit.walls[1] = false;
+            // if(r === 0){//if at the top, remove top wall 
+            //     exit.walls[0] = false;
+            // }
+            // else if(r === this.grid.length-1){//if at bottom, remove bottom wall 
+            //     exit.walls[2] = false;
+            // }
+        }
+        else{
+            let c = Math.floor(Math.random()*this.grid[0].length-1);
+            let exit = this.grid[this.grid.length-1][c];
+            //remove bottom wall 
+            exit.walls[2] = false; 
+            // if(c === 0){//if at the left, remove left wall 
+            //     exit.walls[3] = false;
+            // }
+            // else if(c === this.grid[0].length){//if at the right, remove right wall 
+            //     exit.walls[1] = false;
+            // }
+        }
+        
     }
 
     explore(r, c) {
@@ -109,6 +146,18 @@ class Maze {
                 this.grid[r][c].render();
             }
         }
+        //color entry 
+        let EntrytopLx = this.entry.col * this.cellWidth;
+        let EntrytopLy = this.entry.row * this.cellWidth;
+        this.context.rect(EntrytopLx, EntrytopLy, this.cellWidth, this.cellWidth);
+        this.context.fillStyle = "rgba(255, 0, 0, 0.2)";
+        this.context.fill();
+        //color exit 
+        let ExittopLx = this.exit.col * this.cellWidth;
+        let ExittopLy = this.exit.row * this.cellWidth;
+        this.context.rect(ExittopLx, ExittopLy, this.cellWidth, this.cellWidth);
+        this.context.fillStyle = "rgba(255, 0, 255, 0.2)";
+        this.context.fill();
     }
 
 }
