@@ -10,7 +10,6 @@ body {
 canvas {
     width: 100vw;
     height: 100vh;
-    float: left;
 }
 .title{
     text-align: center;
@@ -24,7 +23,7 @@ canvas {
         "SCAN" 0;
     text-shadow: -1px 1px 2px #fff, 1px 1px 2px #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;
 }
-#infoDiv{
+.infoDiv{
     background-color: black;
     text-align: center;
     display: flex;
@@ -72,6 +71,18 @@ canvas {
     padding-top:25px;
     box-shadow: 0 0 6px 6px #8f8181;
     cursor: pointer;
+}
+a, a:link, a:visited, a:hover, a:focus, a:active{
+    color: #ad0707;
+    text-decoration: none;
+}
+#credits{
+    color: #959aa3;
+    font-family: "Protest Revolution", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    text-align: center;
+    font-size: 70px;
 }
 
  
