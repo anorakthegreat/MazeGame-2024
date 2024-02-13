@@ -17,7 +17,7 @@ class Enemy {
         /* @type {number} */
         this.width = 0.25;
 
-        /* @type {JSVector[]} but should be treaded like a stack */
+        /* @type {JSVector[]} */
         this.path = [];
 
         /**
@@ -83,16 +83,19 @@ class Enemy {
             point = point.parent;
         }
     }
-
+    
     // https://en.wikipedia.org/wiki/Breadth-first_search#Pseudocode
     breadthFirstSearch() {
-        let queue = new Queue(0);
+        let queue = new Queue();
         let visited = Array.from(new Array(this.world.maze.length), () => {
             return Array.from(new Array(this.world.maze[0].length), () => {
                 return false;
             });
         });
         visited[0][0] = true;
+        let heroPosition = this.world.hero.position;
+        heroPosition.floor();
+        let goal = new Point(heroPosition.x, heroPosition.y);
 
         while (!queue.empty()) {
             let point = queue.pop();
@@ -171,18 +174,12 @@ class Queue {
     }
     
     enqueue(item) {
-        this.items[this.backIndex] = item;
-        this.backIndex++
+        this.items[this.backIndex++] = item;
     }
     
     dequeue() {
         const item = this.items[this.frontIndex];
-        delete this.items[this.frontIndex];
-        ++this.frontIndex;
+        delete this.items[this.frontIndex++];
         return item;
-    }
-    
-    peek() {
-        return this.items[this.frontIndex];
     }
 }
