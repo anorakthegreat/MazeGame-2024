@@ -1,5 +1,4 @@
-class Cell {
-    constructor(context, r, c, cellWidth, wallWidth) {
+function Cell(context, r, c, cellWidth, wallWidth) {
         this.row = r;
         this.col = c;
         //visited during explore 
@@ -9,9 +8,18 @@ class Cell {
         this.wallWidth = wallWidth;
         this.walls = [true, true, true, true];//top, right, bottom, left (like a clock) 
         this.context = context;
-    }
 
-    render() {
+        this.topLx = this.col * this.cellWidth;
+        this.topLy = this.row * this.cellWidth
+        this.topRx = this.topLx + this.cellWidth;
+        this.topRy = this.topLy;
+        this.bottomRx = this.topRx;
+        this.bottomRy = this.topRy + this.cellWidth;
+        this.bottomLx = this.topLx;
+        this.bottomLy = this.topLy + this.cellWidth;
+}
+
+    Cell.prototype.render = function() {
         let topLx = this.col * this.cellWidth;
         let topLy = this.row * this.cellWidth;
         let topRx = topLx + this.cellWidth;
@@ -20,6 +28,7 @@ class Cell {
         let bottomRy = topRy + this.cellWidth;
         let bottomLx = topLx;
         let bottomLy = topLy + this.cellWidth;
+
         if (this.walls[0]) {//top wall 
             this.context.save()
             this.context.beginPath();
@@ -71,16 +80,15 @@ class Cell {
         // }
     }
 
-    topWall() {
+    Cell.prototype.topWall = function(){
         return this.walls[0];
     }
-    rightWall() {
+    Cell.prototype.rightWall = function() {
         return this.walls[1];
     }
-    bottomWall() {
+    Cell.prototype.bottomWall = function() {
         return this.walls[2];
     }
-    leftWall() {
+    Cell.prototype.leftWall = function() {
         return this.walls[3];
     }
-}
