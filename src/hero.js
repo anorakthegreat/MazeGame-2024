@@ -31,23 +31,10 @@ Hero.prototype.run = function(ctx, canvas){
     // this.updateCanvas(ctx)
     // console.log(this.loc.y)
 
-    this.updateCanvas(ctx, canvas)
+    // this.updateCanvas(ctx, canvas)
+    // console.log("AH")
     this.render(ctx, canvas)
 }
-
-Hero.prototype.updateCanvas = function(ctx, canvas) {
-    // Ensure player stays within the canvas bounds
-    this.loc.x = Math.max(0, Math.min(canvas.width, this.loc.x));
-    this.loc.y = Math.max(0, Math.min(canvas.height, this.loc.y));
-
-    // Adjust canvas position based on player movement
-    const offsetX = canvas.width / 2 - this.loc.x;
-    const offsetY = canvas.height / 2 - this.loc.y;
-
-    // Translate the canvas to keep the player in the center
-    ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transformation matrix
-    ctx.translate(offsetX, offsetY);
-};
 
 
 Hero.prototype.render = function(ctx, canvas){
