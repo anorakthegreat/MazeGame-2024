@@ -76,7 +76,7 @@ a, a:link, a:visited, a:hover, a:focus, a:active{
     color: #ad0707;
     text-decoration: none;
 }
-#credits{
+.credInst{
     color: #959aa3;
     font-family: "Protest Revolution", sans-serif;
     font-weight: 400;
