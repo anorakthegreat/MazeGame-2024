@@ -1,26 +1,27 @@
-function Hero() {
+function Hero(m) {
     
     this.loc = new JSVector(300, 100)
-
-    let moveIncrement = 5
+    this.maze = m
+    this.moveIncrement = 5
 
     window.addEventListener("keydown", (event) => {
         switch (event.key) {
         case "ArrowDown":
-            this.loc.y+=moveIncrement;
+            this.loc.y+=this.moveIncrement;
             // console.log("ACK")
             break;
         case "ArrowUp":
-            this.loc.y-=moveIncrement;
+            // this.loc.y-=this.moveIncrement;
             // console.l/og("ACK")
+            this.moveUp()
             break;
         case "ArrowLeft":
-            this.loc.x-=moveIncrement;
+            this.loc.x-=this.moveIncrement;
             // console.log("ACK")
             break;
             // console.log(this.loc.x)
         case "ArrowRight":
-            this.loc.x+=moveIncrement;
+            this.loc.x+=this.moveIncrement;
             // console.log("ACK")
             break
             // console.log(this.loc.x)
@@ -29,6 +30,12 @@ function Hero() {
         }
     });
 
+}
+
+Hero.prototype.moveUp = function(){
+    if(!this.getMazeLocation(this.maze)){
+        this.loc.y -= this.moveIncrement
+    }
 }
 
 Hero.prototype.areInContact = function(square, rectangle) {
@@ -56,18 +63,19 @@ Hero.prototype.run = function(ctx, canvas, maze){
 
     // this.updateCanvas(ctx, canvas)
     // console.log("AH")
-    this.getMazeLocation(maze)
+    console.log(this.getMazeLocation(maze))
     this.render(ctx, canvas)
 }
 
 Hero.prototype.getMazeLocation = function(maze){
-    let x = Math.ceil(this.loc.x / 50)
-    let y = Math.ceil(this.loc.y/50)
+    let x = Math.ceil((this.loc.x)/ 50)
+    let y = Math.ceil((this.loc.y)/50)
 
     let cell = maze.getCell(x, y)
 
     // console.log(this.loc.y)
-    // console.log("CELL NUMBER " + y)
+    console.log("CELL NUMBER " + y)
+    console.log(cell.topWall())
 
     if(cell.topWall()){
         let loc = {x: this.loc.x, y: this.loc.y, size: 5}
@@ -78,8 +86,12 @@ Hero.prototype.getMazeLocation = function(maze){
         // console.log(this.areInContact(loc, wall))
 
         if(loc.y == wall.y){
-            console.log("TRUUEEE")
+            return true
+        } else {
+            return false
         }
+    } else{
+        return false
     }
 
 

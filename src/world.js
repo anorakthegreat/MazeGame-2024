@@ -2,7 +2,6 @@ class World {
     constructor() {
         this.canvas = document.getElementById("cnv1");
         this.context = this.canvas.getContext("2d");
-        this.hero = new Hero();
         // this.maze = new Maze();
 
 //from Diego 
@@ -13,6 +12,8 @@ class World {
         // this.context.scale(devicePixelRatio, devicePixelRatio);
 
         this.maze = new Maze(this.context, 15, 15);
+        this.hero = new Hero(this.maze);
+
         // this.maze = new Hero();
         this.enemies = [];
 
