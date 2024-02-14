@@ -127,3 +127,10 @@ JSVector.prototype.floor = function() {
     this.y = Math.floor(this.y);
 }
     
+/* Check equality with another vector */
+JSVector.prototype.equals = function(other) {
+    if (!other)
+        return false;
+    return this.x === other.x &&
+           this.y === other.y;
+}
