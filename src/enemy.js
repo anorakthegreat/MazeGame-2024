@@ -57,6 +57,9 @@ class Enemy {
                 // Update target, if necessary
                 if (currentCell.equals(target)) {
                     this.path.pop();
+                    if (this.path.empty())
+                        throw new Error("No new path to follow");
+
                     target = this.path.peek();
                 }
                 // Seek the center of the target cell
