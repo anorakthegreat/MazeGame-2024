@@ -3,32 +3,18 @@ class World {
         this.canvas = document.getElementById("cnv1");
         this.context = this.canvas.getContext("2d");
 
-        //from Diego 
+        // from Diego 
         // Scales canvas correctly
         const devicePixelRatio = window.devicePixelRatio || 1;
         this.canvas.width = this.canvas.clientWidth * devicePixelRatio;
         this.canvas.height = this.canvas.clientHeight * devicePixelRatio;
-        // this.context.scale(devicePixelRatio, devicePixelRatio);
+        this.context.scale(devicePixelRatio, devicePixelRatio);
 
         this.maze = new Maze(this.context, 15, 15);
-        // this.maze = new Hero();
+        this.hero = new Hero(this);
         this.enemies = [];
+        this.enemies[0] = new Enemy(this, new JSVector(10.5, 10.5));
         
-        window.addEventListener("keydown", (event) => {
-            switch (event.key) {
-            case "ArrowDown":
-                break;
-            case "ArrowUp":
-                break;
-            case "ArrowLeft":
-                break;
-            case "ArrowRight":
-                break;
-            default:
-                break;
-            }
-        });
-
         // performance (from Ecosystem)
         this.framerate = 60;
         this.framecount = 0;
@@ -45,6 +31,9 @@ class World {
         this.framecount++;
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.maze.render();
+        for (const enemy of this.enemies) {
+            enemy.run();
+        }
     }
 }
 
