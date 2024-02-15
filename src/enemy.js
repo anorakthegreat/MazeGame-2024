@@ -30,7 +30,6 @@ class Enemy {
         this.pathType = "seek";
 
         this.updatePath();
-        console.log(this.path);
     }
 
     /* Run the enemy (once per frame) */
