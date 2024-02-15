@@ -18,13 +18,15 @@ class Maze {
         }
         //entry and exit of maze 
         this.entry = this.grid[0][0];
-        this.exit = this.grid[row-1][col-1];
+        this.exit;
         //keep track of cells visited 
         this.path = [];
         //begin mazeGen before rendering 
         this.explore(0, 0);
         //make entry and exit 
         this.entryExit();
+        //array to hold tiles that have oxygen bubbles 
+        this.oxygen = [];
     }
 
     entryExit(){
@@ -34,9 +36,9 @@ class Maze {
         //make a random exit on the right or bottom of the maze 
         if(Math.random()*2 > 1){//right wall exit 
             let r = Math.floor(Math.random()*this.grid.length);
-            let exit = this.grid[r][this.grid[0].length-1];
+            this.exit = this.grid[r][this.grid[0].length-1];
             //remove right wall 
-            exit.walls[1] = false;
+            this.exit.walls[1] = false;
             // if(r === 0){//if at the top, remove top wall 
             //     exit.walls[0] = false;
             // }
@@ -46,9 +48,9 @@ class Maze {
         }
         else{
             let c = Math.floor(Math.random()*this.grid[0].length-1);
-            let exit = this.grid[this.grid.length-1][c];
+            this.exit = this.grid[this.grid.length-1][c];
             //remove bottom wall 
-            exit.walls[2] = false; 
+            this.exit.walls[2] = false; 
             // if(c === 0){//if at the left, remove left wall 
             //     exit.walls[3] = false;
             // }
@@ -158,6 +160,27 @@ class Maze {
         this.context.rect(ExittopLx, ExittopLy, this.cellWidth, this.cellWidth);
         this.context.fillStyle = "rgba(255, 0, 255, 0.2)";
         this.context.fill();
+
+        //oxygen bubbles on random tiles 
+        //if(Math.random()*100 > 99){
+        if(this.oxygen.length < 10){
+            let ranR = Math.floor(Math.random()*this.grid.length);
+            let ranC = Math.floor(Math.random()*this.grid[0].length);
+            this.oxygen.push(this.grid[ranR][ranC]);
+        }
+        if(this.oxygen.length > 0){
+            for(let i = 0; i<this.oxygen.length; i++){
+                this.context.save();
+                this.context.beginPath();
+                this.context.arc(this.oxygen[i].col*this.cellWidth+25, this.oxygen[i].row*this.cellWidth+25, 20, 0, 2*Math.PI);
+                this.context.strokeStyle = "rgba(65, 140, 173, 1)";
+                this.context.stroke();
+                this.context.fillStyle = "rgba(117, 179, 206, 0.5)";
+                this.context.fill();
+                this.context.closePath();
+                this.context.restore();
+            }
+        }
     }
 
 }

@@ -9,6 +9,7 @@ class Cell {
         this.wallWidth = wallWidth;
         this.walls = [true, true, true, true];//top, right, bottom, left (like a clock) 
         this.context = context;
+        this.color = "rgba(14, 68, 149, 1)";
     }
 
     render() {
@@ -23,7 +24,7 @@ class Cell {
         
         this.context.save()
         this.context.beginPath();
-        this.context.strokeStyle = "rgba(86, 3, 252, 1)";
+        this.context.strokeStyle = this.color;
         this.context.lineWidth = this.wallWidth;
         // top wall 
         if (this.walls[0]) { 
@@ -45,21 +46,11 @@ class Cell {
             this.context.moveTo(bottomLeftx, bottomLefty);
             this.context.lineTo(topLeftx, topLefty);
         }
-        // if (world.maze.grid[this.row][this.col] === world.maze.entry) {
+
         this.context.stroke();
         this.context.closePath();
         this.context.restore();
 
-        // if (this.visited) {
-        //     this.context.rect(topLx, topLy, this.cellWidth, this.cellWidth);
-        //     this.context.fillStyle = "rgba(255, 0, 0, 0.2)";
-        //     this.context.fill();
-        // }
-        // if(world.maze.grid[this.row][this.col] === world.maze.exit){
-        //     this.context.rect(topLx, topLy, this.cellWidth, this.cellWidth);
-        //     this.context.fillStyle = "rgba(255, 0, 255, 0.2)";
-        //     this.context.fill();
-        // }
     }
 
     topWall() {
