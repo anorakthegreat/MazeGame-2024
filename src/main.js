@@ -10,5 +10,17 @@ function init() {
 
 function run() {
     window.requestAnimationFrame(run);
-    world.run();
+    if(!world.paused){
+        world.run();
+    }
+}
+document.getElementById("pause").addEventListener("click",pause);
+//window.addEventListener("click", pause);
+
+function pause(){
+    if(world.paused){
+        world.paused=false;
+    } else{
+        world.paused=true;
+    }
 }

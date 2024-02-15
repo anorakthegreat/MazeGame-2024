@@ -24,6 +24,7 @@ class World {
             world.framerate = world.framecount;
             world.framecount = 0;
         }, 1000);
+        this.paused=false;
     }
 
 
