@@ -120,3 +120,17 @@ JSVector.prototype.toString = function() {
   let dir = this.getDirection().toFixed(2);
   return("x: " + x + "y: " + y + "mag: " + mag + "dir: " + dir);
 }
+
+/* Take the floor of the vector's components */
+JSVector.prototype.floor = function() {
+    this.x = Math.floor(this.x);
+    this.y = Math.floor(this.y);
+}
+    
+/* Check equality with another vector */
+JSVector.prototype.equals = function(other) {
+    if (!other)
+        return false;
+    return this.x === other.x &&
+           this.y === other.y;
+}
