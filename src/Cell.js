@@ -12,59 +12,45 @@ class Cell {
     }
 
     render() {
-        let topLx = this.col * this.cellWidth;
-        let topLy = this.row * this.cellWidth;
-        let topRx = topLx + this.cellWidth;
-        let topRy = topLy;
-        let bottomRx = topRx;
-        let bottomRy = topRy + this.cellWidth;
-        let bottomLx = topLx;
-        let bottomLy = topLy + this.cellWidth;
-        if (this.walls[0]) {//top wall 
-            this.context.save()
-            this.context.beginPath();
-            this.context.strokeStyle = "rgba(86, 3, 252, 1)";
-            this.context.lineWidth = this.wallWidth;
-            this.context.moveTo(topLx, topLy);
-            this.context.lineTo(topRx, topRy);
-            this.context.stroke();
-            this.context.closePath();
-            this.context.restore();
+        let topLeftx = this.col * this.cellWidth;
+        let topLefty = this.row * this.cellWidth;
+        let topRightx = topLeftx + this.cellWidth;
+        let topRighty = topLefty;
+        let bottomRightx = topRightx;
+        let bottomRighty = topRighty + this.cellWidth;
+        let bottomLeftx = topLeftx;
+        let bottomLefty = topLefty + this.cellWidth;
+        
+        this.context.save()
+        this.context.beginPath();
+        this.context.strokeStyle = "rgba(86, 3, 252, 1)";
+        this.context.lineWidth = this.wallWidth;
+        // top wall 
+        if (this.walls[0]) { 
+            this.context.moveTo(topLeftx, topLefty);
+            this.context.lineTo(topRightx, topRighty);
         }
-        if (this.walls[1]) {//right wall 
-            this.context.save()
-            this.context.beginPath();
-            this.context.strokeStyle = "rgba(86, 3, 252, 1)";
-            this.context.lineWidth = this.wallWidth;
-            this.context.moveTo(topRx, topRy);
-            this.context.lineTo(bottomRx, bottomRy);
-            this.context.stroke();
-            this.context.closePath();
-            this.context.restore();
+        // right wall 
+        if (this.walls[1]) {
+            this.context.moveTo(topRightx, topRighty);
+            this.context.lineTo(bottomRightx, bottomRighty);
         }
-        if (this.walls[2]) {//bottom wall 
-            this.context.save()
-            this.context.beginPath();
-            this.context.strokeStyle = "rgba(86, 3, 252, 1)";
-            this.context.lineWidth = this.wallWidth;
-            this.context.moveTo(bottomRx, bottomRy);
-            this.context.lineTo(bottomLx, bottomLy);
-            this.context.stroke();
-            this.context.closePath();
-            this.context.restore();
+        // bottom wall 
+        if (this.walls[2]) {
+            this.context.moveTo(bottomRightx, bottomRighty);
+            this.context.lineTo(bottomLeftx, bottomLefty);
         }
-        if (this.walls[3]) {//left wall 
-            this.context.save()
-            this.context.beginPath();
-            this.context.strokeStyle = "rgba(86, 3, 252, 1)";
-            this.context.lineWidth = this.wallWidth;
-            this.context.moveTo(bottomLx, bottomLy);
-            this.context.lineTo(topLx, topLy);
-            this.context.stroke();
-            this.context.closePath();
-            this.context.restore();
+        // left wall 
+        if (this.walls[3]) {
+            this.context.moveTo(bottomLeftx, bottomLefty);
+            this.context.lineTo(topLeftx, topLefty);
         }
         // if (world.maze.grid[this.row][this.col] === world.maze.entry) {
+        this.context.stroke();
+        this.context.closePath();
+        this.context.restore();
+
+        // if (this.visited) {
         //     this.context.rect(topLx, topLy, this.cellWidth, this.cellWidth);
         //     this.context.fillStyle = "rgba(255, 0, 0, 0.2)";
         //     this.context.fill();
