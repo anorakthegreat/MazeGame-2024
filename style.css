@@ -5,7 +5,7 @@
 html, body {
     margin: 0; 
     height: 100%;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 
@@ -20,7 +20,7 @@ canvas {
 }
 .title{
     text-align: center;
-    color: #ad0707;
+    color: #0b1775;
     font-family: "Sixtyfour", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;
@@ -42,7 +42,7 @@ canvas {
     font-family: "Pixelify Sans", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
-    color: #ad0707;
+    color: #0b1775;
     font-size: 20px;
     width:100px;
     height:90px;
@@ -67,7 +67,7 @@ canvas {
     font-family: "Pixelify Sans", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
-    color: #ad0707;
+    color: #0b1775;
     font-size: 20px;
     width:180px;
     height:90px;
@@ -80,7 +80,7 @@ canvas {
     cursor: pointer;
 }
 a, a:link, a:visited, a:hover, a:focus, a:active{
-    color: #ad0707;
+    color: #0b1775;
     text-decoration: none;
 }
 .credInst{
