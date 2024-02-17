@@ -1,9 +1,9 @@
 /* A maze */
 class Maze {
-    constructor(context, row, col) {
+    constructor(world, row, col) {
         this.row = row;//num of rows in the maze 
         this.col = col;//num of cols in the maze 
-        this.context = context;
+        this.world = world;
         //width of the square cells 
         this.cellWidth = 50;
         //width of the walls
@@ -13,9 +13,14 @@ class Maze {
         for (let r = 0; r < this.row; r++) {
             this.grid[r] = [];
             for (let c = 0; c < this.col; c++) {
-                this.grid[r][c] = new Cell(this.context, r, c, this.cellWidth, this.wallWidth);
+                this.grid[r][c] = new Cell(this.world, r, c, this.cellWidth, this.wallWidth);
             }
         }
+
+        // Load images
+        this.images = {};
+        this.loadImages();
+        
         //keep track of cells visited 
         this.path = [];
         //begin mazeGen before rendering 
@@ -100,9 +105,16 @@ class Maze {
         }
         return goTo;
     }
+
+    loadImages() {
+        this.images["coral"] = {image: new Image(), loaded: false};
+        this.images["coral"].image.addEventListener("load", () => {
+            this.images["coral"].loaded = true;
+        });
+        this.images["coral"].image.src = "./resources/coral.jpg";
+    }
+    
     render() {
-        //clear canvas 
-        this.context.clearRect(0, 0, world.canvas.width, world.canvas.height);
         //render cells 
         for (let r = 0; r < this.row; r++) {
             for (let c = 0; c < this.col; c++) {

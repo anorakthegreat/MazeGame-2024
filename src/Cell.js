@@ -1,5 +1,8 @@
 class Cell {
-    constructor(context, r, c, cellWidth, wallWidth) {
+    constructor(world, r, c, cellWidth, wallWidth) {
+        console.log(this);
+        this.world = world;
+        
         this.row = r;
         this.col = c;
         //visited during explore 
@@ -7,8 +10,9 @@ class Cell {
         this.item;
         this.cellWidth = cellWidth;
         this.wallWidth = wallWidth;
-        this.walls = [true, true, true, true];//top, right, bottom, left (like a clock) 
-        this.context = context;
+        this.walls = [true, true, true, true];//top, right, bottom, left (like a clock)
+
+        this.type = "coral"; // Types for images
     }
 
     render() {
@@ -20,34 +24,54 @@ class Cell {
         let bottomRighty = topRighty + this.cellWidth;
         let bottomLeftx = topLeftx;
         let bottomLefty = topLefty + this.cellWidth;
+        const cellWidth = this.cellWidth;
+        const wallWidth = this.wallWidth;
+
+        const context = this.world.context;
+        context.save()
+        context.beginPath();
+        context.strokeStyle = "white";
+        context.lineWidth = this.wallWidth;
+
+
+        const image = this.world.maze.images[this.type];
+        if (image.loaded) {
+            const sourceX = 0;
+            const sourceY = 0;
+            const sourceWidth = image.image.width;
+            const sourceHeight = image.image.height;
+            const destinationX = topLeftx;
+            const destinationY = topLefty;
+            const destinationWidth = cellWidth;
+            const destinationHeight = cellWidth;
+            context.drawImage(image.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
+        }
+
         
-        this.context.save()
-        this.context.beginPath();
-        this.context.strokeStyle = "rgba(86, 3, 252, 1)";
-        this.context.lineWidth = this.wallWidth;
         // top wall 
-        if (this.walls[0]) { 
-            this.context.moveTo(topLeftx, topLefty);
-            this.context.lineTo(topRightx, topRighty);
+        if (this.walls[0]) {
+            context.moveTo(topLeftx, topLefty);
+            context.lineTo(topRightx, topRighty);
         }
         // right wall 
         if (this.walls[1]) {
-            this.context.moveTo(topRightx, topRighty);
-            this.context.lineTo(bottomRightx, bottomRighty);
+            context.moveTo(topRightx, topRighty);
+            context.lineTo(bottomRightx, bottomRighty);
         }
         // bottom wall 
         if (this.walls[2]) {
-            this.context.moveTo(bottomRightx, bottomRighty);
-            this.context.lineTo(bottomLeftx, bottomLefty);
+            context.moveTo(bottomRightx, bottomRighty);
+            context.lineTo(bottomLeftx, bottomLefty);
         }
         // left wall 
         if (this.walls[3]) {
-            this.context.moveTo(bottomLeftx, bottomLefty);
-            this.context.lineTo(topLeftx, topLefty);
+            context.moveTo(bottomLeftx, bottomLefty);
+            context.lineTo(topLeftx, topLefty);
         }
-        this.context.stroke();
-        this.context.closePath();
-        this.context.restore();
+
+        context.stroke();
+        context.closePath();
+        context.restore();
 
         // if (this.visited) {
         //     this.context.rect(topLx, topLy, this.cellWidth, this.cellWidth);
