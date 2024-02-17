@@ -18,6 +18,7 @@ class Enemy {
 
         /* @type {number} */
         this.width = 0.5;
+        this.speed = 0.05 / 2;
 
         /* @type {Queue<JSVector>} */
         this.path = new Queue();
@@ -74,7 +75,7 @@ class Enemy {
 
         // Update the enemy's position
         this.velocity.add(this.acceleration);
-        this.velocity.limit(0.05);
+        this.velocity.limit(this.speed);
         this.position.add(this.velocity);
 
         this.checkWalls();
@@ -87,10 +88,12 @@ class Enemy {
     seek(position) {
         this.acceleration = position.copy();
         this.acceleration.sub(this.position);
-        this.acceleration.setMagnitude(0.005);
+        this.acceleration.setMagnitude(this.speed / 15);
     }
 
     /* Check the walls of the maze for collisions */
+    // TODO: Doesn't work when one edge is outside of the cell that
+    // the center is in
     checkWalls() {
         const y = this.position.y;
         const x = this.position.x;
