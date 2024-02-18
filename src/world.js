@@ -13,7 +13,7 @@ class World {
         this.maze = new Maze(this, 15, 15);
         this.hero = new Hero(this);
         this.enemies = [];
-        this.enemies[0] = new Enemy(this, new JSVector(10.5, 10.5));
+        this.enemies[0] = new Enemy(this, new JSVector(10, 10));
         
         // performance (from Ecosystem)
         this.framerate = 60;
