@@ -11,15 +11,17 @@ class Enemy {
         /* @type {World} */
         this.world = world;
 
+	/* @type {number} */
+        this.width = 0.5;
+        this.speed = 0.01;
+
         /* @type {JSVector} */
         this.position = initialPosition.copy();
+	this.position.add(new JSVector(this.width*0.5, this.width*0.5));
         this.velocity = new JSVector();
         this.acceleration = new JSVector();
 
-        /* @type {number} */
-        this.width = 0.5;
-        this.speed = 0.05 / 2;
-
+        
         /* @type {Queue<JSVector>} */
         this.path = new Queue();
 
@@ -88,7 +90,7 @@ class Enemy {
     seek(position) {
         this.acceleration = position.copy();
         this.acceleration.sub(this.position);
-        this.acceleration.setMagnitude(this.speed / 15);
+        this.acceleration.setMagnitude(this.speed ** 1.75);
     }
 
     /* Check the walls of the maze for collisions */
@@ -222,28 +224,18 @@ class Enemy {
 
     /* Render the enemy */
     render() {
-        const ctx = this.world.context;
-        const cellWidth = this.world.maze.cellWidth;
-        const wallWidth = this.world.maze.wallWidth / 2;
-        const x = this.position.x * cellWidth;
-        const y = this.position.y * cellWidth;
+	const cellWidth = this.world.maze.cellWidth;
+        const x = -0.5 * cellWidth * this.width;
+        const y = -0.5 * cellWidth * this.width;
         const w = this.width * cellWidth;
-        ctx.save();
-        ctx.beginPath();
-        ctx.fillStyle = "red";
-        ctx.fillRect(x, y, w, w);
-        ctx.restore();
 
-        ctx.save();
-        for (const point of this.path) {
-            ctx.beginPath();
-            ctx.fillStyle = "black";
-            ctx.fillRect(point.x * cellWidth + wallWidth,
-                         point.y * cellWidth + wallWidth,
-                         cellWidth - wallWidth,
-                         cellWidth - wallWidth);
-        }
-        ctx.restore();
+	const context = this.world.context;
+        context.save();
+	context.translate(this.world.canvas.width / 2, this.world.canvas.height / 2);
+        context.beginPath();
+        context.fillStyle = "red";
+        context.fillRect(x, y, w, w);
+        context.restore();
     }
 }
 
