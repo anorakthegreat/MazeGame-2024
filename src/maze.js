@@ -139,6 +139,7 @@ class Maze {
         }
         return goTo;
     }
+
     render() {
         //clear canvas 
         this.context.clearRect(0, 0, world.canvas.width, world.canvas.height);
@@ -162,7 +163,6 @@ class Maze {
         this.context.fill();
 
         //oxygen bubbles on random tiles 
-        //if(Math.random()*100 > 99){
         if(this.oxygen.length < 10){
             let ranR = Math.floor(Math.random()*this.grid.length);
             let ranC = Math.floor(Math.random()*this.grid[0].length);
