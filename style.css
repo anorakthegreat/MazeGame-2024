@@ -55,8 +55,22 @@ canvas {
     cursor: pointer;
     
 }
-#pause:hover{
-    background-color:white;
+#pauseB{
+    font-family: "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    color: #0b1775;
+    font-size: 30px;
+    width:100px;
+    height:90px;
+    background-image: linear-gradient(white,#8f8181, #211e1e );
+    border-radius: 50%;
+    margin:auto;
+    vertical-align: middle;
+    margin-top:10px;
+    padding-top:15px;
+    box-shadow: 0 0 6px 6px #8f8181;
+    cursor: pointer;
 }
 .button{
     text-align: center;

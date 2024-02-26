@@ -25,6 +25,9 @@ class World {
             world.framecount = 0;
         }, 1000);
         this.paused=false;
+        this.time=0;
+        this.msTime=0;
+        this.score=0;
     }
 
 
@@ -35,6 +38,21 @@ class World {
         for (const enemy of this.enemies) {
             enemy.run();
         }
+        this.updateTimer();
+        this.runScore();
+    }
+    updateTimer(){
+        this.time++;
+        let t=document.getElementById("time");
+        this.msTime=Math.round(this.time*1000/60)/1000;
+        t.innerHTML="Time<p>"+(Math.round(this.time/60));
+    }
+    runScore(){
+        let s=document.getElementById("score");
+        if((this.time%60)===0){
+            this.score+=100;
+        }
+        s.innerHTML="Score<p>"+(this.score);
     }
 }
 
