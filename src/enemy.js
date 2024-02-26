@@ -159,7 +159,7 @@ class Enemy {
         let position = this.position.copy();
         position.floor();
         visited[position.x][position.y] = true;
-        let heroPosition = this.world.hero.position;
+        let heroPosition = this.world.hero.loc;
         heroPosition.floor();
         let goal = new Point(heroPosition.x, heroPosition.y);
         queue.enqueue(new Point(position.x, position.y));

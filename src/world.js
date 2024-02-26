@@ -35,7 +35,7 @@ class World {
         this.framecount++;
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
-        this.hero.run(this.context, this.canvas, this.maze)
+        this.hero.run(this.context, this.canvas, this.maze);
 
         this.maze.render();
         for (const enemy of this.enemies) {
