@@ -1,14 +1,14 @@
 /* @type {World} */
-let  world;
+this.world;
 
 window.addEventListener("load", init);
 
 function init() {
-    world = new World();
+    this.world = new World();
     run();
 }
 
 function run() {
     window.requestAnimationFrame(run);
-    world.run();
+    this.world.run();
 }

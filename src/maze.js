@@ -1,6 +1,6 @@
 /* A maze */
-class Maze {
-    constructor(context, row, col) {
+function Maze(context, row, col) {
+    
         this.row = row;//num of rows in the maze 
         this.col = col;//num of cols in the maze 
         this.context = context;
@@ -20,9 +20,9 @@ class Maze {
         this.path = [];
         //begin mazeGen before rendering 
         this.explore(0, 0);
-    }
+}
 
-    explore(r, c) {
+Maze.prototype.explore = function(r, c) {
         this.grid[r][c].visited = true;
         //make array of available places to move to next 
         let goTo = this.checkNeighbors(r, c);
@@ -48,7 +48,7 @@ class Maze {
         }
     }
 
-    removeWalls(currentRow, currentCol, newRow, newCol) {
+Maze.prototype.removeWalls = function(currentRow, currentCol, newRow, newCol) {
         //if top neighbor, remove top wall of current and bottom wall of new 
         if (currentRow > newRow && currentCol === newCol){
             this.grid[currentRow][currentCol].walls[0] = false;
@@ -71,7 +71,7 @@ class Maze {
         }
     }
 
-    checkNeighbors(r, c) {
+    Maze.prototype.checkNeighbors = function(r, c) {
         let goTo = [];
         //if the cell is a wall, don't add those neighbors to the next place to go 
         if (r !== 0) {//if cell is at the top row 
@@ -100,7 +100,12 @@ class Maze {
         }
         return goTo;
     }
-    render() {
+
+    Maze.prototype.getCell = function(r, c){
+        return this.grid[r][c]
+    }
+
+    Maze.prototype.render = function() {
         //clear canvas 
         this.context.clearRect(0, 0, world.canvas.width, world.canvas.height);
         //render cells 
@@ -111,4 +116,4 @@ class Maze {
         }
     }
 
-}
+
