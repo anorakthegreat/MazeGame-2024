@@ -2,11 +2,94 @@
     box-sizing: border-box;
 }
 
+html, body {
+    margin: 0; 
+    height: 100%;
+    /* overflow: hidden; */
+}
+
+
 body {
     margin: 0;
+    background-color: #2e2d2b;
 }
 
 canvas {
     width: 75vw;
     height: 75vh;
 }
+.title{
+    text-align: center;
+    color: #0b1775;
+    font-family: "Sixtyfour", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+        "BLED" 0,
+        "SCAN" 0;
+    text-shadow: -1px 1px 2px #fff, 1px 1px 2px #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;
+}
+.infoDiv{
+    background-color: black;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 110px;
+}
+.infoTile{
+    font-family: "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    color: #0b1775;
+    font-size: 20px;
+    width:100px;
+    height:90px;
+    background-image: linear-gradient(white,#8f8181, #211e1e );
+    border-radius: 50%;
+    margin:auto;
+    margin-top:10px;
+    padding-top:15px;
+    box-shadow: 0 0 6px 6px #8f8181;
+    cursor: pointer;
+    
+}
+#pause:hover{
+    background-color:white;
+}
+.button{
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 110px;
+    font-family: "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    color: #0b1775;
+    font-size: 20px;
+    width:180px;
+    height:90px;
+    background-image: linear-gradient(white,#8f8181, #211e1e );
+    border-radius: 50%;
+    margin:auto;
+    margin-top:10px;
+    padding-top:25px;
+    box-shadow: 0 0 6px 6px #8f8181;
+    cursor: pointer;
+}
+a, a:link, a:visited, a:hover, a:focus, a:active{
+    color: #0b1775;
+    text-decoration: none;
+}
+.credInst{
+    color: #959aa3;
+    font-family: "Protest Revolution", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    text-align: center;
+    font-size: 70px;
+}
+
+ 

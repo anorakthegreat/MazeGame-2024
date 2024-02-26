@@ -30,6 +30,7 @@ function Hero(m) {
         }
     });
 
+
 }
 
 Hero.prototype.moveUp = function(){
