@@ -10,53 +10,59 @@ class Maze {
         this.wallWidth = 5;
         //array for all the cells 
         this.grid = [];
-        for (let r = 0; r < this.row; r++) {
-            this.grid[r] = [];
-            for (let c = 0; c < this.col; c++) {
-                this.grid[r][c] = new Cell(this.context, r, c, this.cellWidth, this.wallWidth);
-            }
-        }
-        //entry and exit of maze 
-        this.entry = this.grid[0][0];
-        this.exit;
         //keep track of cells visited 
         this.path = [];
         //begin mazeGen before rendering 
-        this.explore(0, 0);
+        this.regenerate();
+        //entry and exit of maze 
+        this.entry;
+        this.exit;
         //make entry and exit 
         this.entryExit();
         //array to hold tiles that have oxygen bubbles 
         this.oxygen = [];
     }
 
+    regenerate(){
+        /* reset everything starting with maze */ 
+        //reset grid 
+        this.grid = [];
+        for (let r = 0; r < this.row; r++) {
+            this.grid[r] = [];
+            for (let c = 0; c < this.col; c++) {
+                this.grid[r][c] = new Cell(this.context, r, c, this.cellWidth, this.wallWidth);
+            }
+        }
+        this.explore(0, 0);
+        this.entryExit();
+        this.oxygen = [];
+        //reset hero 
+        //world.hero = new Hero(world);
+        //reset enemies 
+        // world.enemies = [];
+        // world.enemies[0] = new Enemy(this, new JSVector(10.5, 10.5));
+        //reset html elements 
+
+    }
+
     entryExit(){
+        this.entry = this.grid[0][0];
+        this.exit;
         //always start at top left, remove left and top wall to signify entrance 
         this.entry.walls[0] = false; 
         this.entry.walls[3] = false;
         //make a random exit on the right or bottom of the maze 
-        if(Math.random()*2 > 1){//right wall exit 
+        if(Math.random()*2 > 1){//right exit 
             let r = Math.floor(Math.random()*this.grid.length);
             this.exit = this.grid[r][this.grid[0].length-1];
             //remove right wall 
-            this.exit.walls[1] = false;
-            // if(r === 0){//if at the top, remove top wall 
-            //     exit.walls[0] = false;
-            // }
-            // else if(r === this.grid.length-1){//if at bottom, remove bottom wall 
-            //     exit.walls[2] = false;
-            // }
+            this.exit.walls[1] = false; 
         }
-        else{
-            let c = Math.floor(Math.random()*this.grid[0].length-1);
+        else{//bottom exit 
+            let c = Math.floor(Math.random()*this.grid[0].length);
             this.exit = this.grid[this.grid.length-1][c];
             //remove bottom wall 
             this.exit.walls[2] = false; 
-            // if(c === 0){//if at the left, remove left wall 
-            //     exit.walls[3] = false;
-            // }
-            // else if(c === this.grid[0].length){//if at the right, remove right wall 
-            //     exit.walls[1] = false;
-            // }
         }
         
     }

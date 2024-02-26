@@ -34,6 +34,9 @@ class World {
         for (const enemy of this.enemies) {
             enemy.run();
         }
+        // if(Math.random()*10>9){
+        //     this.maze.regenerate();
+        // }
     }
 }
 
