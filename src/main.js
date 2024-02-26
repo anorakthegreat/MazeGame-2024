@@ -14,10 +14,11 @@ function run() {
         world.run();
     }
 }
-document.getElementById("pause").addEventListener("click",pause);
-//window.addEventListener("click", pause);
+let p=document.getElementById(pause);
+p.addEventListener("click",swapPause());
+//window.addEventListener("click", swapPause);
 
-function pause(){
+function swapPause(){
     if(world.paused){
         world.paused=false;
     } else{
