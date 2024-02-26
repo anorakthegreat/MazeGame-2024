@@ -14,8 +14,9 @@ function run() {
         world.run();
     }
 }
-let p=document.getElementById(pause);
-p.addEventListener("click",swapPause());
+let p=document.getElementById("pauseB");
+console.log(p);
+p.addEventListener("click",swapPause);
 //window.addEventListener("click", swapPause);
 
 function swapPause(){
