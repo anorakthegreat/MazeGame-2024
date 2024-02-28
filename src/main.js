@@ -1,5 +1,5 @@
 /* @type {World} */
-let  world;
+this.world;
 
 window.addEventListener("load", init);
 
