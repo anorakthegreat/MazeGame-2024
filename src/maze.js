@@ -13,14 +13,10 @@ function Maze(context, row, col) {
         //keep track of cells visited 
         this.path = [];
         //begin mazeGen before rendering 
-        this.regenerate();
-        //entry and exit of maze 
+        this.oxygen = [];
         this.entry;
         this.exit;
-        //make entry and exit 
-        this.entryExit();
-        //array to hold tiles that have oxygen bubbles 
-        this.oxygen = [];
+        this.regenerate();
     }
 
     Maze.prototype.regenerate = function(){
@@ -151,24 +147,20 @@ Maze.prototype.removeWalls = function(currentRow, currentCol, newRow, newCol) {
     }
 
     Maze.prototype.render = function() {
-        //clear canvas 
-        this.context.clearRect(0, 0, world.canvas.width, world.canvas.height);
+
         //render cells 
         for (let r = 0; r < this.row; r++) {
             for (let c = 0; c < this.col; c++) {
                 this.grid[r][c].render();
             }
         }
+
         //color entry 
-        let EntrytopLx = this.entry.col * this.cellWidth;
-        let EntrytopLy = this.entry.row * this.cellWidth;
-        this.context.rect(EntrytopLx, EntrytopLy, this.cellWidth, this.cellWidth);
+        this.context.rect(this.entry.topLx, this.entry.topLy, this.cellWidth, this.cellWidth);
         this.context.fillStyle = "rgba(255, 0, 0, 0.2)";
         this.context.fill();
         //color exit 
-        let ExittopLx = this.exit.col * this.cellWidth;
-        let ExittopLy = this.exit.row * this.cellWidth;
-        this.context.rect(ExittopLx, ExittopLy, this.cellWidth, this.cellWidth);
+        this.context.rect(this.exit.topLx, this.exit.topLy, this.cellWidth, this.cellWidth);
         this.context.fillStyle = "rgba(255, 0, 255, 0.2)";
         this.context.fill();
 
