@@ -34,7 +34,6 @@ class World {
 
 
     run() {
-        // console.log('AHh')
         let ctx = this.context
         this.framecount++;
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);

@@ -8,23 +8,17 @@ function Hero(m) {
         switch (event.key) {
         case "ArrowDown":
             this.loc.y+=this.moveIncrement;
-            // console.log("ACK")
             break;
         case "ArrowUp":
             // this.loc.y-=this.moveIncrement;
-            // console.l/og("ACK")
             this.moveUp()
             break;
         case "ArrowLeft":
             this.loc.x-=this.moveIncrement;
-            // console.log("ACK")
             break;
-            // console.log(this.loc.x)
         case "ArrowRight":
             this.loc.x+=this.moveIncrement;
-            // console.log("ACK")
             break
-            // console.log(this.loc.x)
         default:
             break;
         }
@@ -60,11 +54,8 @@ Hero.prototype.areInContact = function(square, rectangle) {
 
 Hero.prototype.run = function(ctx, canvas, maze){
     // this.updateCanvas(ctx)
-    // console.log(this.loc.y)
 
     // this.updateCanvas(ctx, canvas)
-    // console.log("AH")
-    console.log(this.getMazeLocation(maze))
     this.render(ctx, canvas)
 }
 
@@ -74,17 +65,11 @@ Hero.prototype.getMazeLocation = function(maze){
 
     let cell = maze.getCell(x, y)
 
-    // console.log(this.loc.y)
-    console.log("CELL NUMBER " + y)
-    console.log(cell.topWall())
 
     if(cell.topWall()){
         let loc = {x: this.loc.x, y: this.loc.y, size: 5}
         let wall = {x: cell.topLy, y: cell.topLx, width: cell.cellWidth, height: cell.wallWidth}
 
-        // console.log(loc)
-        // console.log(wall)
-        // console.log(this.areInContact(loc, wall))
 
         if(loc.y == wall.y){
             return true
@@ -101,7 +86,6 @@ Hero.prototype.getMazeLocation = function(maze){
 
 Hero.prototype.render = function(ctx, canvas){
     // ctx.clearRect(canvas.width, canvas.height, canvas.width * 2, canvas.height * 2);
-    // console.log("AJHH")
     ctx.strokeStyle = "rgba(255, 0, 0, 55)"
     ctx.fillStyle = "rgba(255, 0, 0, 55)"
     ctx.beginPath();
