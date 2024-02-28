@@ -1,8 +1,10 @@
 function Hero(m) {
     
-    this.loc = new JSVector(300, 100)
+    this.loc = new JSVector(1, 1)
     this.maze = m
     this.moveIncrement = 5
+    this.health=100;
+    this.oxygen=100;
 
     window.addEventListener("keydown", (event) => {
         switch (event.key) {
@@ -57,6 +59,7 @@ Hero.prototype.run = function(ctx, canvas, maze){
 
     // this.updateCanvas(ctx, canvas)
     this.render(ctx, canvas)
+    this.updateStatusBar();
 }
 
 Hero.prototype.getMazeLocation = function(maze){
@@ -92,4 +95,22 @@ Hero.prototype.render = function(ctx, canvas){
     ctx.arc(this.loc.x, this.loc.y, 5, Math.PI * 2, 0, false);
     ctx.stroke();
     ctx.fill() 
+}
+Hero.prototype.updateStatusBar=function(){
+    this.updateHealth();
+    this.updateOxygen();
+}
+Hero.prototype.updateHealth=function(){//assume max health will always be 100
+    let h=document.getElementById("health");
+    let hB=document.getElementsByClassName("infoTile");
+    let hP=this.health/100;
+    h.innerHTML=hP*100+"%";
+    //color change not working rn
+    hB.item(0).style.color="rgb(23,"+115*hP+",41)";
+}
+Hero.prototype.updateOxygen=function(){
+    let o=document.getElementById("oxygen");
+    let oP=this.oxygen/100;
+    o.innerHTML=oP*100+"%";
+    //need to add color change still
 }

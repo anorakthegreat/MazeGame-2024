@@ -44,6 +44,9 @@ class World {
         for (const enemy of this.enemies) {
             enemy.run();
         }
+        this.updateStatusBar();
+    }
+    updateStatusBar(){
         this.updateTimer();
         this.runScore();
     }
@@ -51,14 +54,14 @@ class World {
         this.time++;
         let t=document.getElementById("time");
         this.msTime=Math.round(this.time*1000/60)/1000;
-        t.innerHTML="Time<p>"+(Math.round(this.time/60));
+        t.innerHTML=Math.round(this.time/60);
     }
     runScore(){
         let s=document.getElementById("score");
         if((this.time%60)===0){
             this.score+=100;
         }
-        s.innerHTML="Score<p>"+(this.score);
+        s.innerHTML=this.score;
     }
 }
 
