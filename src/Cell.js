@@ -10,7 +10,8 @@ class Cell {
         this.cellWidth = cellWidth;
         this.wallWidth = wallWidth;
         this.walls = [true, true, true, true];//top, right, bottom, left (like a clock)
-	
+
+	/* @type {float} (0 <= luminance <= 1) */
 	this.luminance = 0;
         this.type = "coral"; // Types for images
     }
@@ -34,7 +35,7 @@ class Cell {
         context.lineWidth = this.wallWidth;
 	
         const image = this.world.maze.images[this.type];
-        if (image.loaded) {
+        if (image && image.loaded && this.luminance > 0) {
             const sourceX = 0;
             const sourceY = 0;
             const sourceWidth = image.image.width;
@@ -44,6 +45,7 @@ class Cell {
             const destinationWidth = cellWidth;
             const destinationHeight = cellWidth;
 	    context.save();
+            // context.beginPath();
 	    const brightness = 100 * this.luminance;
 	    context.filter = `brightness(${brightness}%)`;
             context.drawImage(image.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);

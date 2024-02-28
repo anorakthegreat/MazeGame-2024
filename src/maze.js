@@ -19,7 +19,7 @@ class Maze {
 
         // Load images
         this.images = {};
-        this.loadImages();
+        // this.loadImages();
         
         // keep track of cells visited 
         this.path = [];
@@ -161,7 +161,7 @@ class Maze {
             const distance = cell.pathLength();
             if (distance <= maxDistance) {
                 maze[cell.y][cell.x].luminance = 1 - distance / (maxDistance + 1);
-                console.log(cell.y, cell.x, maze[cell.y][cell.x].luminance);
+                // console.log(cell.y, cell.x, maze[cell.y][cell.x].luminance);
             } else {
                 continue;
             }

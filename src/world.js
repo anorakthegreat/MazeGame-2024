@@ -8,7 +8,8 @@ class World {
         const devicePixelRatio = window.devicePixelRatio || 1;
         this.canvas.width = this.canvas.clientWidth * devicePixelRatio;
         this.canvas.height = this.canvas.clientHeight * devicePixelRatio;
-        this.context.scale(devicePixelRatio, devicePixelRatio);
+        if (!window.devicePixelRatio)
+            this.context.scale(devicePixelRatio, devicePixelRatio);
 
         this.maze = new Maze(this, 15, 15);
         this.hero = new Hero(this);
