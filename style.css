@@ -11,7 +11,7 @@ html, body {
 
 body {
     margin: 0;
-    background-color: #2e2d2b;
+    background-color: #83def5;
 }
 
 canvas {
@@ -31,7 +31,7 @@ canvas {
     text-shadow: -1px 1px 2px #fff, 1px 1px 2px #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;
 }
 .infoDiv{
-    background-color: black;
+    background-color: 83def5;
     text-align: center;
     display: flex;
     flex-direction: row;
@@ -46,12 +46,12 @@ canvas {
     font-size: 20px;
     width:100px;
     height:90px;
-    background-image: linear-gradient(white,#8f8181, #211e1e );
+    background-image: linear-gradient(#80a2ec,#4871f8, #0162f3 );
     border-radius: 50%;
     margin:auto;
     margin-top:10px;
     padding-top:15px;
-    box-shadow: 0 0 6px 6px #8f8181;
+    box-shadow: 0 0 6px 6px #89a2f5;
     cursor: pointer;
     
 }
@@ -85,12 +85,12 @@ canvas {
     font-size: 20px;
     width:180px;
     height:90px;
-    background-image: linear-gradient(white,#8f8181, #211e1e );
+    background-image: linear-gradient(rgb(133, 203, 206),#68bd8e, #25d669 );
     border-radius: 50%;
     margin:auto;
     margin-top:10px;
     padding-top:25px;
-    box-shadow: 0 0 6px 6px #8f8181;
+    box-shadow: 0 0 6px 6px #1ba583;
     cursor: pointer;
 }
 a, a:link, a:visited, a:hover, a:focus, a:active{
@@ -98,7 +98,7 @@ a, a:link, a:visited, a:hover, a:focus, a:active{
     text-decoration: none;
 }
 .credInst{
-    color: #959aa3;
+    color: #144cb6;
     font-family: "Protest Revolution", sans-serif;
     font-weight: 400;
     font-style: normal;

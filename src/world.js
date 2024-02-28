@@ -34,12 +34,9 @@ class World {
 
 
     run() {
-        let ctx = this.context
         this.framecount++;
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
-        this.hero.run(this.context, this.canvas, this.maze);
-
         this.maze.render();
         for (const enemy of this.enemies) {
             enemy.run();
@@ -62,6 +59,11 @@ class World {
             this.score+=100;
         }
         s.innerHTML=this.score;
+        
+         this.hero.run(this.context, this.canvas, this.maze);
+        // if(Math.random()*10>9){
+        //     this.maze.regenerate();
+        // }
     }
 }
 

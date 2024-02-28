@@ -1,6 +1,6 @@
 function Hero(m) {
     
-    this.loc = new JSVector(1, 1)
+    this.position = new JSVector(1, 1)
     this.maze = m
     this.moveIncrement = 5
     this.health=100;
@@ -9,17 +9,17 @@ function Hero(m) {
     window.addEventListener("keydown", (event) => {
         switch (event.key) {
         case "ArrowDown":
-            this.loc.y+=this.moveIncrement;
+            this.position.y+=this.moveIncrement;
             break;
         case "ArrowUp":
             // this.loc.y-=this.moveIncrement;
             this.moveUp()
             break;
         case "ArrowLeft":
-            this.loc.x-=this.moveIncrement;
+            this.position.x-=this.moveIncrement;
             break;
         case "ArrowRight":
-            this.loc.x+=this.moveIncrement;
+            this.position.x+=this.moveIncrement;
             break
         default:
             break;
@@ -31,7 +31,7 @@ function Hero(m) {
 
 Hero.prototype.moveUp = function(){
     if(!this.getMazeLocation(this.maze)){
-        this.loc.y -= this.moveIncrement
+        this.position.y -= this.moveIncrement
     }
 }
 
@@ -63,18 +63,16 @@ Hero.prototype.run = function(ctx, canvas, maze){
 }
 
 Hero.prototype.getMazeLocation = function(maze){
-    let x = Math.ceil((this.loc.x)/ 50)
-    let y = Math.ceil((this.loc.y)/50)
+    let x = Math.ceil((this.position.x)/ 50)
+    let y = Math.ceil((this.position.y)/50)
 
     let cell = maze.getCell(x, y)
 
-
     if(cell.topWall()){
-        let loc = {x: this.loc.x, y: this.loc.y, size: 5}
+        let position = {x: this.position.x, y: this.position.y, size: 5}
         let wall = {x: cell.topLy, y: cell.topLx, width: cell.cellWidth, height: cell.wallWidth}
 
-
-        if(loc.y == wall.y){
+        if(position.y == wall.y){
             return true
         } else {
             return false
@@ -92,7 +90,7 @@ Hero.prototype.render = function(ctx, canvas){
     ctx.strokeStyle = "rgba(255, 0, 0, 55)"
     ctx.fillStyle = "rgba(255, 0, 0, 55)"
     ctx.beginPath();
-    ctx.arc(this.loc.x, this.loc.y, 5, Math.PI * 2, 0, false);
+    ctx.arc(this.position.x, this.position.y, 5, Math.PI * 2, 0, false);
     ctx.stroke();
     ctx.fill() 
 }
