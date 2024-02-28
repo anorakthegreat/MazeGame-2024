@@ -10,17 +10,58 @@ function Maze(context, row, col) {
         this.wallWidth = 5;
         //array for all the cells 
         this.grid = [];
+        //keep track of cells visited 
+        this.path = [];
+        //begin mazeGen before rendering 
+        this.oxygen = [];
+        this.entry;
+        this.exit;
+        this.regenerate();
+    }
+
+    Maze.prototype.regenerate = function(){
+        /* reset everything starting with maze */ 
+        //reset grid 
+        this.grid = [];
         for (let r = 0; r < this.row; r++) {
             this.grid[r] = [];
             for (let c = 0; c < this.col; c++) {
                 this.grid[r][c] = new Cell(this.context, r, c, this.cellWidth, this.wallWidth);
             }
         }
-        //keep track of cells visited 
-        this.path = [];
-        //begin mazeGen before rendering 
         this.explore(0, 0);
-}
+        this.entryExit();
+        this.oxygen = [];
+        //reset hero 
+        //world.hero = new Hero(world);
+        //reset enemies 
+        // world.enemies = [];
+        // world.enemies[0] = new Enemy(this, new JSVector(10.5, 10.5));
+        //reset html elements 
+
+    }
+
+    Maze.prototype.entryExit = function(){
+        this.entry = this.grid[0][0];
+        this.exit;
+        //always start at top left, remove left and top wall to signify entrance 
+        this.entry.walls[0] = false; 
+        this.entry.walls[3] = false;
+        //make a random exit on the right or bottom of the maze 
+        if(Math.random()*2 > 1){//right exit 
+            let r = Math.floor(Math.random()*this.grid.length);
+            this.exit = this.grid[r][this.grid[0].length-1];
+            //remove right wall 
+            this.exit.walls[1] = false; 
+        }
+        else{//bottom exit 
+            let c = Math.floor(Math.random()*this.grid[0].length);
+            this.exit = this.grid[this.grid.length-1][c];
+            //remove bottom wall 
+            this.exit.walls[2] = false; 
+        }
+        
+    }
 
 Maze.prototype.explore = function(r, c) {
         this.grid[r][c].visited = true;
@@ -106,14 +147,40 @@ Maze.prototype.removeWalls = function(currentRow, currentCol, newRow, newCol) {
     }
 
     Maze.prototype.render = function() {
-        //clear canvas 
-        this.context.clearRect(0, 0, world.canvas.width, world.canvas.height);
+
         //render cells 
         for (let r = 0; r < this.row; r++) {
             for (let c = 0; c < this.col; c++) {
                 this.grid[r][c].render();
             }
         }
+
+        //color entry 
+        this.context.rect(this.entry.topLx, this.entry.topLy, this.cellWidth, this.cellWidth);
+        this.context.fillStyle = "rgba(255, 0, 0, 0.2)";
+        this.context.fill();
+        //color exit 
+        this.context.rect(this.exit.topLx, this.exit.topLy, this.cellWidth, this.cellWidth);
+        this.context.fillStyle = "rgba(255, 0, 255, 0.2)";
+        this.context.fill();
+
+        //oxygen bubbles on random tiles 
+        if(this.oxygen.length < 10){
+            let ranR = Math.floor(Math.random()*this.grid.length);
+            let ranC = Math.floor(Math.random()*this.grid[0].length);
+            this.oxygen.push(this.grid[ranR][ranC]);
+        }
+        if(this.oxygen.length > 0){
+            for(let i = 0; i<this.oxygen.length; i++){
+                this.context.save();
+                this.context.beginPath();
+                this.context.arc(this.oxygen[i].col*this.cellWidth+25, this.oxygen[i].row*this.cellWidth+25, 20, 0, 2*Math.PI);
+                this.context.strokeStyle = "rgba(65, 140, 173, 1)";
+                this.context.stroke();
+                this.context.fillStyle = "rgba(117, 179, 206, 0.5)";
+                this.context.fill();
+                this.context.closePath();
+                this.context.restore();
+            }
+        }
     }
-
-
