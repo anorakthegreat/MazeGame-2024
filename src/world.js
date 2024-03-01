@@ -8,13 +8,14 @@ class World {
         const devicePixelRatio = window.devicePixelRatio || 1;
         this.canvas.width = this.canvas.clientWidth * devicePixelRatio;
         this.canvas.height = this.canvas.clientHeight * devicePixelRatio;
-        this.context.scale(devicePixelRatio, devicePixelRatio);
+        if (!window.devicePixelRatio)
+            this.context.scale(devicePixelRatio, devicePixelRatio);
 
-        this.maze = new Maze(this.context, 15, 15);
-        this.hero = new Hero(this.maze);
-
+        this.maze = new Maze(this, 15, 15);
+        this.maze.regenerate();
+        this.hero = new Hero(this);
         this.enemies = [];
-        this.enemies[0] = new Enemy(this, new JSVector(10.5, 10.5));
+        this.enemies[0] = new Enemy(this, new JSVector(10, 10));
         
         // performance (from Ecosystem)
         this.framerate = 60;
