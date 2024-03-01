@@ -1,9 +1,9 @@
 /* A maze */
-function Maze(context, row, col) {
-    
+function Maze(world, row, col) {
+        this.world = world;
         this.row = row;//num of rows in the maze 
         this.col = col;//num of cols in the maze 
-        this.context = context;
+        this.context = world.context;
         //width of the square cells 
         this.cellWidth = 50;
         //width of the walls
@@ -33,10 +33,10 @@ function Maze(context, row, col) {
         this.entryExit();
         this.oxygen = [];
         //reset hero 
-        //world.hero = new Hero(world);
+        //this.world.hero = new Hero(this.world);
         //reset enemies 
-        // world.enemies = [];
-        // world.enemies[0] = new Enemy(this, new JSVector(10.5, 10.5));
+        //this.world.enemies = [];
+        //this.world.enemies[0] = new Enemy(this, new JSVector(10.5, 10.5));
         //reset html elements 
 
     }
@@ -168,6 +168,14 @@ Maze.prototype.removeWalls = function(currentRow, currentCol, newRow, newCol) {
         if(this.oxygen.length < 10){
             let ranR = Math.floor(Math.random()*this.grid.length);
             let ranC = Math.floor(Math.random()*this.grid[0].length);
+            if(ranR === 0 && ranC === 0){
+                ranR = 1;
+                ranC = 0;
+            }
+            else if(ranR === this.exit.row && ranC === this.exit.col){
+                ranR = 4;
+                ranC = 4;
+            }
             this.oxygen.push(this.grid[ranR][ranC]);
         }
         if(this.oxygen.length > 0){
