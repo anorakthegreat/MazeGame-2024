@@ -1,8 +1,8 @@
 function Hero(m) {
     
-    this.position = new JSVector(1, 1)
-    this.maze = m
-    this.moveIncrement = 5
+    this.position = new JSVector(1, 1);
+    this.maze = m;
+    this.moveIncrement = 5;
 
     window.addEventListener("keydown", (event) => {
         switch (event.key) {
@@ -29,7 +29,7 @@ function Hero(m) {
 
 Hero.prototype.moveUp = function(){
     if(!this.getMazeLocation(this.maze)){
-        this.position.y -= this.moveIncrement
+        this.position.y -= this.moveIncrement;
     }
 }
 
