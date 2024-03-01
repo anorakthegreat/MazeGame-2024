@@ -60,6 +60,7 @@ class World {
         }
         //detects contact with oxygen
         for(let i=0;i<this.maze.oxygen.length;i++){
+            //score currently broken for some reason???
             if(this.hero.getMazeLocation()===this.maze.oxygen[i]){
                 if(this.hero.oxygen<99){
                     this.hero.oxygen+=1;
