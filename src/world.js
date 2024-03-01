@@ -13,6 +13,7 @@ class World {
             this.context.scale(devicePixelRatio, devicePixelRatio);
 
         this.maze = new Maze(this, 15, 15);
+        this.maze.regenerate();
         this.hero = new Hero(this);
         this.enemies = [];
         this.enemies[0] = new Enemy(this, new JSVector(10, 10));

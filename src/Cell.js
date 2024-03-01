@@ -25,7 +25,7 @@ function Cell(world, r, c, cellWidth, wallWidth) {
     this.type = "coral"; // Types for images
 }
 
-Cell.prototype.render = function() {
+Cell.prototype.renderCenter = function() {
     const cellWidth = this.cellWidth;
     const wallWidth = this.wallWidth;
 
@@ -98,6 +98,37 @@ Cell.prototype.render = function() {
     context.stroke();
     context.closePath();
     context.restore();
+}
+
+Cell.prototype.render = function() {
+    this.context.save()
+    this.context.beginPath();
+    this.context.strokeStyle = this.color;
+    this.context.lineWidth = this.wallWidth;
+    // top wall 
+    if (this.walls[0]) { 
+        this.context.moveTo(this.topLx, this.topLy);
+        this.context.lineTo(this.topRx, this.topRy);
+    }
+    // right wall 
+    if (this.walls[1]) {
+        this.context.moveTo(this.topRx, this.topRy);
+        this.context.lineTo(this.bottomRx, this.bottomRy);
+    }
+    // bottom wall 
+    if (this.walls[2]) {
+        this.context.moveTo(this.bottomRx, this.bottomRy);
+        this.context.lineTo(this.bottomLx, this.bottomLy);
+    }
+    // left wall 
+    if (this.walls[3]) {
+        this.context.moveTo(this.bottomLx, this.bottomLy);
+        this.context.lineTo(this.topLx, this.topLy);
+    }
+
+    this.context.stroke();
+    this.context.closePath();
+    this.context.restore();
 }
 
 

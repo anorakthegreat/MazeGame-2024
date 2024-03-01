@@ -5,7 +5,8 @@ function Maze(world, row, col) {
     this.world = world;
     this.context = world.context;
     // width of the square cells 
-    this.cellWidth = this.world.canvas.width / 10;
+    // this.cellWidth = this.world.canvas.width / 10; // For center rendering
+    this.cellWidth = 50;
     //width of the walls
     this.wallWidth = 5;
     // array for all the cells 
@@ -16,7 +17,10 @@ function Maze(world, row, col) {
     this.oxygen = [];
     this.entry;
     this.exit;
-    this.regenerate();
+
+    // Load images
+    this.images = {};
+    //this.loadImages();
 }
 
 Maze.prototype.regenerate = function(){
@@ -32,7 +36,7 @@ Maze.prototype.regenerate = function(){
 
     // Load images
     this.images = {};
-    // this.loadImages();
+    this.loadImages();
     
     // keep track of cells visited 
     this.path = [];

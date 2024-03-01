@@ -223,7 +223,7 @@ class Enemy {
     }
 
     /* Render the enemy */
-    render() {
+    renderCenter() {
 	const cellWidth = this.world.maze.cellWidth;
         const x = -0.5 * cellWidth * this.width;
         const y = -0.5 * cellWidth * this.width;
@@ -232,6 +232,21 @@ class Enemy {
 	const context = this.world.context;
         context.save();
 	context.translate(this.world.canvas.width / 2, this.world.canvas.height / 2);
+        context.beginPath();
+        context.fillStyle = "red";
+        context.fillRect(x, y, w, w);
+        context.restore();
+    }
+
+    render() {
+	const cellWidth = this.world.maze.cellWidth;
+        const x = cellWidth * this.position.x;
+        const y = cellWidth * this.position.y;
+        const w = this.width * cellWidth;
+
+	const context = this.world.context;
+        context.save();
+	// context.translate(this.world.canvas.width / 2, this.world.canvas.height / 2);
         context.beginPath();
         context.fillStyle = "red";
         context.fillRect(x, y, w, w);
