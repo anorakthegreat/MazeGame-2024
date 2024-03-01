@@ -2,6 +2,7 @@ class World {
     constructor() {
         this.canvas = document.getElementById("cnv1");
         this.context = this.canvas.getContext("2d");
+        // this.maze = new Maze();
 
         // from Diego 
         // Scales canvas correctly
@@ -32,10 +33,16 @@ class World {
         this.framecount++;
         // clear canvas 
         this.context.clearRect(0, 0, world.canvas.width, world.canvas.height);
+        
         this.maze.render();
         for (const enemy of this.enemies) {
             enemy.run();
         }
+        
+        this.hero.run(this.context, this.canvas, this.maze);
+        // if(Math.random()*10>9){
+        //     this.maze.regenerate();
+        // }
     }
 }
 
