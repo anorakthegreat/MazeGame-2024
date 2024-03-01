@@ -2,7 +2,6 @@ class World {
     constructor() {
         this.canvas = document.getElementById("cnv1");
         this.context = this.canvas.getContext("2d");
-        // this.maze = new Maze();
 
         // from Diego 
         // Scales canvas correctly
@@ -36,11 +35,11 @@ class World {
     run() {
         this.framecount++;
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        
+        this.hero.run(this.context, this.canvas, this.maze);
         this.maze.render();
-        for (const enemy of this.enemies) {
-            enemy.run();
-        }
+        // for (const enemy of this.enemies) {
+        //     enemy.run();
+        // }
         this.updateStatusBar();
     }
     updateStatusBar(){
@@ -58,9 +57,19 @@ class World {
         if((this.time%60)===0){
             this.score+=100;
         }
+        //detects contact with oxygen
+        for(let i=0;i<this.maze.oxygen.length;i++){
+            if(this.hero.getMazeLocation()===this.maze.oxygen[i]){
+                if(this.hero.oxygen<99){
+                    this.hero.oxygen+=1;
+                }
+                this.score+=1;
+            }
+        }
+        if(this.hero.getMazeLocation()===this.maze.exit){
+            this.score+=1000;
+        }
         s.innerHTML=this.score;
-        
-         this.hero.run(this.context, this.canvas, this.maze);
         // if(Math.random()*10>9){
         //     this.maze.regenerate();
         // }

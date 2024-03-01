@@ -8,17 +8,16 @@ function Hero(m) {
 
     window.addEventListener("keydown", (event) => {
         switch (event.key) {
-        case "ArrowDown":
+        case "s":
             this.position.y+=this.moveIncrement;
             break;
-        case "ArrowUp":
-            // this.loc.y-=this.moveIncrement;
-            this.moveUp()
+        case "w":
+            this.position.y-=this.moveIncrement;
             break;
-        case "ArrowLeft":
+        case "a":
             this.position.x-=this.moveIncrement;
             break;
-        case "ArrowRight":
+        case "d":
             this.position.x+=this.moveIncrement;
             break
         default:
@@ -29,11 +28,6 @@ function Hero(m) {
 
 }
 
-Hero.prototype.moveUp = function(){
-    if(!this.getMazeLocation(this.maze)){
-        this.position.y -= this.moveIncrement
-    }
-}
 
 Hero.prototype.areInContact = function(square, rectangle) {
     // Extracting coordinates and dimensions for easier comparison
@@ -62,26 +56,11 @@ Hero.prototype.run = function(ctx, canvas, maze){
     this.updateStatusBar();
 }
 
-Hero.prototype.getMazeLocation = function(maze){
-    let x = Math.ceil((this.position.x)/ 50)
-    let y = Math.ceil((this.position.y)/50)
-
-    let cell = maze.getCell(x, y)
-
-    if(cell.topWall()){
-        let position = {x: this.position.x, y: this.position.y, size: 5}
-        let wall = {x: cell.topLy, y: cell.topLx, width: cell.cellWidth, height: cell.wallWidth}
-
-        if(position.y == wall.y){
-            return true
-        } else {
-            return false
-        }
-    } else{
-        return false
-    }
-
-
+Hero.prototype.getMazeLocation = function(){
+    let x = Math.floor((this.position.x)/ 50)
+    let y = Math.floor((this.position.y)/50)
+    let cell = this.maze.getCell(y, x)
+    return cell;
 }
 
 
@@ -101,14 +80,25 @@ Hero.prototype.updateStatusBar=function(){
 Hero.prototype.updateHealth=function(){//assume max health will always be 100
     let h=document.getElementById("health");
     let hB=document.getElementsByClassName("infoTile");
-    let hP=this.health/100;
+    let hP=Math.round(this.health)/100;
     h.innerHTML=hP*100+"%";
     //color change not working rn
     hB.item(0).style.color="rgb(23,"+115*hP+",41)";
 }
 Hero.prototype.updateOxygen=function(){
+    this.oxygen-=0.01;
+    if(this.oxygen<=0){
+        this.health-=0.1;
+    } else if(this.oxygen<10){
+        this.health-=0.01;
+    } else if(this.oxygen<30){
+        this.health-=0.001;
+    }
     let o=document.getElementById("oxygen");
-    let oP=this.oxygen/100;
+    let oP=0;
+    if(this.oxygen>0){
+        oP=Math.round(this.oxygen)/100;
+    }
     o.innerHTML=oP*100+"%";
     //need to add color change still
 }
