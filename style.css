@@ -90,7 +90,6 @@ canvas {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    height: 110px;
     font-family: "Pixelify Sans", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
