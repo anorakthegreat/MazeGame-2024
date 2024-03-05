@@ -13,7 +13,7 @@ class World {
 
         this.maze = new Maze(this, 15, 15);
         this.maze.regenerate();
-        this.hero = new Hero(this);
+        this.hero = new Hero(this.maze);
         this.enemies = [];
         this.enemies[0] = new Enemy(this, new JSVector(10, 10));
         
@@ -62,8 +62,8 @@ class World {
         for(let i=0;i<this.maze.oxygen.length;i++){
             //score currently broken for some reason???
             if(this.hero.getMazeLocation()===this.maze.oxygen[i]){
-                if(this.hero.oxygen<99){
-                    this.hero.oxygen+=1;
+                if(this.hero.oxygen<99.9){
+                    this.hero.oxygen+=0.1;
                 }
                 this.score+=1;
             }
