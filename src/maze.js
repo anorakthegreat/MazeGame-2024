@@ -159,7 +159,8 @@ Maze.prototype.loadImages = function() {
     this.images["coral"].image.addEventListener("load", () => {
         this.images["coral"].loaded = true;
     });
-    this.images["coral"].image.src = "./resources/coral.jpg";
+    const n = 1 + Math.floor(Math.random() * 5);
+    this.images["coral"].image.src = `./resources/teal_pattern${n}.jpg`;
 }
 
 // Set the proper luminance for each cell with a breadth-first search
@@ -187,7 +188,7 @@ Maze.prototype.setCellLuminances = function() {
         }
     }
 
-    const maxDistance = 3; // Up to two neighbors can be iluminated
+    const maxDistance = 6; // Up to two neighbors can be iluminated
     const queue = new Queue();
     const maze = this.grid;
     let visited = Array.from(new Array(maze.length), () => {
