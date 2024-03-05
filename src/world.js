@@ -55,12 +55,11 @@ class World {
     }
     runScore(){
         let s=document.getElementById("score");
-        if((this.time%60)===0){
+        if(((this.time%60)===0)&&this.hero.health>0){
             this.score+=100;
         }
         //detects contact with oxygen
         for(let i=0;i<this.maze.oxygen.length;i++){
-            //score currently broken for some reason???
             if(this.hero.getMazeLocation()===this.maze.oxygen[i]){
                 if(this.hero.oxygen<99.9){
                     this.hero.oxygen+=0.1;

@@ -87,11 +87,11 @@ Hero.prototype.updateHealth=function(){//assume max health will always be 100
 }
 Hero.prototype.updateOxygen=function(){
     this.oxygen-=0.01;
-    if(this.oxygen<=0){
+    if(this.oxygen<=0&&this.health>0){
         this.health-=0.1;
-    } else if(this.oxygen<10){
+    } else if(this.oxygen<10&&this.health>0){
         this.health-=0.01;
-    } else if(this.oxygen<30){
+    } else if(this.oxygen<30&&this.health>0){
         this.health-=0.001;
     }
     let o=document.getElementById("oxygen");
