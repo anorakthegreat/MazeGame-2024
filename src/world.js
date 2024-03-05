@@ -71,9 +71,6 @@ class World {
             this.score+=1000;
         }
         s.innerHTML=this.score;
-        // if(Math.random()*10>9){
-        //     this.maze.regenerate();
-        // }
     }
 }
 
