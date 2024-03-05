@@ -1,8 +1,8 @@
 function Hero(m) {
     
-    this.position = new JSVector(1, 1)
-    this.maze = m
-    this.moveIncrement = 5
+    this.position = new JSVector(1, 1);
+    this.maze = m;
+    this.moveIncrement = 5;
     this.health=100;
     this.oxygen=100;
 
@@ -27,7 +27,6 @@ function Hero(m) {
 
 
 }
-
 
 Hero.prototype.areInContact = function(square, rectangle) {
     // Extracting coordinates and dimensions for easier comparison
