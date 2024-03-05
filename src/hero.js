@@ -1,8 +1,9 @@
 function Hero(m) {
-    
-    this.loc = new JSVector(300, 100)
+
+    this.mazePosition = new JSVector(1, 1)
+    this.loc = new JSVector(1, 1)
     this.maze = m
-    this.moveIncrement = 5
+    this.moveIncrement = 1
 
     window.addEventListener("keydown", (event) => {
         switch (event.key) {
@@ -64,8 +65,10 @@ Hero.prototype.run = function(ctx, canvas, maze){
 
     // this.updateCanvas(ctx, canvas)
     // console.log("AH")
-    console.log(this.getMazeLocation(maze))
+    // console.log(this.getMazeLocation(maze))
     this.render(ctx, canvas)
+
+    this.returnMazeLoc(maze)
 }
 
 Hero.prototype.getMazeLocation = function(maze){
@@ -75,8 +78,8 @@ Hero.prototype.getMazeLocation = function(maze){
     let cell = maze.getCell(x, y)
 
     // console.log(this.loc.y)
-    console.log("CELL NUMBER " + y)
-    console.log(cell.topWall())
+    // console.log("CELL NUMBER " + y)
+    // console.log(cell.topWall())
 
     if(cell.topWall()){
         let loc = {x: this.loc.x, y: this.loc.y, size: 5}
@@ -94,6 +97,21 @@ Hero.prototype.getMazeLocation = function(maze){
     } else{
         return false
     }
+
+
+}
+
+Hero.prototype.returnMazeLoc = function(maze){
+    let x = Math.ceil((this.loc.x)/ 50)
+    let y = Math.ceil((this.loc.y)/50)
+
+    let cell = maze.getCell(x, y)
+
+    this.mazePosition = new JSVector(x, y)
+    console.log("X" + x) 
+    console.log("Y" + y) 
+
+    
 
 
 }
