@@ -5,19 +5,31 @@
 html, body {
     margin: 0; 
     height: 100%;
-    /* overflow: hidden; */
+    overflow: hidden;
 }
-
 
 body {
     margin: 0;
-    background-color: #83def5;
+<<<<<<< HEAD
+    background-color: #2e2d2b;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+#cnvDiv {
+    flex: 1;
+    width: 100%;
+    /* height: 100%; */
 }
 
 canvas {
-    width: 75vw;
-    height: 75vh;
+    width: 100%;
+    height: 100%;
+    background-color: #83def5;
 }
+
+
 .title{
     text-align: center;
     color: #0b1775;
@@ -30,6 +42,7 @@ canvas {
         "SCAN" 0;
     text-shadow: -1px 1px 2px #fff, 1px 1px 2px #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;
 }
+
 .infoDiv{
     background-color: 83def5;
     text-align: center;
@@ -38,6 +51,7 @@ canvas {
     justify-content: center;
     height: 110px;
 }
+
 .infoTile{
     font-family: "Pixelify Sans", sans-serif;
     font-optical-sizing: auto;
@@ -55,9 +69,11 @@ canvas {
     cursor: pointer;
     
 }
+
 #pause:hover{
     background-color:white;
 }
+
 .button{
     text-align: center;
     display: flex;
@@ -79,10 +95,12 @@ canvas {
     box-shadow: 0 0 6px 6px #1ba583;
     cursor: pointer;
 }
+
 a, a:link, a:visited, a:hover, a:focus, a:active{
     color: #0b1775;
     text-decoration: none;
 }
+
 .credInst{
     color: #144cb6;
     font-family: "Protest Revolution", sans-serif;

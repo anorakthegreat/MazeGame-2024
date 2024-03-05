@@ -8,16 +8,15 @@ class World {
         const devicePixelRatio = window.devicePixelRatio || 1;
         this.canvas.width = this.canvas.clientWidth * devicePixelRatio;
         this.canvas.height = this.canvas.clientHeight * devicePixelRatio;
-        this.context.scale(devicePixelRatio, devicePixelRatio);
+        if (!window.devicePixelRatio)
+            this.context.scale(devicePixelRatio, devicePixelRatio);
 
-        this.enemies = [];
         this.maze = new Maze(this, 15, 15);
         this.maze.regenerate();
-        //this.hero = new Hero(this.maze);
-
-
-        //this.enemies[0] = new Enemy(this, new JSVector(10.5, 10.5));
-
+        this.hero = new Hero(this);
+        this.enemies = [];
+        this.enemies[0] = new Enemy(this, new JSVector(10, 10));
+        
         // performance (from Ecosystem)
         this.framerate = 60;
         this.framecount = 0;
@@ -33,12 +32,12 @@ class World {
     run() {
         this.framecount++;
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
+        
         this.maze.render();
         for (const enemy of this.enemies) {
             enemy.run();
         }
-
+        
         this.hero.run(this.context, this.canvas, this.maze);
         // if(Math.random()*10>9){
         //     this.maze.regenerate();
