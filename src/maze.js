@@ -298,7 +298,7 @@ Maze.prototype.render = function () {
     //render cells 
     for (let r = 0; r < this.row; r++) {
         for (let c = 0; c < this.col; c++) {
-            this.grid[r][c].renderCenter();
+            this.grid[r][c].render();
         }
     }
 }

@@ -43,42 +43,9 @@ class World {
         }
 
         this.hero.run(this.context, this.canvas, this.maze);
-        //this.maze.render();
-        // for (const enemy of this.enemies) {
-        //     enemy.run();
-        // }
         this.updateStatusBar();
     }
     updateStatusBar(){
-        this.updateTimer();
-        this.runScore();
-    }
-    updateTimer(){
-        this.time++;
-        let t=document.getElementById("time");
-        this.msTime=Math.round(this.time*1000/60)/1000;
-        t.innerHTML=Math.round(this.time/60);
-    }
-    runScore(){
-        let s=document.getElementById("score");
-        if(((this.time%60)===0)&&this.hero.health>0){
-            this.score+=100;
-        }
-        //detects contact with oxygen
-        for(let i=0;i<this.maze.oxygen.length;i++){
-            if(this.hero.getMazeLocation()===this.maze.oxygen[i]){
-                if(this.hero.oxygen<99.9){
-                    this.hero.oxygen+=0.1;
-                }
-                this.score+=1;
-            }
-        }
-        if(this.hero.getMazeLocation()===this.maze.exit){
-            this.score+=1000;
-        }
-        s.innerHTML=this.score;
-    }
-    updateStatusBar() {
         this.updateTimer();
         this.runScore();
     }
