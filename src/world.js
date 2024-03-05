@@ -13,7 +13,7 @@ class World {
 
         this.maze = new Maze(this, 15, 15);
         this.maze.regenerate();
-        this.hero = new Hero(this);
+        this.hero = new Hero(this.maze);
         this.enemies = [];
         this.enemies[0] = new Enemy(this, new JSVector(10, 10));
         
@@ -26,6 +26,10 @@ class World {
             world.framerate = world.framecount;
             world.framecount = 0;
         }, 1000);
+        this.paused=false;
+        this.time=0;
+        this.msTime=0;
+        this.score=0;
     }
 
 
@@ -39,6 +43,40 @@ class World {
         }
         
         this.hero.run(this.context, this.canvas, this.maze);
+        //this.maze.render();
+        // for (const enemy of this.enemies) {
+        //     enemy.run();
+        // }
+        this.updateStatusBar();
+    }
+    updateStatusBar(){
+        this.updateTimer();
+        this.runScore();
+    }
+    updateTimer(){
+        this.time++;
+        let t=document.getElementById("time");
+        this.msTime=Math.round(this.time*1000/60)/1000;
+        t.innerHTML=Math.round(this.time/60);
+    }
+    runScore(){
+        let s=document.getElementById("score");
+        if(((this.time%60)===0)&&this.hero.health>0){
+            this.score+=100;
+        }
+        //detects contact with oxygen
+        for(let i=0;i<this.maze.oxygen.length;i++){
+            if(this.hero.getMazeLocation()===this.maze.oxygen[i]){
+                if(this.hero.oxygen<99.9){
+                    this.hero.oxygen+=0.1;
+                }
+                this.score+=1;
+            }
+        }
+        if(this.hero.getMazeLocation()===this.maze.exit){
+            this.score+=1000;
+        }
+        s.innerHTML=this.score;
         // if(Math.random()*10>9){
         //     this.maze.regenerate();
         // }
