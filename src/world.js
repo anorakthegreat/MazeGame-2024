@@ -14,7 +14,7 @@ class World {
 
         this.maze = new Maze(this, 15, 15);
         this.maze.regenerate();
-        this.hero = new Hero(this);
+        this.hero = new Hero(this.maze);
         this.enemies = [];
         this.enemies[0] = new Enemy(this, new JSVector(10, 10));
         
