@@ -11,14 +11,17 @@ class Enemy {
         /* @type {World} */
         this.world = world;
 
+	/* @type {number} */
+        this.width = 0.5;
+        this.speed = 0.01;
+
         /* @type {JSVector} */
         this.position = initialPosition.copy();
+	this.position.add(new JSVector(this.width*0.5, this.width*0.5));
         this.velocity = new JSVector();
         this.acceleration = new JSVector();
 
-        /* @type {number} */
-        this.width = 0.5;
-
+        
         /* @type {Queue<JSVector>} */
         this.path = new Queue();
 
@@ -74,7 +77,7 @@ class Enemy {
 
         // Update the enemy's position
         this.velocity.add(this.acceleration);
-        this.velocity.limit(0.05);
+        this.velocity.limit(this.speed);
         this.position.add(this.velocity);
 
         this.checkWalls();
@@ -87,10 +90,12 @@ class Enemy {
     seek(position) {
         this.acceleration = position.copy();
         this.acceleration.sub(this.position);
-        this.acceleration.setMagnitude(0.005);
+        this.acceleration.setMagnitude(this.speed ** 1.75);
     }
 
     /* Check the walls of the maze for collisions */
+    // TODO: Doesn't work when one edge is outside of the cell that
+    // the center is in
     checkWalls() {
         const y = this.position.y;
         const x = this.position.x;
@@ -218,29 +223,34 @@ class Enemy {
     }
 
     /* Render the enemy */
-    render() {
-        const ctx = this.world.context;
-        const cellWidth = this.world.maze.cellWidth;
-        const wallWidth = this.world.maze.wallWidth / 2;
-        const x = this.position.x * cellWidth;
-        const y = this.position.y * cellWidth;
+    renderCenter() {
+	const cellWidth = this.world.maze.cellWidth;
+        const x = -0.5 * cellWidth * this.width;
+        const y = -0.5 * cellWidth * this.width;
         const w = this.width * cellWidth;
-        ctx.save();
-        ctx.beginPath();
-        ctx.fillStyle = "red";
-        ctx.fillRect(x, y, w, w);
-        ctx.restore();
 
-        ctx.save();
-        for (const point of this.path) {
-            ctx.beginPath();
-            ctx.fillStyle = "black";
-            ctx.fillRect(point.x * cellWidth + wallWidth,
-                         point.y * cellWidth + wallWidth,
-                         cellWidth - wallWidth,
-                         cellWidth - wallWidth);
-        }
-        ctx.restore();
+	const context = this.world.context;
+        context.save();
+	context.translate(this.world.canvas.width / 2, this.world.canvas.height / 2);
+        context.beginPath();
+        context.fillStyle = "red";
+        context.fillRect(x, y, w, w);
+        context.restore();
+    }
+
+    render() {
+	const cellWidth = this.world.maze.cellWidth;
+        const x = cellWidth * this.position.x;
+        const y = cellWidth * this.position.y;
+        const w = this.width * cellWidth;
+
+	const context = this.world.context;
+        context.save();
+	// context.translate(this.world.canvas.width / 2, this.world.canvas.height / 2);
+        context.beginPath();
+        context.fillStyle = "red";
+        context.fillRect(x, y, w, w);
+        context.restore();
     }
 }
 

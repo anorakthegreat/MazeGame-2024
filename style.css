@@ -5,19 +5,31 @@
 html, body {
     margin: 0; 
     height: 100%;
-    /* overflow: hidden; */
+    overflow: hidden;
 }
-
 
 body {
     margin: 0;
+<<<<<<< HEAD
     background-color: #2e2d2b;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+#cnvDiv {
+    flex: 1;
+    width: 100%;
+    /* height: 100%; */
 }
 
 canvas {
-    width: 75vw;
-    height: 75vh;
+    width: 100%;
+    height: 100%;
+    background-color: #83def5;
 }
+
+
 .title{
     text-align: center;
     color: #0b1775;
@@ -30,14 +42,16 @@ canvas {
         "SCAN" 0;
     text-shadow: -1px 1px 2px #fff, 1px 1px 2px #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;
 }
+
 .infoDiv{
-    background-color: black;
+    background-color: 83def5;
     text-align: center;
     display: flex;
     flex-direction: row;
     justify-content: center;
     height: 110px;
 }
+
 .infoTile{
     font-family: "Pixelify Sans", sans-serif;
     font-optical-sizing: auto;
@@ -46,18 +60,20 @@ canvas {
     font-size: 20px;
     width:100px;
     height:90px;
-    background-image: linear-gradient(white,#8f8181, #211e1e );
+    background-image: linear-gradient(#80a2ec,#4871f8, #0162f3 );
     border-radius: 50%;
     margin:auto;
     margin-top:10px;
     padding-top:15px;
-    box-shadow: 0 0 6px 6px #8f8181;
+    box-shadow: 0 0 6px 6px #89a2f5;
     cursor: pointer;
     
 }
+
 #pause:hover{
     background-color:white;
 }
+
 .button{
     text-align: center;
     display: flex;
@@ -71,20 +87,22 @@ canvas {
     font-size: 20px;
     width:180px;
     height:90px;
-    background-image: linear-gradient(white,#8f8181, #211e1e );
+    background-image: linear-gradient(rgb(133, 203, 206),#68bd8e, #25d669 );
     border-radius: 50%;
     margin:auto;
     margin-top:10px;
     padding-top:25px;
-    box-shadow: 0 0 6px 6px #8f8181;
+    box-shadow: 0 0 6px 6px #1ba583;
     cursor: pointer;
 }
+
 a, a:link, a:visited, a:hover, a:focus, a:active{
     color: #0b1775;
     text-decoration: none;
 }
+
 .credInst{
-    color: #959aa3;
+    color: #144cb6;
     font-family: "Protest Revolution", sans-serif;
     font-weight: 400;
     font-style: normal;
