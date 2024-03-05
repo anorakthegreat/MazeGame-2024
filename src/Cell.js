@@ -59,15 +59,19 @@ Cell.prototype.renderCenter = function () {
         const brightness = 100 * this.luminance;
         context.filter = `brightness(${brightness}%)`;
         context.drawImage(image.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
-        context.restore();
-    }
 
-    if (this.luminance <= 0) {
+        const bubble = this.world.maze.images["bubble"];
+        if (this.oxygen && bubble && bubble.loaded)
+        {
+            context.drawImage(bubble.image, sourceX, sourceY, bubble.image.width, bubble.image.height, destinationX, destinationY, destinationWidth, destinationHeight);            }
+        context.restore();
+    } else if (this.luminance <= 0) {
         context.stroke();
         context.closePath();
         context.restore();
         return;
     }
+
     this.luminance = 0;	// reset the luminance
 
     // This thing
