@@ -38,7 +38,7 @@ class Enemy {
     /* Run the enemy (once per frame) */
     run() {
         this.update();
-        this.render();
+        this.renderCenter();
     }
 
     /* Update the enemy's position */
