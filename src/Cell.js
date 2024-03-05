@@ -9,7 +9,6 @@ function Cell(world, r, c, cellWidth, wallWidth) {
     this.cellWidth = cellWidth;
     this.wallWidth = wallWidth;
     this.walls = [true, true, true, true];//top, right, bottom, left (like a clock) 
-    this.context = context;
     this.color = "rgba(0, 0, 255, 1)";
     this.topLx = this.col * this.cellWidth;
     this.topLy = this.row * this.cellWidth

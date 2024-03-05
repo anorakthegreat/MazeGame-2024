@@ -5,8 +5,8 @@ function Maze(world, row, col) {
     this.col = col;//num of cols in the maze 
     this.context = world.context;
     //width of the square cells 
-    //this.cellWidth = this.world.canvas.width / 10; // For center rendering
-    this.cellWidth = 50;
+    this.cellWidth = this.world.canvas.width / 10; // For center rendering
+    //this.cellWidth = 50;
     //width of the walls
     this.wallWidth = 5;
     //array for all the cells 
@@ -46,7 +46,7 @@ Maze.prototype.regenerate = function () {
     //reset hero 
     this.world.hero = new Hero(this.world);
     //reset enemies 
-    //this.world.enemies = [];
+    this.world.enemies = [];
     this.world.enemies[0] = new Enemy(this.world, new JSVector(10.5, 10.5));
     //reset html elements 
 
@@ -188,7 +188,7 @@ Maze.prototype.setCellLuminances = function() {
         
         
     }
-    const maxDistance = 3; // Up to two neighbors can be iluminated
+    const maxDistance = 8; // Up to two neighbors can be iluminated
     const queue = new Queue();
     const maze = this.grid;
     let visited = Array.from(new Array(maze.length), () => {
@@ -292,16 +292,6 @@ Maze.prototype.getCell = function(r, c){
 }
 
 Maze.prototype.render = function() {
-    
-
-    //color entry 
-    this.context.rect(this.entry.topLx, this.entry.topLy, this.cellWidth, this.cellWidth);
-    this.context.fillStyle = "rgba(255, 0, 0, 0.2)";
-    this.context.fill();
-    //color exit 
-    this.context.rect(this.exit.topLx, this.exit.topLy, this.cellWidth, this.cellWidth);
-    this.context.fillStyle = "rgba(255, 0, 255, 0.2)";
-    this.context.fill();
 
     //oxygen bubbles on random tiles 
     if (Math.random() * 10 > 9.9) {
@@ -322,8 +312,19 @@ Maze.prototype.render = function() {
     //render cells 
     for (let r = 0; r < this.row; r++) {
         for (let c = 0; c < this.col; c++) {
-            this.grid[r][c].render();
+            this.grid[r][c].renderCenter();
         }
     }
+}
+
+Maze.prototype.eerender = function(){
+    //color entry 
+    this.context.rect(this.entry.topLx, this.entry.topLy, this.cellWidth, this.cellWidth);
+    this.context.fillStyle = "rgba(255, 0, 0, 0.2)";
+    this.context.fill();
+    //color exit 
+    this.context.rect(this.exit.topLx, this.exit.topLy, this.cellWidth, this.cellWidth);
+    this.context.fillStyle = "rgba(255, 0, 255, 0.2)";
+    this.context.fill();
 }
 
