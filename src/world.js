@@ -10,7 +10,7 @@ class World {
         this.canvas.height = this.canvas.clientHeight * devicePixelRatio;
         if (!window.devicePixelRatio)
             this.context.scale(devicePixelRatio, devicePixelRatio);
-
+        this.renderCenter = true;
         this.maze = new Maze(this, 15, 15);
         this.maze.regenerate();
         this.hero = new Hero(this.maze);
@@ -37,9 +37,9 @@ class World {
         this.framecount++;
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.maze.render();
+        this.maze.render(this.renderCenter);
         for (const enemy of this.enemies) {
-            enemy.run();
+            enemy.run(this.renderCenter);
         }
 
         this.hero.run(this.context, this.canvas, this.maze);

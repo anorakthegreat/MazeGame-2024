@@ -36,9 +36,16 @@ class Enemy {
     }
 
     /* Run the enemy (once per frame) */
-    run() {
+    run(center) {
         this.update();
-        this.renderCenter();
+        Cell.prototype.render = function(center){
+            if(center){
+                this.renderCenter();
+            }
+            else{
+                this.renderClassic();
+            }
+        }
     }
 
     /* Update the enemy's position */
@@ -238,7 +245,7 @@ class Enemy {
         context.restore();
     }
 
-    render() {
+    renderClassic() {
 	const cellWidth = this.world.maze.cellWidth;
         const x = cellWidth * this.position.x;
         const y = cellWidth * this.position.y;
