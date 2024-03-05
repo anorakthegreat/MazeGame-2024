@@ -26,7 +26,7 @@ function Cell(world, r, c, cellWidth, wallWidth) {
     this.type = "coral"; // Types for images
 }
 
-Cell.prototype.renderCenter = function() {
+Cell.prototype.renderCenter = function () {
     const cellWidth = this.cellWidth;
     const wallWidth = this.wallWidth;
 
@@ -35,15 +35,15 @@ Cell.prototype.renderCenter = function() {
     const y = (this.row - hero.position.y - 0.5 * hero.width) * cellWidth;
     const xEnd = x + cellWidth;
     const yEnd = y + cellWidth;
-    
+
     const context = this.world.context;
     context.save();
     context.translate(this.world.canvas.width / 2, this.world.canvas.height / 2);
-    
+
     context.beginPath();
     context.strokeStyle = "white";
     context.lineWidth = this.wallWidth;
-    
+
     const image = this.world.maze.images[this.type];
     if (image && image.loaded && this.luminance > 0) {
         const sourceX = 0;
@@ -54,19 +54,19 @@ Cell.prototype.renderCenter = function() {
         const destinationY = y;
         const destinationWidth = cellWidth;
         const destinationHeight = cellWidth;
-	context.save();
+        context.save();
         // context.beginPath();
-	const brightness = 100 * this.luminance;
-	context.filter = `brightness(${brightness}%)`;
+        const brightness = 100 * this.luminance;
+        context.filter = `brightness(${brightness}%)`;
         context.drawImage(image.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
-	context.restore();
+        context.restore();
     }
 
     if (this.luminance <= 0) {
-	context.stroke();
+        context.stroke();
         context.closePath();
         context.restore();
-	return;
+        return;
     }
     this.luminance = 0;	// reset the luminance
 
@@ -101,13 +101,13 @@ Cell.prototype.renderCenter = function() {
     context.restore();
 }
 
-Cell.prototype.render = function() {
+Cell.prototype.render = function () {
     this.context.save()
     this.context.beginPath();
     this.context.strokeStyle = this.color;
     this.context.lineWidth = this.wallWidth;
     // top wall 
-    if (this.walls[0]) { 
+    if (this.walls[0]) {
         this.context.moveTo(this.topLx, this.topLy);
         this.context.lineTo(this.topRx, this.topRy);
     }
@@ -137,15 +137,15 @@ Cell.prototype.render = function() {
 }
 
 
-Cell.prototype.topWall = function(){
+Cell.prototype.topWall = function () {
     return this.walls[0];
 }
-Cell.prototype.rightWall = function() {
+Cell.prototype.rightWall = function () {
     return this.walls[1];
 }
-Cell.prototype.bottomWall = function() {
+Cell.prototype.bottomWall = function () {
     return this.walls[2];
 }
-Cell.prototype.leftWall = function() {
+Cell.prototype.leftWall = function () {
     return this.walls[3];
 }
