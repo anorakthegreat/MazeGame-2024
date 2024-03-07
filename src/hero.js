@@ -58,7 +58,7 @@ Hero.prototype.run = function(ctx, canvas, maze){
 Hero.prototype.getMazeLocation = function(){
     let x = Math.floor((this.position.x)/ 50)
     let y = Math.floor((this.position.y)/50)
-    let cell = this.maze.getCell(y, x)
+    let cell = world.maze.getCell(y, x)
     return cell;
 }
 
