@@ -11,7 +11,7 @@ class World {
         if (!window.devicePixelRatio)
             this.context.scale(devicePixelRatio, devicePixelRatio);
         this.renderCenter = true;
-        this.maze = new Maze(this, 15, 15);
+        this.maze = new Maze(this, 15, 15, this.renderCenter);
         this.maze.regenerate();
         this.hero = new Hero(this.maze);
         this.enemies = [];
@@ -49,7 +49,7 @@ class World {
         // }
         this.updateStatusBar();
 
-        // if(Math.random()*10>9){
+        // if(Math.random()*10>9.9){
         //     this.maze.regenerate();
         // }
     }

@@ -38,14 +38,12 @@ class Enemy {
     /* Run the enemy (once per frame) */
     run(center) {
         this.update();
-        Cell.prototype.render = function(center){
             if(center){
                 this.renderCenter();
             }
             else{
                 this.renderClassic();
             }
-        }
     }
 
     /* Update the enemy's position */
