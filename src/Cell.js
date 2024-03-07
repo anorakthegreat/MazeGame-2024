@@ -26,6 +26,15 @@ function Cell(world, r, c, cellWidth, wallWidth) {
     this.type = "coral"; // Types for images
 }
 
+Cell.prototype.render = function(center){
+    if(center){
+        this.renderCenter();
+    }
+    else{
+        this.renderClassic();
+    }
+}
+
 Cell.prototype.renderCenter = function () {
     const cellWidth = this.cellWidth;
     const wallWidth = this.wallWidth;
@@ -101,7 +110,7 @@ Cell.prototype.renderCenter = function () {
     context.restore();
 }
 
-Cell.prototype.render = function () {
+Cell.prototype.renderClassic = function () {
     this.context.save()
     this.context.beginPath();
     this.context.strokeStyle = this.color;

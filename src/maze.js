@@ -1,12 +1,15 @@
 /* A maze */
-function Maze(world, row, col) {
+function Maze(world, row, col, renderCenter) {
     this.world = world;
     this.row = row;//num of rows in the maze 
     this.col = col;//num of cols in the maze 
     this.context = world.context;
     //width of the square cells 
-    this.cellWidth = this.world.canvas.width / 15; // For center rendering
-    //this.cellWidth = 50;
+    this.renderCenter = renderCenter;
+    if(renderCenter)
+        this.cellWidth = this.world.canvas.width / 15; // For center rendering
+    else
+        this.cellWidth = 50;
     //width of the walls
     this.wallWidth = 5;
     //array for all the cells 
@@ -42,7 +45,6 @@ Maze.prototype.regenerate = function () {
     // begin mazeGen before rendering 
     this.explore(0, 0);
     this.entryExit();
-    // this.oxygen = [];
     //reset hero 
     this.world.hero = new Hero(this.world);
     //reset enemies 
@@ -71,7 +73,6 @@ Maze.prototype.entryExit = function () {
         //remove bottom wall 
         this.exit.walls[2] = false;
     }
-
 }
 
 Maze.prototype.explore = function (r, c) {
@@ -280,26 +281,35 @@ Maze.prototype.setCellLuminances = function () {
             this.exit.walls[2] = false;
         }
 
-
-
-        // Add the nei
-
     }
 }
 
 Maze.prototype.getCell = function (r, c) {
-    return this.grid[r][c]
+    return this.grid[r][c];
 }
 
-Maze.prototype.render = function () {
+Maze.prototype.render = function (center) {
 
     this.oxygenBubbles();
     this.setCellLuminances();
     //render cells 
-    for (let r = 0; r < this.row; r++) {
-        for (let c = 0; c < this.col; c++) {
-            this.grid[r][c].renderCenter();
+    if (center) {
+        for (let r = 0; r < this.row; r++) {
+            for (let c = 0; c < this.col; c++) {
+                this.grid[r][c].render(true);
+            }
         }
+    }
+    else {
+        for (let r = 0; r < this.row; r++) {
+            for (let c = 0; c < this.col; c++) {
+                this.grid[r][c].render(false);
+            }
+        }
+    }
+
+    if(!this.renderCenter){
+        this.entryExitRender();
     }
 }
 
@@ -329,7 +339,7 @@ Maze.prototype.oxygenBubbles = function () {
     }
 }
 
-Maze.prototype.eerender = function () {
+Maze.prototype.entryExitRender = function () {
     //color entry 
     this.context.rect(this.entry.topLx, this.entry.topLy, this.cellWidth, this.cellWidth);
     this.context.fillStyle = "rgba(255, 0, 0, 0.2)";
