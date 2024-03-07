@@ -6,7 +6,7 @@ function Maze(world, row, col, renderCenter) {
     this.context = world.context;
     //width of the square cells 
     this.renderCenter = renderCenter;
-    if(renderCenter)
+    if (renderCenter)
         this.cellWidth = this.world.canvas.width / 15; // For center rendering
     else
         this.cellWidth = 50;
@@ -25,7 +25,7 @@ function Maze(world, row, col, renderCenter) {
     //this.loadImages();
 }
 
-Maze.prototype.regenerate = function () {
+Maze.prototype.regenerate = function (renderCenter) {
     /* reset everything starting with maze */
     //reset grid 
     this.grid = [];
@@ -35,23 +35,14 @@ Maze.prototype.regenerate = function () {
             this.grid[r][c] = new Cell(this.world, r, c, this.cellWidth, this.wallWidth);
         }
     }
-
+    // begin mazeGen before rendering 
+    this.path = [];
+    this.explore(0, 0);
+    this.entryExit();
     // Load images
     this.images = {};
     this.loadImages();
-
-    // keep track of cells visited 
-    this.path = [];
-    // begin mazeGen before rendering 
-    this.explore(0, 0);
-    this.entryExit();
-    //reset hero 
-    this.world.hero = new Hero(this.world);
-    //reset enemies 
-    this.world.enemies = [];
-    this.world.enemies[0] = new Enemy(this.world, new JSVector(10.5, 10.5));
-    //reset html elements 
-
+    this.renderCenter = renderCenter;
 }
 
 Maze.prototype.entryExit = function () {
@@ -308,7 +299,7 @@ Maze.prototype.render = function (center) {
         }
     }
 
-    if(!this.renderCenter){
+    if (!this.renderCenter) {
         this.entryExitRender();
     }
 }

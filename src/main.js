@@ -1,10 +1,13 @@
 /* @type {World} */
 this.world;
+this.levels = [];
 
 window.addEventListener("load", init);
 
 function init() {
     world = new World();
+    levels[0] = new Level(world, 0);
+    levels[0].firstLevel();
     addAllListeners();
     run();
 }

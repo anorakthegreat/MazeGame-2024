@@ -11,12 +11,11 @@ class World {
         if (!window.devicePixelRatio)
             this.context.scale(devicePixelRatio, devicePixelRatio);
         this.renderCenter = true;
-        this.maze = new Maze(this, 15, 15, this.renderCenter);
-        this.maze.regenerate();
-        this.hero = new Hero(this.maze);
+        this.maze;
+        this.hero;
         this.enemies = [];
-        this.enemies[0] = new Enemy(this, new JSVector(10, 10));
 
+        
         // performance (from Ecosystem)
         this.framerate = 60;
         this.framecount = 0;
