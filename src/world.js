@@ -37,23 +37,14 @@ class World {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.maze.render(this.renderCenter);
-        for (const enemy of this.enemies) {
-            enemy.run(this.renderCenter);
-        }
-
-
-      this.hero.run(this.context, this.canvas, this.maze);
-        //this.maze.render();
         // for (const enemy of this.enemies) {
-        //     enemy.run();
+        //     enemy.run(this.renderCenter);
         // }
-        this.updateStatusBar();
 
-        // if(Math.random()*10>9.9){
-        //     this.maze.regenerate();
-        // }
+        this.hero.run(this.context, this.canvas, this.maze);
+        this.updateStatusBar();
     }
-    updateStatusBar() {
+    updateStatusBar(){
         this.updateTimer();
         this.runScore();
     }
