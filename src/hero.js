@@ -4,8 +4,8 @@ function Hero(m) {
     this.loc = new JSVector(1, 1)
     this.maze = m;
     this.moveIncrement = 3;
-    this.health = 100;
-    this.oxygen = 100;
+    this.health = 10;
+    this.oxygen = 0;
 
     window.addEventListener("keydown", (event) => {
         if (event.key == "s") {

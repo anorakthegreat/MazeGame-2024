@@ -10,13 +10,13 @@ class World {
         this.canvas.height = this.canvas.clientHeight * devicePixelRatio;
         if (!window.devicePixelRatio)
             this.context.scale(devicePixelRatio, devicePixelRatio);
-        this.renderCenter = true;
+        this.renderCenter = false;
         this.maze = new Maze(this, 15, 15, this.renderCenter);
         this.maze.regenerate();
         this.hero = new Hero(this.maze);
         this.enemies = [];
         this.enemies[0] = new Enemy(this, new JSVector(10, 10));
-
+        this.currentLevel=1;
         // performance (from Ecosystem)
         this.framerate = 60;
         this.framecount = 0;
@@ -44,10 +44,14 @@ class World {
         }
 
         this.hero.run(this.context, this.canvas, this.maze);
+        if(this.hero.health<0){
+            this.deathScreen();
+        }
         this.updateStatusBar();
     }
     updateStatusBar(){
         this.updateTimer();
+        this.updateLevel();
         this.runScore();
     }
     updateTimer() {
@@ -74,6 +78,18 @@ class World {
             this.score += 1000;
         }
         s.innerHTML = this.score;
+    }
+    updateLevel(){
+        let l=document.getElementById("level");
+        l.innerHTML=this.currentLevel;
+    }
+    deathScreen(){
+        let ctx=this.context;
+        let cnv=this.canvas;
+        ctx.rect(0,0,cnv.width,cnv.height);
+        ctx.fillStyle="rgba(0,50,0,0.7)";
+        ctx.fill();
+        this.paused=true;
     }
 }
 
