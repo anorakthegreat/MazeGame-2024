@@ -14,7 +14,7 @@ class Level {
         this.world.hero = new Hero(this.maze);
         this.world.enemies = [];
         for(let i = 0; i<this.levelNum+1; i++){
-            this.world.enemies[i] = new Enemy(world, new JSVector(10.5, 10.5));
+            this.world.enemies[i] = new Enemy(world, new JSVector(10, 10));
         }
 
         //reset html elements 
