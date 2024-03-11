@@ -1,3 +1,4 @@
+"use strict";
 class Oxygen {
     constructor(cell, context) {
         this.cell = cell;

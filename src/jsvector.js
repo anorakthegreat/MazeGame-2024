@@ -1,3 +1,4 @@
+"use strict";
 
 //  JSVector -- a Javascript 2D vector class
 //  Advanced Animation

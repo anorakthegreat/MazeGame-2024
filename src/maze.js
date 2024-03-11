@@ -1,3 +1,4 @@
+"use strict";
 /* A maze */
 function Maze(world, row, col, renderCenter) {
     this.world = world;

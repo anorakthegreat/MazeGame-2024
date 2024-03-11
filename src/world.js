@@ -1,3 +1,4 @@
+"use strict";
 class World {
     constructor() {
         this.canvas = document.getElementById("cnv1");
