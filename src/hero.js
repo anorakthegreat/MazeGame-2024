@@ -9,19 +9,19 @@ function Hero(m) {
 
     window.addEventListener("keydown", (event) => {
         if (event.key == "s") {
-            this.moveDown()
+            this.moveDown();
         }
 
         if (event.key == "w") {
-            this.moveUp()
+            this.moveUp();
         }
 
         if (event.key == "a") {
-            this.moveLeft()
+            this.moveLeft();
         }
 
         if (event.key == "d") {
-            this.moveRight()
+            this.moveRight();
         }
     });
 
@@ -92,8 +92,8 @@ Hero.prototype.getMazeUp = function (maze) {
 
 
     if (cell.topWall()) {
-        let position = { x: this.loc.x, y: this.loc.y, size: 5 }
-        let wall = { x: cell.topLy, y: cell.topLx, width: cell.cellWidth, height: cell.wallWidth }
+        let position = { x: this.loc.x, y: this.loc.y, size: 5 };
+        let wall = { x: cell.topLy, y: cell.topLx, width: cell.cellWidth, height: cell.wallWidth };
         if (Math.abs(position.y - wall.x) < 8) {
             return true;
         } else {
@@ -161,25 +161,25 @@ Hero.prototype.getMazeLeft = function (maze) {
 }
 
 Hero.prototype.getMazeRight = function (maze) {
-    let x = Math.ceil((this.loc.x) / 50)
-    let y = Math.ceil((this.loc.y) / 50)
+    let x = Math.ceil((this.loc.x) / 50);
+    let y = Math.ceil((this.loc.y) / 50);
 
-    let cell = maze.getCell(y - 1, x - 1)
+    let cell = maze.getCell(y - 1, x - 1);
 
-    x = x - 1
-    y = y - 1
+    x = x - 1;
+    y = y - 1;
 
     if (cell.rightWall()) {
-        let position = { x: this.loc.x, y: this.loc.y, size: 5 }
-        let wall = { x: cell.bottomLy, y: cell.bottomRx, width: cell.cellWidth, height: cell.wallWidth }
+        let position = { x: this.loc.x, y: this.loc.y, size: 5 };
+        let wall = { x: cell.bottomLy, y: cell.bottomRx, width: cell.cellWidth, height: cell.wallWidth };
         if (Math.abs(position.x - wall.y) < 8) {
-            return true
+            return true;
         } else {
-            return false
+            return false;
         }
 
     } else {
-        return false
+        return false;
     }
 
 
@@ -187,12 +187,12 @@ Hero.prototype.getMazeRight = function (maze) {
 
 
 Hero.prototype.returnMazeLoc = function (maze) {
-    let x = Math.ceil((this.loc.x) / 50)
-    let y = Math.ceil((this.loc.y) / 50)
+    let x = Math.ceil((this.loc.x) / 50);
+    let y = Math.ceil((this.loc.y) / 50);
 
-    let cell = maze.getCell(x, y)
+    let cell = maze.getCell(x, y);
 
-    this.mazePosition = new JSVector(x, y)
+    this.mazePosition = new JSVector(x, y);
 
 
 
@@ -202,17 +202,17 @@ Hero.prototype.returnMazeLoc = function (maze) {
 
 Hero.prototype.render = function (ctx, canvas) {
     // ctx.clearRect(canvas.width, canvas.height, canvas.width * 2, canvas.height * 2);
-    ctx.strokeStyle = "rgba(255, 0, 0, 55)"
-    ctx.fillStyle = "rgba(255, 0, 0, 55)"
+    ctx.strokeStyle = "rgba(255, 0, 0, 55)";
+    ctx.fillStyle = "rgba(255, 0, 0, 55)";
     ctx.beginPath();
     ctx.arc(this.loc.x, this.loc.y, 5, Math.PI * 2, 0, false);
     ctx.stroke();
-    ctx.fill()
+    ctx.fill();
 }
 Hero.prototype.getMazeLocation = function () {
-    let x = Math.floor((this.loc.x) / 50)
-    let y = Math.floor((this.loc.y) / 50)
-    let cell = world.maze.getCell(y, x)
+    let x = Math.floor((this.loc.x) / 50);
+    let y = Math.floor((this.loc.y) / 50);
+    let cell = world.maze.getCell(y, x);
     return cell;
 }
 Hero.prototype.updateStatusBar = function () {
