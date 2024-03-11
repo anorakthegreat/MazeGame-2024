@@ -10,7 +10,7 @@ class World {
         this.canvas.height = this.canvas.clientHeight * devicePixelRatio;
         if (!window.devicePixelRatio)
             this.context.scale(devicePixelRatio, devicePixelRatio);
-        this.renderCenter = true;
+        this.renderCenter = false;
         this.maze = new Maze(this, 15, 15, this.renderCenter);
         this.maze.regenerate();
         this.hero = new Hero(this.maze);
