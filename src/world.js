@@ -36,9 +36,9 @@ class World {
         this.context.clearRect(0, 0, world.canvas.width, world.canvas.height);
         
         this.maze.render();
-        for (const enemy of this.enemies) {
-            enemy.run();
-        }
+        // for (const enemy of this.enemies) {
+        //     enemy.run();
+        // }
         
         this.hero.run(this.context, this.canvas, this.maze);
         // if(Math.random()*10>9){
