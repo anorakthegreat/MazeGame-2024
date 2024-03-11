@@ -2,7 +2,7 @@ class World {
     constructor() {
         this.canvas = document.getElementById("cnv1");
         this.context = this.canvas.getContext("2d");
-
+        this.currentLevel = 0;
         // from Diego 
         // Scales canvas correctly
         const devicePixelRatio = window.devicePixelRatio || 1;

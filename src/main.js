@@ -8,6 +8,7 @@ function init() {
     world = new World();
     levels[0] = new Level(world, 0);
     levels[0].baseLevel();
+    levels[0].nextLevel();
     addAllListeners();
     run();
 }
