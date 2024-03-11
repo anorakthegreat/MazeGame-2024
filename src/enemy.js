@@ -104,44 +104,88 @@ class Enemy {
     checkWalls() {
         const y = this.position.y;
         const x = this.position.x;
-        const cellY = Math.floor(y + 0.5 * this.width); // The cell
-        const cellX = Math.floor(x + 0.5 * this.width); // the center
-                                                        // of the
-                                                        // enemy is on
-        const maze = this.world.maze;
-        const cell = maze.grid[cellY][cellX];
+        const w = this.width;
+        const topLeft     = new JSVector(x, y);
+        const topRight    = new JSVector(x + w, y);
+        const bottomLeft  = new JSVector(x, y + w);
+        const bottomRight = new JSVector(x + w, y + w);
+        bottomRight.floor();
+        bottomLeft.floor();
+        topRight.floor();
+        topLeft.floor();
 
-        // These are in pixels for rendering
+        const maze = this.world.maze;
+        const bottomRightCell = maze.grid[bottomRight.y][bottomRight.x];
+        const bottomLeftCell  = maze.grid[bottomLeft.y][bottomLeft.x];
+        const topRightCell    = maze.grid[topRight.y][topRight.x];
+        const topLeftCell     = maze.grid[topLeft.y][topLeft.x];
+
+        const spearTop = new JSVector(x, y - 1);
+        const spearBottom = new JSVector(x, y + 1);
+        const spearLeft = new JSVector(x - 1, y);
+        const spearRight = new JSVector(x + 1, y);
+        spearTop.floor();
+        spearBottom.floor();
+        spearLeft.floor();
+        spearRight.floor();
+
+        let spearTopCell = null;
+        if (spearTop.y >= 0) {
+            spearTopCell = maze.grid[spearTop.y][spearTop.x];
+        }
+        let topSpear = spearTopCell && (topLeftCell != topRightCell);
+        // console.log(topSpear);
+            
+        let spearBottomCell = null;
+        if (spearBottom.y < maze.row) {
+            spearBottomCell = maze.grid[spearBottom.y][spearBottom.x];
+        }
+        let bottomSpear = spearBottomCell && (topLeftCell != topRightCell);
+        
+        let spearLeftCell = null;
+        if (spearLeft.x >= 0) {
+            spearLeftCell = maze.grid[spearLeft.y][spearLeft.x];
+        }
+        let leftSpear = spearLeftCell && (topLeftCell != bottomLeftCell);
+        
+        let spearRightCell = null;
+        if (spearRight.x < maze.col) {
+            spearRightCell = maze.grid[spearRight.y][spearRight.x];
+        }
+        let rightSpear = spearRightCell && (topRightCell != bottomRightCell);
+
+        // These are in pixels for rendering, but converted to sizes
+        // relative to the virtual cell width
         const wallWidth = 0.5 * maze.wallWidth / maze.cellWidth;
         const cellWidth = 1;
-        const collisionCoefficient = -0.5;
+        const collisionCoefficient = 0;
 
         // Top
         if (
-            cell.topWall() && (y < cellY + wallWidth)
+            (topLeftCell.topWall() || topRightCell.topWall() || topSpear) && (y < topLeft.y + wallWidth) 
         ) {
-            this.position.y = cellY + wallWidth;
+            this.position.y = topLeft.y + wallWidth;
             this.velocity.y *= collisionCoefficient;
         }
         // Bottom
         else if (
-            cell.bottomWall() && (y + this.width > cellY + cellWidth - wallWidth)
+            (bottomLeftCell.bottomWall() || bottomRightCell.bottomWall() || bottomSpear) && (y + this.width > bottomLeft.y + cellWidth - wallWidth)
         ) {
-            this.position.y = cellY + cellWidth - wallWidth - this.width;
+            this.position.y = bottomLeft.y + cellWidth - wallWidth - this.width;
             this.velocity.y *= collisionCoefficient;
         }
         // Left
         if (
-            cell.leftWall() && (x < cellX + wallWidth)
+            (topLeftCell.leftWall() || bottomLeftCell.leftWall() || leftSpear) && (x < topLeft.x + wallWidth)
         ) {
-            this.position.x = cellX + wallWidth;
+            this.position.x = topLeft.x + wallWidth;
             this.velocity.x *= collisionCoefficient;
         }
         // Right
         else if (
-            cell.rightWall() && (x + this.width > cellX + cellWidth - wallWidth)
+            (topRightCell.rightWall() || bottomRightCell.rightWall() || rightSpear) && (x + this.width > topRight.x + cellWidth - wallWidth)
         ) {
-            this.position.x = cellX + cellWidth - wallWidth - this.width;
+            this.position.x = topRight.x + cellWidth - wallWidth - this.width;
             this.velocity.x *= collisionCoefficient;
         }
     }
