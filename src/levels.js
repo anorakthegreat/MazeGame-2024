@@ -7,7 +7,7 @@ class Level {
     baseLevel() {
 
         //make maze
-        this.world.maze = new Maze(this.world, 15, 15, true);
+        this.world.maze = new Maze(this.world, 15, 15, world.renderCenter);
         this.world.maze.regenerate(true);
 
         //make hero and enemies 
