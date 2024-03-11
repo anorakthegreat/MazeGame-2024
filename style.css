@@ -27,7 +27,11 @@ canvas {
     height: 100%;
     /* background-color: #83def5; */
 }
-
+.prevent-select {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+  }
 
 .title{
     text-align: center;
