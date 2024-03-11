@@ -2,32 +2,30 @@ class Level {
     constructor(world, num) {
         this.world = world;
         this.levelNum = num;
-        this.maze = world.maze;
-        this.hero = world.hero;
-        this.enemies = world.enemies;
     }
 
-    firstLevel() {
-        this.numLevels = 1;
+    baseLevel() {
+
         //make maze
-        this.maze = new Maze(this.world, 15, 15, true);
-        this.maze.regenerate(true);
+        this.world.maze = new Maze(this.world, 15, 15, true);
+        this.world.maze.regenerate(true);
+
         //make hero and enemies 
-        this.hero = new Hero(this.maze);
-        this.enemies = [];
-        this.enemies[0] = new Enemy(this.world, new JSVector(10.5, 10.5));
+        this.world.hero = new Hero(this.maze);
+        this.world.enemies = [];
+        for(let i = 0; i<this.levelNum+1; i++){
+            this.world.enemies[i] = new Enemy(world, new JSVector(10.5, 10.5));
+        }
+
+        //reset html elements 
+        this.world.paused = false;
+        this.world.time = 0;
+        this.world.msTime = 0;
+        this.world.score = 0;
     }
 
     nextLevel() {
-        this.numLevels++;
-        this.maze.regenerate(true);
-
-        //reset hero 
-        this.hero = new Hero(this.world);
-
-        //reset enemies and add more 
-        
-        //reset html elements 
-
+        levels.push(world, levels.length-1);
+        levels[levels.length-1].baseLevel();
     }
 }

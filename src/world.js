@@ -15,7 +15,6 @@ class World {
         this.hero;
         this.enemies = [];
 
-        
         // performance (from Ecosystem)
         this.framerate = 60;
         this.framecount = 0;
