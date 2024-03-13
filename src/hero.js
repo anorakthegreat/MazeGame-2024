@@ -199,6 +199,12 @@ Hero.prototype.returnMazeLoc = function (maze) {
 
 }
 
+Object.defineProperty(Hero.prototype, "position", {
+    get: function () {
+        this.returnMazeLoc(this.maze);
+        return this.mazePosition; 
+    }
+});
 
 Hero.prototype.render = function (ctx, canvas) {
     // ctx.clearRect(canvas.width, canvas.height, canvas.width * 2, canvas.height * 2);
