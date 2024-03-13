@@ -9,6 +9,10 @@ function JSVector(x = 0,y = 0){
   this.y = y;
 }
 
+JSVector.random = function(x, y) {
+    return new JSVector(Math.random() * x, Math.random() * y);
+}
+
 // Set the magnitude of the vector,
 // retaining the angle (direction).
 JSVector.prototype.setMagnitude = function(mag){
