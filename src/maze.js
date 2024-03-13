@@ -26,6 +26,18 @@ function Maze(world, row, col, renderCenter) {
     //this.loadImages();
 }
 
+Object.defineProperty(Maze.prototype, "width", {
+    get: function () {
+	return this.col;
+    }
+});
+
+Object.defineProperty(Maze.prototype, "height", {
+    get: function () {
+	return this.row;
+    }
+});
+
 Maze.prototype.regenerate = function () {
     /* reset everything starting with maze */
     //reset grid 
