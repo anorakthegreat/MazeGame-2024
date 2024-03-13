@@ -47,7 +47,7 @@ Maze.prototype.regenerate = function () {
     this.explore(0, 0);
     this.entryExit();
     //reset hero 
-    this.world.hero = new Hero(this.world);
+    this.world.hero = new Hero(this.world.maze);
     //reset enemies 
     this.world.enemies = [];
     this.world.enemies[0] = new Enemy(this.world, new JSVector(10.5, 10.5));
