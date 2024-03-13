@@ -92,5 +92,3 @@ class World {
         this.paused=true;
     }
 }
-
-
