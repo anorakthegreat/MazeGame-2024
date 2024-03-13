@@ -7,26 +7,29 @@ function Hero(m) {
     this.health = 100;
     this.oxygen = 100;
 
+    this.keys = {
+        "s": {pressed: false},
+        "w": {pressed: false},
+        "a": {pressed: false},
+        "d": {pressed: false}
+    };
+
     window.addEventListener("keydown", (event) => {
-        if (event.key == "s") {
-            this.moveDown();
-        }
-
-        if (event.key == "w") {
-            this.moveUp();
-        }
-
-        if (event.key == "a") {
-            this.moveLeft();
-        }
-
-        if (event.key == "d") {
-            this.moveRight();
+        if (this.keys[event.key])
+        {
+            this.keys[event.key].pressed = true;
         }
     });
 
-
+    window.addEventListener("keyup", (event) => {
+        if (this.keys[event.key])
+        {
+            this.keys[event.key].pressed = false;
+        }
+    });
 }
+
+
 
 Hero.prototype.moveUp = function () {
     if (this.getMazeUp(world.maze) == false) {
@@ -72,6 +75,19 @@ Hero.prototype.areInContact = function (square, rectangle) {
 }
 
 Hero.prototype.run = function (ctx, canvas, maze) {
+    if (this.keys["s"].pressed) {
+        this.moveDown();
+    }
+    if (this.keys["w"].pressed) {
+        this.moveUp();
+    }
+    if (this.keys["a"].pressed) {
+        this.moveLeft();
+    }
+    if (this.keys["d"].pressed) {
+        this.moveRight();
+    }
+    
     // this.updateCanvas(ctx)
 
     // this.updateCanvas(ctx, canvas)
