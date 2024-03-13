@@ -6,6 +6,7 @@ function Cell(world, r, c, cellWidth, wallWidth) {
     //visited during explore 
     this.visited = false;
     this.oxygen = null;
+    this.oxygenRadius = 0.8 / 2;
     this.cellWidth = cellWidth;
     this.wallWidth = wallWidth;
     this.walls = [true, true, true, true];//top, right, bottom, left (like a clock) 

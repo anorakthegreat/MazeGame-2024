@@ -1,3 +1,4 @@
+"use strict";
 // Interesting JS queueueueue implementation (modified)
 // https://www.geeksforgeeks.org/implementation-queue-javascript/
 class Queue {
