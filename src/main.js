@@ -7,8 +7,6 @@ window.addEventListener("load", init);
 function init() {
     world = new World();
     levels.push(new Level(world, 0));
-    levels[0].baseLevel();
-    levels[0].setLevel();
     addAllListeners();
     run();
 }
