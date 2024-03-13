@@ -1,3 +1,4 @@
+"use strict";
 
 //  JSVector -- a Javascript 2D vector class
 //  Advanced Animation
@@ -6,6 +7,10 @@
 function JSVector(x = 0,y = 0){
   this.x = x;
   this.y = y;
+}
+
+JSVector.random = function(x, y) {
+    return new JSVector(Math.random() * x, Math.random() * y);
 }
 
 // Set the magnitude of the vector,
