@@ -251,7 +251,8 @@ Hero.prototype.updateOxygen = function () {
     if (this.oxygen > 0) {
         oP = Math.round(this.oxygen) / 100;
     }
-    o.innerHTML = oP * 100 + "%";
+    oP=(oP*100).toFixed(0);
+    o.innerHTML = oP + "%";
     //need to add color change still
 }
 
