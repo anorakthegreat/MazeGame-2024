@@ -11,7 +11,6 @@ class World {
         this.canvas.height = this.canvas.clientHeight * devicePixelRatio;
         if (!window.devicePixelRatio)
             this.context.scale(devicePixelRatio, devicePixelRatio);
-
         // performance (from Ecosystem)
         this.framerate = 60;
         this.framecount = 0;
@@ -43,6 +42,7 @@ class World {
     }
     updateStatusBar() {
         this.updateTimer();
+        this.updateLevel();
         this.runScore();
     }
     updateTimer() {
@@ -79,6 +79,23 @@ class World {
             level.enemies[i] = new Enemy(this, new JSVector(10, 10));
         }
     }
+
+    updateLevel(){
+        let l=document.getElementById("level");
+        l.innerHTML=this.currentLevel;
+    }
+    deathScreen(){
+        let ctx=this.context;
+        let cnv=this.canvas;
+        ctx.rect(0,0,cnv.width,cnv.height);
+        ctx.fillStyle="rgba(56,54,54,0.7)";
+        ctx.fill();
+        ctx.font="bold 80px copperplate";
+        ctx.fillStyle="rgba(204,35,16)";
+        //will be off center but I'm working on fixing it
+        ctx.fillText("you died lol",(cnv.width/2)-280,cnv.height/2);
+        ctx.strokeStyle="rgb(46,41,40)"
+        ctx.strokeText("you died lol",(cnv.width/2)-280,cnv.height/2);
+        this.paused=true;
+    }
 }
-
-

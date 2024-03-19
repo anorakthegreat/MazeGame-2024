@@ -20,7 +20,15 @@ function run() {
 function addAllListeners () {
     let p = document.getElementById("pauseB");
     p.addEventListener("click", swapPause);
+    let r=document.getElementById("restartB");
+    r.addEventListener("click",restart);
 }
 function swapPause () {
     world.paused = !world.paused;
+}
+function restart(){
+    if(world.paused){
+        //waiting for calvin's level code :)
+        //console.log("restart the level");
+    }
 }
