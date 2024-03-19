@@ -199,7 +199,6 @@ Hero.prototype.getMazeRight = function (maze) {
 
 }
 
-
 Object.defineProperty(Hero.prototype, "position", {
     get: function () {
         const x = Math.floor((this.loc.x) / 50);
