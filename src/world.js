@@ -88,8 +88,10 @@ class World {
         let ctx=this.context;
         let cnv=this.canvas;
         ctx.rect(0,0,cnv.width,cnv.height);
-        ctx.fillStyle="rgba(0,50,0,0.7)";
+        ctx.fillStyle="rgba(36,34,34,0.7)";
         ctx.fill();
+        ctx.font="bold 48px sans serif";
+        ctx.fillText("test",cnv.width/2,cnv.height/2);
         this.paused=true;
     }
 }
