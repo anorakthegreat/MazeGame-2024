@@ -82,7 +82,7 @@ class World {
 
     updateLevel(){
         let l=document.getElementById("level");
-        l.innerHTML=this.currentLevel;
+        l.innerHTML=this.currentLevel+1;
     }
     deathScreen(){
         let ctx=this.context;
