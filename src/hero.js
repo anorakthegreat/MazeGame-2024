@@ -217,8 +217,9 @@ Hero.prototype.returnMazeLoc = function (maze) {
 
 Object.defineProperty(Hero.prototype, "position", {
     get: function () {
-        this.returnMazeLoc(this.maze);
-        return this.mazePosition; 
+        const x = Math.floor((this.loc.x) / 50);
+        const y = Math.floor((this.loc.y) / 50);
+        return new JSVector(x, y);
     }
 });
 

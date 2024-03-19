@@ -90,6 +90,11 @@ JSVector.prototype.distance = function(v2){
   return(Math.sqrt((v2.x-this.x)*(v2.x-this.x) + (v2.y-this.y)*(v2.y-this.y)));
 }
 
+// Manhattan distance
+JSVector.prototype.manhattanDistance = function(other) {
+    return Math.abs(this.x - other.x) + Math.abs(this.y - other.y);
+}
+
 // Get square of the distance between this vector and another one
 JSVector.prototype.distanceSquared = function(v2){
   return((v2.x-this.x)*(v2.x-this.x) + (v2.y-this.y)*(v2.y-this.y));
