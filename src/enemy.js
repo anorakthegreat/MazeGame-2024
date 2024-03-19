@@ -11,13 +11,13 @@ class Enemy {
         /* @type {World} */
         this.world = world;
 
-	/* @type {number} */
+        /* @type {number} */
         this.width = 0.5;
         this.speed = 0.01;
 
         /* @type {JSVector} */
         this.position = initialPosition.copy();
-	this.position.add(new JSVector(this.width*0.5, this.width*0.5));
+        this.position.add(new JSVector(this.width*0.5, this.width*0.5));
         this.velocity = new JSVector();
         this.acceleration = new JSVector();
 
@@ -25,12 +25,11 @@ class Enemy {
         /* @type {Queue<JSVector>} */
         this.path = new Queue();
 
-	/* @type {PathType} */
-        this.pathType = PathType.WANDER;
-	
-	/* @type {JSVector} */
-	this.target = JSVector.random(world.col, world.row);
-	this.target.floor();
+        /* @type {PathType} */
+        this.pathType = PathType.SEEK;
+        
+        /* @type {JSVector} */
+        this.target = null;
     }    
 
     /* Run the enemy (once per frame) */
@@ -45,15 +44,10 @@ class Enemy {
 
     /* Update the enemy's position */
     update() {
-	// TODO: TEMP: change
-        if (this.path.empty()) {
-	    this.updatePath();
-	}
-	
         if (this.pathType == PathType.WANDER) {
-	    this.wander();
-	} else if (this.pathType == PathType.SEEK) {
-	    this.seekPlayer();
+            this.wander();
+        } else if (this.pathType == PathType.SEEK) {
+            this.seekPlayer();
         } else {
             throw new Error(`pathType has an invalid value: ${this.pathType}`);
         }
@@ -67,29 +61,79 @@ class Enemy {
     }
 
     wander() {
-	// TODO: TEMP: change
-	this.seekPlayer();
+        // Check if the player is within a certain distance
+        const target = this.target ? this.target.copy() : null;
+        this.target = this.world.hero.position.copy();
+        this.target.floor();
+        this.updatePath();
+        const distanceToRecognizeHero = 10;
+        if (this.path.length < distanceToRecognizeHero)
+        {
+            this.pathType = PathType.SEEK;
+            this.seekPlayer();
+            return;
+        }
+        
+        // Seek the random position
+        this.target = target;
+        this.seekTarget(() => {
+            if (!this.target) {
+                this.target = JSVector.random(this.world.maze.width, this.world.maze.height);
+                this.target.floor();
+            }
+            if (this.path.empty()) {
+                this.target = JSVector.random(this.world.maze.width, this.world.maze.height);
+                this.target.floor();
+                this.updatePath();
+                return true;
+            }
+            return false;
+        });
     }
+
     seekPlayer() {
-	let currentCell = this.position.copy();
-	currentCell.floor();
-	let nextCell = this.path.peek();
+        this.seekTarget(() => {
+            const heroPosition = this.world.hero.position;
+            heroPosition.floor();
+            if (!this.target || !this.target.equals(heroPosition) || this.path.empty())
+            {
+                this.target = heroPosition;
+                this.updatePath();
+                return true;
+            }
+            return false;
+        });
+    }
+
+    // A hook that is called twice. It should contain logic for an
+    // empty target and empty path. If the path was updated
+    seekTarget(hook) {
+        hook();
+        let currentCell = this.position.copy();
+        currentCell.floor();
+        let nextCell = this.path.peek();
         // If the enemy has reached the next cell in the path, update
         // the path by removing the cell from the top of the path
         if (currentCell.equals(nextCell)) {
-            nextCell = this.path.pop();
-            if (this.path.empty())
-	    {
-                throw new Error("No new path to follow");
-	    }
+            this.path.pop();
+            nextCell = this.path.peek();
         }
-	
-	// Vector pointing from the center of the enemy to the center
-	// of the target cell
-	const targetCell = nextCell.copy();
-        targetCell.add(new JSVector(0.5 * (1 - this.width), 0.5 * (1 - this.width)));
-	// Accelerate towards that next cell
-        this.seek(targetCell);
+        
+        const pathWasUpdated = hook();
+        if (pathWasUpdated) {
+            nextCell = this.path.peek();
+            // if (currentCell.equals(nextCell)) {
+            //     this.path.pop();
+            //     nextCell = this.path.peek();
+            // }
+        }
+        
+        // Vector pointing to where the upper left corner of the enemy
+        // would be if the enemy was positioned in the center of the cell
+        const targetPosition = nextCell.copy();
+        targetPosition.add(new JSVector(0.5 * (1 - this.width), 0.5 * (1 - this.width)));
+        // Accelerate towards that next cell
+        this.seek(targetPosition);
     }
 
     /**
@@ -138,8 +182,7 @@ class Enemy {
             spearTopCell = maze.grid[spearTop.y][spearTop.x];
         }
         let topSpear = spearTopCell && (topLeftCell != topRightCell);
-        // console.log(topSpear);
-            
+        
         let spearBottomCell = null;
         if (spearBottom.y < maze.row) {
             spearBottomCell = maze.grid[spearBottom.y][spearBottom.x];
@@ -216,12 +259,13 @@ class Enemy {
         });
         let position = this.position.copy();
         position.floor();
-        visited[position.x][position.y] = true;
-        let heroPosition = this.world.hero.mazePosition;
-        heroPosition.floor();
-        let goal = new Point(heroPosition.x, heroPosition.y);
-        queue.enqueue(new Point(position.x, position.y));
+        visited[position.y][position.x] = true;
 
+        const target = this.target.copy();
+        target.floor();
+        const goal = new Point(target.x, target.y);
+        queue.enqueue(new Point(position.x, position.y));
+        
         while (!queue.empty()) {
             let point = queue.dequeue();
 
@@ -232,8 +276,8 @@ class Enemy {
             // Top
             if (
                 point.y > 0 
-                && !visited[point.y - 1][point.x] 
-                && !maze[point.y][point.x].topWall()
+                    && !visited[point.y - 1][point.x] 
+                    && !maze[point.y][point.x].topWall()
             ) {
                 visited[point.y - 1][point.x] = true;
                 let neighbor = new Point(point.x, point.y - 1, point);
@@ -243,8 +287,8 @@ class Enemy {
             // Bottom
             if (
                 point.y < visited.length - 1 
-                && !visited[point.y + 1][point.x]
-                && !maze[point.y][point.x].bottomWall()
+                    && !visited[point.y + 1][point.x]
+                    && !maze[point.y][point.x].bottomWall()
             ) {
                 visited[point.y + 1][point.x] = true;
                 let neighbor = new Point(point.x, point.y + 1, point);
@@ -254,8 +298,8 @@ class Enemy {
             // Left
             if (
                 point.x > 0 
-                && !visited[point.y][point.x - 1] 
-                && !maze[point.y][point.x].leftWall()
+                    && !visited[point.y][point.x - 1] 
+                    && !maze[point.y][point.x].leftWall()
             ) {
                 visited[point.y][point.x - 1] = true;
                 let neighbor = new Point(point.x - 1, point.y, point);
@@ -265,8 +309,8 @@ class Enemy {
             // Right
             if (
                 point.x < visited[0].length - 1 
-                && !visited[point.y][point.x + 1] 
-                && !maze[point.y][point.x].rightWall()
+                    && !visited[point.y][point.x + 1] 
+                    && !maze[point.y][point.x].rightWall()
             ) {
                 visited[point.y][point.x + 1] = true;
                 let neighbor = new Point(point.x + 1, point.y, point);
@@ -277,14 +321,14 @@ class Enemy {
 
     /* Render the enemy */
     renderCenter() {
-	const cellWidth = this.world.maze.cellWidth;
+        const cellWidth = this.world.maze.cellWidth;
         const x = -0.5 * cellWidth * this.width;
         const y = -0.5 * cellWidth * this.width;
         const w = this.width * cellWidth;
 
-	const context = this.world.context;
+        const context = this.world.context;
         context.save();
-	context.translate(this.world.canvas.width / 2, this.world.canvas.height / 2);
+        context.translate(this.world.canvas.width / 2, this.world.canvas.height / 2);
         context.beginPath();
         context.fillStyle = "red";
         context.fillRect(x, y, w, w);
@@ -292,14 +336,14 @@ class Enemy {
     }
 
     renderClassic() {
-	const cellWidth = this.world.maze.cellWidth;
+        const cellWidth = this.world.maze.cellWidth;
         const x = cellWidth * this.position.x;
         const y = cellWidth * this.position.y;
         const w = this.width * cellWidth;
 
-	const context = this.world.context;
+        const context = this.world.context;
         context.save();
-	// context.translate(this.world.canvas.width / 2, this.world.canvas.height / 2);
+        // context.translate(this.world.canvas.width / 2, this.world.canvas.height / 2);
         context.beginPath();
         context.fillStyle = "red";
         context.fillRect(x, y, w, w);
