@@ -93,7 +93,6 @@ Hero.prototype.run = function (ctx, canvas, maze) {
     // this.updateCanvas(ctx, canvas)
     this.render(ctx, canvas);
 
-    this.returnMazeLoc(maze);
     this.updateStatusBar();
 }
 
@@ -197,20 +196,6 @@ Hero.prototype.getMazeRight = function (maze) {
     } else {
         return false;
     }
-
-
-}
-
-
-Hero.prototype.returnMazeLoc = function (maze) {
-    let x = Math.ceil((this.loc.x) / 50);
-    let y = Math.ceil((this.loc.y) / 50);
-
-    let cell = maze.getCell(x, y);
-
-    this.mazePosition = new JSVector(x, y);
-
-
 
 
 }
