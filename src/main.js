@@ -28,7 +28,7 @@ function swapPause () {
 }
 function restart(){
     if(world.paused){
-        //waiting for calvin's level code :)
-        //console.log("restart the level");
+        world.genLevel(world.levels[world.currentLevel]);
+        world.paused = false;
     }
 }
