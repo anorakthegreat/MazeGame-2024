@@ -63,7 +63,7 @@ class Enemy {
     wander() {
         // Check if the player is within a certain distance
         const target = this.target ? this.target.copy() : null;
-        this.target = this.world.hero.position.copy();
+        this.target = this.world.levels[this.world.currentLevel].hero.position.copy();
         this.target.floor();
         this.updatePath();
         const distanceToRecognizeHero = 10;
@@ -93,7 +93,7 @@ class Enemy {
 
     seekPlayer() {
         this.seekTarget(() => {
-            const heroPosition = this.world.hero.position;
+            const heroPosition = this.world.levels[this.world.currentLevel].hero.position.copy();
             heroPosition.floor();
             if (!this.target || !this.target.equals(heroPosition) || this.path.empty())
             {
@@ -162,7 +162,7 @@ class Enemy {
         topRight.floor();
         topLeft.floor();
 
-        const maze = this.world.maze;
+        const maze = this.world.levels[this.world.currentLevel].maze;
         const bottomRightCell = maze.grid[bottomRight.y][bottomRight.x];
         const bottomLeftCell  = maze.grid[bottomLeft.y][bottomLeft.x];
         const topRightCell    = maze.grid[topRight.y][topRight.x];
@@ -251,7 +251,7 @@ class Enemy {
     // https://en.wikipedia.org/wiki/Breadth-first_search#Pseudocode
     breadthFirstSearch() {
         let queue = new Queue();
-        const maze = this.world.maze.grid;
+        const maze = this.world.levels[this.world.currentLevel].maze.grid;
         let visited = Array.from(new Array(maze.length), () => {
             return Array.from(new Array(maze[0].length), () => {
                 return false;
@@ -321,7 +321,7 @@ class Enemy {
 
     /* Render the enemy */
     renderCenter() {
-        const cellWidth = this.world.maze.cellWidth;
+	const cellWidth = this.world.levels[this.world.currentLevel].maze.cellWidth;
         const x = -0.5 * cellWidth * this.width;
         const y = -0.5 * cellWidth * this.width;
         const w = this.width * cellWidth;
@@ -336,7 +336,7 @@ class Enemy {
     }
 
     renderClassic() {
-        const cellWidth = this.world.maze.cellWidth;
+	const cellWidth = this.world.levels[this.world.currentLevel].maze.cellWidth;
         const x = cellWidth * this.position.x;
         const y = cellWidth * this.position.y;
         const w = this.width * cellWidth;
