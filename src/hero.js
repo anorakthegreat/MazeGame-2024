@@ -250,7 +250,10 @@ Hero.prototype.updateHealth = function () {//assume max health will always be 10
     hB.item(0).style.color = "rgb(23," + 115 * hP + ",41)";
 }
 Hero.prototype.updateOxygen = function () {
-    this.oxygen -= 0.01;
+    if(this.health<0){
+        world.deathScreen();
+    }
+    this.oxygen -= 0.04;
     if (this.oxygen <= 0 && this.health > 0) {
         this.health -= 0.1;
     } else if (this.oxygen < 10 && this.health > 0) {
