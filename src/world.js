@@ -26,7 +26,7 @@ class World {
         this.score = 0;
 
         this.currentLevel = 0;
-        this.levels = [new Level(15, 15, 1, true)];
+        this.levels = [new Level(15, 15, 1, false)];
         this.genLevel(this.levels[0]);
     }
 
@@ -82,7 +82,7 @@ class World {
 
     updateLevel(){
         let l=document.getElementById("level");
-        l.innerHTML=this.currentLevel;
+        l.innerHTML=this.currentLevel+1;
     }
     deathScreen(){
         let ctx=this.context;
