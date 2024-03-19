@@ -55,7 +55,6 @@ Maze.prototype.regenerate = function () {
     // Load images
     this.images = {};
     this.loadImages();
-    this.renderCenter = renderCenter;
 }
 
 Maze.prototype.entryExit = function () {
