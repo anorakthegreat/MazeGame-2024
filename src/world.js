@@ -88,10 +88,14 @@ class World {
         let ctx=this.context;
         let cnv=this.canvas;
         ctx.rect(0,0,cnv.width,cnv.height);
-        ctx.fillStyle="rgba(36,34,34,0.7)";
+        ctx.fillStyle="rgba(56,54,54,0.7)";
         ctx.fill();
-        ctx.font="bold 48px sans serif";
-        ctx.fillText("test",cnv.width/2,cnv.height/2);
+        ctx.font="bold 80px copperplate";
+        ctx.fillStyle="rgba(204,35,16)";
+        //will be off center but I'm working on fixing it
+        ctx.fillText("you died lol",(cnv.width/2)-280,cnv.height/2);
+        ctx.strokeStyle="rgb(46,41,40)"
+        ctx.strokeText("you died lol",(cnv.width/2)-280,cnv.height/2);
         this.paused=true;
     }
 }
