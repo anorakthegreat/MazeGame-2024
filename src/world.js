@@ -17,7 +17,7 @@ class World {
         this.hero = new Hero(this.maze);
         this.enemies = [];
         this.enemies[0] = new Enemy(this, new JSVector(10, 10));
-
+        this.currentLevel=1;
         // performance (from Ecosystem)
         this.framerate = 60;
         this.framecount = 0;
@@ -45,10 +45,14 @@ class World {
         }
 
         this.hero.run(this.context, this.canvas, this.maze);
+        if(this.hero.health<0){
+            this.deathScreen();
+        }
         this.updateStatusBar();
     }
     updateStatusBar(){
         this.updateTimer();
+        this.updateLevel();
         this.runScore();
     }
     updateTimer() {
@@ -76,6 +80,22 @@ class World {
         }
         s.innerHTML = this.score;
     }
+    updateLevel(){
+        let l=document.getElementById("level");
+        l.innerHTML=this.currentLevel;
+    }
+    deathScreen(){
+        let ctx=this.context;
+        let cnv=this.canvas;
+        ctx.rect(0,0,cnv.width,cnv.height);
+        ctx.fillStyle="rgba(56,54,54,0.7)";
+        ctx.fill();
+        ctx.font="bold 80px copperplate";
+        ctx.fillStyle="rgba(204,35,16)";
+        //will be off center but I'm working on fixing it
+        ctx.fillText("you died lol",(cnv.width/2)-280,cnv.height/2);
+        ctx.strokeStyle="rgb(46,41,40)"
+        ctx.strokeText("you died lol",(cnv.width/2)-280,cnv.height/2);
+        this.paused=true;
+    }
 }
-
-
