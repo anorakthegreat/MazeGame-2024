@@ -1,3 +1,4 @@
+"use strict";
 class World {
     constructor() {
         this.canvas = document.getElementById("cnv1");
@@ -10,7 +11,6 @@ class World {
         this.canvas.height = this.canvas.clientHeight * devicePixelRatio;
         if (!window.devicePixelRatio)
             this.context.scale(devicePixelRatio, devicePixelRatio);
-
 
         // performance (from Ecosystem)
         this.framerate = 60;

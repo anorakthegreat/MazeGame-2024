@@ -1,5 +1,6 @@
+"use strict";
 /* @type {World} */
-this.world;
+let world;
 
 window.addEventListener("load", init);
 
@@ -16,14 +17,10 @@ function run() {
     }
 }
 
-function addAllListeners(){
-    let p=document.getElementById("pauseB");
-    p.addEventListener("click",swapPause);
+function addAllListeners () {
+    let p = document.getElementById("pauseB");
+    p.addEventListener("click", swapPause);
 }
-function swapPause(){
-    if(world.paused){
-        world.paused=false;
-    } else{
-        world.paused=true;
-    }
+function swapPause () {
+    world.paused = !world.paused;
 }

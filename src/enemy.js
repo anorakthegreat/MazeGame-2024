@@ -25,59 +25,37 @@ class Enemy {
         /* @type {Queue<JSVector>} */
         this.path = new Queue();
 
-        /**
-         * @type {"wander"|"seek"}
-         * "wander" = wandering around
-         * "seek" = seek the player
-         */
-        this.pathType = "seek";
-
-        this.updatePath();
-    }
+	/* @type {PathType} */
+        this.pathType = PathType.WANDER;
+	
+	/* @type {JSVector} */
+	this.target = JSVector.random(world.col, world.row);
+	this.target.floor();
+    }    
 
     /* Run the enemy (once per frame) */
     run(center) {
         this.update();
-            if(center){
-                this.renderCenter();
-            }
-            else{
-                this.renderClassic();
-            }
+        if (center) {
+            this.renderCenter();
+        } else {
+            this.renderClassic();
+        }
     }
 
     /* Update the enemy's position */
     update() {
-        let currentCell = this.position.copy();
-        currentCell.floor();
-
-        while (true) {
-            if (this.pathType == "wander") {break;}
-            else if (this.pathType == "seek") {
-                // TODO: make a new path (I will need a moving hero
-                // for this)
-                if (this.path.empty())
-                    throw new Error("No new path to follow");
-                
-                // Make the target the new cell in the path
-                let target = this.path.peek();
-                // Update target, if necessary
-                if (currentCell.equals(target)) {
-                    this.path.pop();
-                    if (this.path.empty())
-                        throw new Error("No new path to follow");
-
-                    target = this.path.peek();
-                }
-                // Seek the center of the target cell
-                const targetCell = target.copy();
-                targetCell.add(new JSVector(0.5 * (1 - this.width), 0.5 * (1 - this.width)));
-                this.seek(targetCell);
-                break;
-            }
-            else {
-                throw new Error(`pathType has an invalid value: ${this.pathType}`);
-            }
+	// TODO: TEMP: change
+        if (this.path.empty()) {
+	    this.updatePath();
+	}
+	
+        if (this.pathType == PathType.WANDER) {
+	    this.wander();
+	} else if (this.pathType == PathType.SEEK) {
+	    this.seekPlayer();
+        } else {
+            throw new Error(`pathType has an invalid value: ${this.pathType}`);
         }
 
         // Update the enemy's position
@@ -86,6 +64,32 @@ class Enemy {
         this.position.add(this.velocity);
 
         this.checkWalls();
+    }
+
+    wander() {
+	// TODO: TEMP: change
+	this.seekPlayer();
+    }
+    seekPlayer() {
+	let currentCell = this.position.copy();
+	currentCell.floor();
+	let nextCell = this.path.peek();
+        // If the enemy has reached the next cell in the path, update
+        // the path by removing the cell from the top of the path
+        if (currentCell.equals(nextCell)) {
+            nextCell = this.path.pop();
+            if (this.path.empty())
+	    {
+                throw new Error("No new path to follow");
+	    }
+        }
+	
+	// Vector pointing from the center of the enemy to the center
+	// of the target cell
+	const targetCell = nextCell.copy();
+        targetCell.add(new JSVector(0.5 * (1 - this.width), 0.5 * (1 - this.width)));
+	// Accelerate towards that next cell
+        this.seek(targetCell);
     }
 
     /**
@@ -317,3 +321,8 @@ class Point {
 }
 
 
+// Enum(ish) of how the enemy moves
+const PathType = Object.freeze({
+    WANDER: Symbol("wander"),
+    SEEK: Symbol("seek")
+});

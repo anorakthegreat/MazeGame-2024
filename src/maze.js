@@ -1,3 +1,4 @@
+"use strict";
 /* A maze */
 function Maze(world, row, col, renderCenter) {
     this.world = world;
@@ -25,7 +26,19 @@ function Maze(world, row, col, renderCenter) {
     //this.loadImages();
 }
 
-Maze.prototype.regenerate = function (renderCenter) {
+Object.defineProperty(Maze.prototype, "width", {
+    get: function () {
+	return this.col;
+    }
+});
+
+Object.defineProperty(Maze.prototype, "height", {
+    get: function () {
+	return this.row;
+    }
+});
+
+Maze.prototype.regenerate = function () {
     /* reset everything starting with maze */
     //reset grid 
     this.grid = [];
