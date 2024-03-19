@@ -40,7 +40,7 @@ Cell.prototype.renderCenter = function () {
     const cellWidth = this.cellWidth;
     const wallWidth = this.wallWidth;
 
-    const hero = this.world.enemies[0]; // TEMPORARY
+    const hero = this.world.levels[world.currentLevel].enemies[0]; // TEMPORARY
     const x = (this.col - hero.position.x - 0.5 * hero.width) * cellWidth;
     const y = (this.row - hero.position.y - 0.5 * hero.width) * cellWidth;
     const xEnd = x + cellWidth;
@@ -54,7 +54,7 @@ Cell.prototype.renderCenter = function () {
     context.strokeStyle = "white";
     context.lineWidth = this.wallWidth;
 
-    const image = this.world.maze.images[this.type];
+    const image = this.world.levels[world.currentLevel].maze.images[this.type];
     if (image && image.loaded && this.luminance > 0) {
         const sourceX = 0;
         const sourceY = 0;
@@ -70,7 +70,7 @@ Cell.prototype.renderCenter = function () {
         context.filter = `brightness(${brightness}%)`;
         context.drawImage(image.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
 
-        const bubble = this.world.maze.images["bubble"];
+        const bubble = this.world.levels[world.currentLevel].maze.images["bubble"];
         if (this.oxygen && bubble && bubble.loaded)
         {
             context.drawImage(bubble.image, sourceX, sourceY, bubble.image.width, bubble.image.height, destinationX, destinationY, destinationWidth, destinationHeight);            }

@@ -118,7 +118,7 @@ class Enemy {
         topRight.floor();
         topLeft.floor();
 
-        const maze = this.world.maze;
+        const maze = this.world.levels[this.world.currentLevel].maze;
         const bottomRightCell = maze.grid[bottomRight.y][bottomRight.x];
         const bottomLeftCell  = maze.grid[bottomLeft.y][bottomLeft.x];
         const topRightCell    = maze.grid[topRight.y][topRight.x];
@@ -208,7 +208,7 @@ class Enemy {
     // https://en.wikipedia.org/wiki/Breadth-first_search#Pseudocode
     breadthFirstSearch() {
         let queue = new Queue();
-        const maze = this.world.maze.grid;
+        const maze = this.world.levels[this.world.currentLevel].maze.grid;
         let visited = Array.from(new Array(maze.length), () => {
             return Array.from(new Array(maze[0].length), () => {
                 return false;
@@ -217,7 +217,7 @@ class Enemy {
         let position = this.position.copy();
         position.floor();
         visited[position.x][position.y] = true;
-        let heroPosition = this.world.hero.mazePosition;
+        let heroPosition = this.world.levels[this.world.currentLevel].hero.mazePosition;
         heroPosition.floor();
         let goal = new Point(heroPosition.x, heroPosition.y);
         queue.enqueue(new Point(position.x, position.y));
@@ -277,7 +277,7 @@ class Enemy {
 
     /* Render the enemy */
     renderCenter() {
-	const cellWidth = this.world.maze.cellWidth;
+	const cellWidth = this.world.levels[this.world.currentLevel].maze.cellWidth;
         const x = -0.5 * cellWidth * this.width;
         const y = -0.5 * cellWidth * this.width;
         const w = this.width * cellWidth;
@@ -292,7 +292,7 @@ class Enemy {
     }
 
     renderClassic() {
-	const cellWidth = this.world.maze.cellWidth;
+	const cellWidth = this.world.levels[this.world.currentLevel].maze.cellWidth;
         const x = cellWidth * this.position.x;
         const y = cellWidth * this.position.y;
         const w = this.width * cellWidth;
