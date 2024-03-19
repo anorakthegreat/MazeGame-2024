@@ -4,5 +4,5 @@ and generating new levels.
 */
 
 class levelGen {
-
+    
 }

@@ -29,25 +29,25 @@ function Hero(m) {
 }
 
 Hero.prototype.moveUp = function () {
-    if (this.getMazeUp(world.maze) == false) {
+    if (this.getMazeUp(world.levels[world.currentLevel].maze) == false) {
         this.loc.y -= this.moveIncrement;
     }
 }
 
 Hero.prototype.moveDown = function () {
-    if (this.getMazeDown(world.maze) == false) {
+    if (this.getMazeDown(world.levels[world.currentLevel].maze) == false) {
         this.loc.y += this.moveIncrement;
     }
 }
 
 Hero.prototype.moveLeft = function () {
-    if (this.getMazeLeft(world.maze) == false) {
+    if (this.getMazeLeft(world.levels[world.currentLevel].maze) == false) {
         this.loc.x -= this.moveIncrement;
     }
 }
 
 Hero.prototype.moveRight = function () {
-    if (this.getMazeRight(world.maze) == false) {
+    if (this.getMazeRight(world.levels[world.currentLevel].maze) == false) {
         this.loc.x += this.moveIncrement;
     }
 }
@@ -212,7 +212,7 @@ Hero.prototype.render = function (ctx, canvas) {
 Hero.prototype.getMazeLocation = function () {
     let x = Math.floor((this.loc.x) / 50);
     let y = Math.floor((this.loc.y) / 50);
-    let cell = world.maze.getCell(y, x);
+    let cell = world.levels[world.currentLevel].maze.getCell(y, x);
     return cell;
 }
 Hero.prototype.updateStatusBar = function () {

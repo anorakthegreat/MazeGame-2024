@@ -196,7 +196,7 @@ Maze.prototype.setCellLuminances = function () {
             return false;
         });
     });
-    const hero = this.world.enemies[0];
+    const hero = this.world.levels[this.world.currentLevel].enemies[0];
     const centerCell = hero.position.copy(); // TEMPORARY
     centerCell.add(new JSVector(hero.width * 0.5, hero.width * 0.5));
     centerCell.floor();

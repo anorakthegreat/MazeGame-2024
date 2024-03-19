@@ -10,18 +10,24 @@ generate hero, and generate enemies methods
 */
 
 class Level {
-    constructor(rows, cols, levelNum) {
+    constructor(rows, cols, levelNum, renderCenter) {
         this.levelNum = levelNum;
         this.rows = rows;
         this.cols = cols;
-        this.renderCenter = false;
+        this.renderCenter = renderCenter;
         this.maze;
         this.hero;
         this.enemies = [];
     }
 
-    genMaze(){
-        this.maze = new Maze
+    run() {
+        this.maze.render(this.renderCenter);
+
+        for (const enemy of this.enemies) {
+            enemy.run(this.renderCenter);
+        }
+
+        this.hero.run(world.context, world.canvas, this.maze);
     }
 
     // baseLevel() {

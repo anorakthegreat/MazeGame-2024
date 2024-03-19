@@ -2,7 +2,7 @@ class World {
     constructor() {
         this.canvas = document.getElementById("cnv1");
         this.context = this.canvas.getContext("2d");
-        this.currentLevel = 0;
+
         // from Diego 
         // Scales canvas correctly
         const devicePixelRatio = window.devicePixelRatio || 1;
@@ -10,10 +10,7 @@ class World {
         this.canvas.height = this.canvas.clientHeight * devicePixelRatio;
         if (!window.devicePixelRatio)
             this.context.scale(devicePixelRatio, devicePixelRatio);
-        this.renderCenter = true;
-        this.maze;
-        this.hero;
-        this.enemies = [];
+
 
         // performance (from Ecosystem)
         this.framerate = 60;
@@ -28,6 +25,10 @@ class World {
         this.time = 0;
         this.msTime = 0;
         this.score = 0;
+
+        this.currentLevel = 0;
+        this.levels = [new Level(15, 15, 1, false)];
+        this.genLevel(this.levels[0]);
     }
 
 
@@ -36,12 +37,8 @@ class World {
 
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.maze.render(this.renderCenter);
-        for (const enemy of this.enemies) {
-            enemy.run(this.renderCenter);
-        }
+        this.levels[this.currentLevel].run();
 
-        this.hero.run(this.context, this.canvas, this.maze);
         this.updateStatusBar();
     }
     updateStatusBar() {
@@ -56,22 +53,31 @@ class World {
     }
     runScore() {
         let s = document.getElementById("score");
-        if (((this.time % 60) === 0) && this.hero.health > 0) {
+        if (((this.time % 60) === 0) && this.levels[world.currentLevel].hero.health > 0) {
             this.score += 100;
         }
         //detects contact with oxygen
-        let sanjan = this.hero.getMazeLocation().oxygen;
+        let sanjan = this.levels[world.currentLevel].hero.getMazeLocation().oxygen;
         if (sanjan != null && sanjan.air > 0) {
-            if (this.hero.oxygen < 99.9) {
-                this.hero.oxygen += 0.1;
+            if (this.levels[world.currentLevel].hero.oxygen < 99.9) {
+                this.levels[world.currentLevel].hero.oxygen += 0.1;
                 sanjan.air -= 0.1;
             }
             this.score += 1;
         }
-        if (this.hero.getMazeLocation() === this.maze.exit) {
+        if (this.levels[world.currentLevel].hero.getMazeLocation() === this.levels[world.currentLevel].maze.exit) {
             this.score += 1000;
         }
         s.innerHTML = this.score;
+    }
+
+    genLevel(level) {
+        level.maze = new Maze(this, level.rows, level.cols, level.renderCenter);
+        level.maze.regenerate();
+        level.hero = new Hero(level.maze);
+        for (let i = 0; i < 2; i++) {
+            level.enemies[i] = new Enemy(this, new JSVector(10, 10));
+        }
     }
 }
 
