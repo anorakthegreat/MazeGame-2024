@@ -26,7 +26,7 @@ class World {
         this.score = 0;
 
         this.currentLevel = 0;
-        this.levels = [new Level(15, 15, 1, true)];
+        this.levels = [new Level(15, 15, 1, false)];//rows, cols, level number, renderCenter 
         this.genLevel(this.levels[0]);
     }
 
