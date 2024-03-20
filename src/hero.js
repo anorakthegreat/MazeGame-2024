@@ -92,7 +92,6 @@ Hero.prototype.run = function (ctx, canvas, maze) {
 
     // this.updateCanvas(ctx, canvas)
     this.render(ctx, canvas);
-
     this.updateStatusBar();
 }
 
@@ -231,7 +230,8 @@ Hero.prototype.updateHealth = function () {//assume max health will always be 10
     let h = document.getElementById("health");
     let hB = document.getElementsByClassName("infoTile");
     let hP = Math.round(this.health) / 100;
-    h.innerHTML = hP * 100 + "%";
+    hP=(hP*100).toFixed(0);
+    h.innerHTML = hP + "%";
     //color change not working rn
     hB.item(0).style.color = "rgb(23," + 115 * hP + ",41)";
 }
@@ -252,7 +252,8 @@ Hero.prototype.updateOxygen = function () {
     if (this.oxygen > 0) {
         oP = Math.round(this.oxygen) / 100;
     }
-    o.innerHTML = oP * 100 + "%";
+    oP=(oP*100).toFixed(0);
+    o.innerHTML = oP + "%";
     //need to add color change still
 }
 
