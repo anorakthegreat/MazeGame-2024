@@ -10,9 +10,9 @@ function Maze(world, row, col, renderCenter) {
     if (renderCenter)
         this.cellWidth = this.world.canvas.width / 15; // For center rendering
     else
-        this.cellWidth = 50;
+        this.cellWidth = 25;
     //width of the walls
-    this.wallWidth = 5;
+    this.wallWidth = 1;
     //array for all the cells 
     this.grid = [];
     //keep track of cells visited 

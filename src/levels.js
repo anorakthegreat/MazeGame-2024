@@ -24,10 +24,10 @@ class Level {
         this.maze.render(this.renderCenter);
 
         for (const enemy of this.enemies) {
-            enemy.run(this.renderCenter);
+            //enemy.run(this.renderCenter);
         }
 
-        this.hero.run(world.context, world.canvas, this.maze);
+        //this.hero.run(world.context, world.canvas, this.maze);
     }
 
     // baseLevel() {

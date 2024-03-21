@@ -146,7 +146,7 @@ Cell.prototype.renderClassic = function () {
     this.context.restore();
 
     if (this.oxygen != null) {
-        this.oxygen.render();
+        //this.oxygen.render();
     }
 }
 
