@@ -302,9 +302,9 @@ Maze.prototype.getCell = function (r, c) {
 Maze.prototype.render = function (center) {
 
     this.oxygenBubbles();
-    this.setCellLuminances();
     //render cells 
     if (center) {
+        this.setCellLuminances();
         for (let r = 0; r < this.row; r++) {
             for (let c = 0; c < this.col; c++) {
                 this.grid[r][c].render(true);
