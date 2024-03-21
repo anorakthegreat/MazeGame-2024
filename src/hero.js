@@ -8,10 +8,10 @@ function Hero(m) {
     this.oxygen = 100;
 
     this.keys = {
-        "ArrowDown": {pressed: false},
-        "ArrowUp": {pressed: false},
-        "ArrowLeft": {pressed: false},
-        "ArrowRight": {pressed: false}
+        "s": {pressed: false},
+        "w": {pressed: false},
+        "a": {pressed: false},
+        "d": {pressed: false}
     };
 
     window.addEventListener("keydown", (event) => {
@@ -79,16 +79,16 @@ Hero.prototype.areInContact = function (square, rectangle) {
 }
 
 Hero.prototype.run = function (ctx, canvas, maze) {
-    if (this.keys["ArrowDown"].pressed) {
+    if (this.keys["s"].pressed) {
         this.moveDown();
     }
-    if (this.keys["ArrowUp"].pressed) {
+    if (this.keys["w"].pressed) {
         this.moveUp();
     }
-    if (this.keys["ArrowLeft"].pressed) {
+    if (this.keys["a"].pressed) {
         this.moveLeft();
     }
-    if (this.keys["ArrowRight"].pressed) {
+    if (this.keys["d"].pressed) {
         this.moveRight();
     }
     
