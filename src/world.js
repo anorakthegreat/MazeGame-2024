@@ -24,9 +24,9 @@ class World {
         this.time = 0;
         this.msTime = 0;
         this.score = 0;
-
+this.l=1;
         this.currentLevel = 0;
-        this.levels = [new Level(15, 15, 1, true)];
+        this.levels = [new Level(15, 15, 1, false)];//rows, cols, level number, renderCenter 
         this.genLevel(this.levels[0]);
     }
 
@@ -80,6 +80,13 @@ class World {
         }
     }
 
+    nextLevel(row, col, renderCenter){
+        let ln = this.levels.length;
+        this.currentLevel = ln;
+        this.levels.push(new Level(row, col, ln, renderCenter));
+        this.genLevel(this.levels[ln]);
+    }
+
     updateLevel(){
         let l=document.getElementById("level");
         l.innerHTML=this.currentLevel+1;
@@ -97,5 +104,8 @@ class World {
         ctx.strokeStyle="rgb(46,41,40)"
         ctx.strokeText("you died lol",(cnv.width/2)-280,cnv.height/2);
         this.paused=true;
+        let iT=document.getElementsByClassName("infoTile");
+        iT.item(2).style.boxShadow="0 0 6px 6px #f50521";
+        iT.item(2).style.backgroundImage="linear-gradient(#e00d26,#d4152b,#bf192c)";
     }
 }

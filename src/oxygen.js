@@ -7,7 +7,7 @@ class Oxygen {
     }
 
     render() {
-        if(this.air>0){
+        if (this.air > 0) {
             this.context.save();
             this.context.beginPath();
             this.context.arc(this.cell.topLx + this.cell.cellWidth / 2, this.cell.topLy + this.cell.cellWidth / 2, this.air, 0, 2 * Math.PI);
@@ -18,6 +18,5 @@ class Oxygen {
             this.context.closePath();
             this.context.restore();
         }
-        
     }
 }

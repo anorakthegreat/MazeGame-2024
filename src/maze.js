@@ -331,7 +331,7 @@ Maze.prototype.oxygenBubbles = function () {
     let count = 0;
     for (let r = 0; r < this.grid.length; r++) {
         for (let c = 0; c < this.grid[0].length; c++) {
-            if (this.grid[r][c].oxygen != null) {
+            if (this.grid[r][c].oxygen != null && this.grid[r][c].oxygen.air > 0) {
                 count++;
             }
         }
