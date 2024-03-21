@@ -27,7 +27,9 @@ class Level {
             enemy.run(this.renderCenter);
         }
 
-        this.hero.run(world.context, world.canvas, this.maze);
+        this.hero.run(this.renderCenter);
+
+        this.maze.resetLuminances();
     }
 
     // baseLevel() {

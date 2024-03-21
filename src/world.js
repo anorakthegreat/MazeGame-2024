@@ -26,7 +26,7 @@ class World {
         this.score = 0;
 
         this.currentLevel = 0;
-        this.levels = [new Level(15, 15, 1, false)];
+        this.levels = [new Level(15, 15, 1, true)];
         this.genLevel(this.levels[0]);
     }
 
@@ -74,9 +74,9 @@ class World {
     genLevel(level) {
         level.maze = new Maze(this, level.rows, level.cols, level.renderCenter);
         level.maze.regenerate();
-        level.hero = new Hero(level.maze);
+        level.hero = new BetterHero(this, new JSVector(0, 0));
         for (let i = 0; i < 2; i++) {
-            level.enemies[i] = new Enemy(this, new JSVector(10, 10));
+            level.enemies[i] = new Enemy(this, new JSVector(1, 1));
         }
     }
 
