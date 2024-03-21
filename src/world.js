@@ -104,5 +104,8 @@ this.l=1;
         ctx.strokeStyle="rgb(46,41,40)"
         ctx.strokeText("you died lol",(cnv.width/2)-280,cnv.height/2);
         this.paused=true;
+        let iT=document.getElementsByClassName("infoTile");
+        iT.item(2).style.boxShadow="0 0 6px 6px #f50521";
+        iT.item(2).style.backgroundImage="linear-gradient(#e00d26,#d4152b,#bf192c)";
     }
 }
