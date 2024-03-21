@@ -1,5 +1,6 @@
-function Cell(world, r, c, cellWidth, wallWidth) {
+function Cell(world, maze, r, c, cellWidth, wallWidth) {
     this.world = world;
+    this.maze = maze;
     this.context = world.context;
     this.row = r;
     this.col = c;
@@ -11,8 +12,8 @@ function Cell(world, r, c, cellWidth, wallWidth) {
     this.wallWidth = wallWidth;
     this.walls = [true, true, true, true];//top, right, bottom, left (like a clock) 
     this.color = "rgba(0, 0, 255, 1)";
-    this.topLx = this.col * this.cellWidth;
-    this.topLy = this.row * this.cellWidth
+    this.topLx = this.col * this.cellWidth+this.maze.mazeLoc.x;
+    this.topLy = this.row * this.cellWidth+this.maze.mazeLoc.y;
     this.topRx = this.topLx + this.cellWidth;
     this.topRy = this.topLy;
     this.bottomRx = this.topRx;

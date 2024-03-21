@@ -1,6 +1,6 @@
 "use strict";
 /* A maze */
-function Maze(world, row, col, renderCenter) {
+function Maze(world, loc, row, col, renderCenter) {
     this.world = world;
     this.row = row;//num of rows in the maze 
     this.col = col;//num of cols in the maze 
@@ -15,6 +15,8 @@ function Maze(world, row, col, renderCenter) {
     this.wallWidth = 1;
     //array for all the cells 
     this.grid = [];
+    //top left of maze
+    this.mazeLoc = loc;
     //keep track of cells visited 
     this.path = [];
     //begin mazeGen before rendering 
@@ -45,7 +47,7 @@ Maze.prototype.regenerate = function () {
     for (let r = 0; r < this.row; r++) {
         this.grid[r] = [];
         for (let c = 0; c < this.col; c++) {
-            this.grid[r][c] = new Cell(this.world, r, c, this.cellWidth, this.wallWidth);
+            this.grid[r][c] = new Cell(this.world, this, r, c, this.cellWidth, this.wallWidth);
         }
     }
     // begin mazeGen before rendering 

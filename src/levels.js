@@ -15,7 +15,7 @@ class Level {
         this.rows = rows;
         this.cols = cols;
         this.renderCenter = renderCenter;
-        this.maze;
+        this.mazes = [];
         this.hero;
         this.enemies = [];
     }

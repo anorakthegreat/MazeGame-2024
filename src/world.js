@@ -27,7 +27,7 @@ class World {
 this.l=1;
         this.currentLevel = 0;
         this.levels = [new Level(10, 10, 1, false)];//rows, cols, level number, renderCenter 
-        this.genLevel(this.levels[0]);
+        this.genLevel(this.levels[0], 4);
     }
 
 
@@ -71,8 +71,11 @@ this.l=1;
         s.innerHTML = this.score;
     }
 
-    genLevel(level) {
-        level.maze = new Maze(this, level.rows, level.cols, level.renderCenter);
+    genLevel(level, mazeCount) {
+        for(let i = 0; i<mazeCount; i++){
+            let loc = new JSVector(0, )//not sure how to do this with i 
+            level.maze = new Maze(this, loc, level.rows, level.cols, level.renderCenter);
+        }
         level.maze.regenerate();
         level.hero = new Hero(level.maze);
         for (let i = 0; i < 2; i++) {
