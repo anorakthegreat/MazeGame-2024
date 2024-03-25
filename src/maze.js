@@ -158,19 +158,16 @@ Maze.prototype.checkNeighbors = function (r, c) {
 }
 
 Maze.prototype.loadImages = function () {
-    // BACKGROUND (TEMP)
-    this.images["coral"] = { image: new Image(), loaded: false };
-    this.images["coral"].image.addEventListener("load", () => {
-        this.images["coral"].loaded = true;
-    });
-    const n = 1 + Math.floor(Math.random() * 5);
-    this.images["coral"].image.src = `./resources/teal_pattern${n}.jpg`;
+    function loadImage(path, name) {
+        this.images[name] = { image: new Image(), loaded: false };
+        this.images[name].image.addEventListener("load", () => {
+            this.images[name].loaded = true;
+        });
+        this.images[name].image.src = path;
+    }
 
-    this.images["bubble"] = { image: new Image(), loaded: false };
-    this.images["bubble"].image.addEventListener("load", () => {
-        this.images["bubble"].loaded = true;
-    });
-    this.images["bubble"].image.src = "./resources/bubble.png";
+    loadImage("/resources/bubble.png", "bubble");
+    loadImage("/resources/coral.jpg", "background");
 }
 
 // Set the proper luminance for each cell with a breadth-first search
