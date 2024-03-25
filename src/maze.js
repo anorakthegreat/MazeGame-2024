@@ -40,13 +40,13 @@ Object.defineProperty(Maze.prototype, "height", {
     }
 });
 
-Maze.prototype.regenerate = function () {
+Maze.prototype.regenerate = function (startRow, startCol, endRow, endCol, exits) {
     /* reset everything starting with maze */
     //reset grid 
     this.grid = [];
-    for (let r = 0; r < this.row; r++) {
+    for (let r = startRow; r < endRow; r++) {
         this.grid[r] = [];
-        for (let c = 0; c < this.col; c++) {
+        for (let c = startCol; c < endCol; c++) {
             this.grid[r][c] = new Cell(this.world, this, r, c, this.cellWidth, this.wallWidth);
         }
     }

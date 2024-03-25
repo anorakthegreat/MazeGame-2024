@@ -15,7 +15,7 @@ class Level {
         this.rows = rows;
         this.cols = cols;
         this.renderCenter = renderCenter;
-        this.mazes = [];
+        this.maze;
         this.hero;
         this.enemies = [];
     }
@@ -28,6 +28,18 @@ class Level {
         }
 
         //this.hero.run(world.context, world.canvas, this.maze);
+    }
+
+    genLevel() {
+        this.maze = new Maze(world, new JSVector(0, 0), this.rows, this.cols, this.renderCenter);
+        for(let i = 0; i<2; i++){
+            let loc = new JSVector(50*i, 50*i)//not sure how to do this with i 
+        }
+        this.maze.regenerate(0, 0, 10, 10);
+        // this.hero = new Hero(level.maze);
+        // for (let i = 0; i < 2; i++) {
+        //     this.enemies[i] = new Enemy(world, new JSVector(10, 10));
+        // }
     }
 
     // baseLevel() {
