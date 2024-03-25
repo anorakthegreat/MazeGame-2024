@@ -12,7 +12,7 @@ function Maze(world, row, col, renderCenter) {
     else
         this.cellWidth = 50;
     //width of the walls
-    this.wallWidth = 5;
+    this.wallWidth = 8;
     //array for all the cells 
     this.grid = [];
     //keep track of cells visited 
@@ -196,10 +196,8 @@ Maze.prototype.setCellLuminances = function () {
             return this.x === point.x &&
                 this.y === point.y;
         }
-
-
-
     }
+    
     const maxDistance = 8; // Up to two neighbors can be iluminated
     const queue = new Queue();
     const maze = this.grid;
@@ -208,9 +206,7 @@ Maze.prototype.setCellLuminances = function () {
             return false;
         });
     });
-    const hero = this.world.levels[this.world.currentLevel].enemies[0];
-    const centerCell = hero.position.copy(); // TEMPORARY
-    centerCell.add(new JSVector(hero.width * 0.5, hero.width * 0.5));
+    const centerCell = this.getCenter();
     centerCell.floor();
 
     queue.enqueue(new Point(centerCell.x, centerCell.y));
@@ -221,7 +217,7 @@ Maze.prototype.setCellLuminances = function () {
 
         const distance = cell.pathLength();
         if (distance <= maxDistance) {
-            maze[cell.y][cell.x].luminance = 1 - distance / (maxDistance + 1);
+            maze[cell.y][cell.x].luminance = 1 - (distance - 1) / (maxDistance);
             // console.log(cell.y, cell.x, maze[cell.y][cell.x].luminance);
         } else {
             continue;
@@ -299,28 +295,34 @@ Maze.prototype.getCell = function (r, c) {
     return this.grid[r][c];
 }
 
+Maze.prototype.getCenter = function() {
+    const hero = world.levels[world.currentLevel].hero;
+    const center = hero.position.copy();
+    center.x += hero.width / 2;
+    center.y += hero.width / 2;
+    return center;
+}
+
 Maze.prototype.render = function (center) {
 
     this.oxygenBubbles();
     this.setCellLuminances();
     //render cells 
-    if (center) {
-        for (let r = 0; r < this.row; r++) {
-            for (let c = 0; c < this.col; c++) {
-                this.grid[r][c].render(true);
-            }
+    for (let r = 0; r < this.row; r++) {
+        for (let c = 0; c < this.col; c++) {
+            this.grid[r][c].render(center);
         }
     }
-    else {
-        for (let r = 0; r < this.row; r++) {
-            for (let c = 0; c < this.col; c++) {
-                this.grid[r][c].render(false);
-            }
-        }
-    }
-
     if (!this.renderCenter) {
         this.entryExitRender();
+    }    
+}
+
+Maze.prototype.resetLuminances = function() {
+    for (let r = 0; r < this.row; r++) {
+        for (let c = 0; c < this.col; c++) {
+            this.grid[r][c].luminance = 0;
+        }
     }
 }
 

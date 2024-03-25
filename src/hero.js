@@ -1,5 +1,4 @@
 function Hero(m) {
-
     this.mazePosition = new JSVector(1, 1)
     this.loc = new JSVector(1, 1)
     this.maze = m;
@@ -100,13 +99,10 @@ Hero.prototype.run = function (ctx, canvas, maze) {
 }
 
 Hero.prototype.getMazeUp = function (maze) {
-    let x = Math.ceil((this.loc.x) / 50);
-    let y = Math.ceil((this.loc.y) / 50);
+    let x = Math.floor((this.loc.x) / 50);
+    let y = Math.floor((this.loc.y) / 50);
 
-    let cell = maze.getCell(y - 1, x - 1);
-
-    x = x - 1;
-    y = y - 1;
+    let cell = maze.getCell(y, x);
 
 
     if (cell.topWall()) {
@@ -126,13 +122,10 @@ Hero.prototype.getMazeUp = function (maze) {
 }
 
 Hero.prototype.getMazeDown = function (maze) {
-    let x = Math.ceil((this.loc.x) / 50);
-    let y = Math.ceil((this.loc.y) / 50);
+    let x = Math.floor((this.loc.x) / 50);
+    let y = Math.floor((this.loc.y) / 50);
 
-    let cell = maze.getCell(y - 1, x - 1);
-
-    x = x - 1;
-    y = y - 1;
+    let cell = maze.getCell(y, x);
 
     if (cell.bottomWall()) {
         let position = { x: this.loc.x, y: this.loc.y, size: 5 }
@@ -151,13 +144,10 @@ Hero.prototype.getMazeDown = function (maze) {
 }
 
 Hero.prototype.getMazeLeft = function (maze) {
-    let x = Math.ceil((this.loc.x) / 50);
-    let y = Math.ceil((this.loc.y) / 50);
+    let x = Math.floor((this.loc.x) / 50);
+    let y = Math.floor((this.loc.y) / 50);
 
-    let cell = maze.getCell(y - 1, x - 1);
-
-    x = x - 1;
-    y = y - 1;
+    let cell = maze.getCell(y, x);
 
 
 
@@ -179,13 +169,10 @@ Hero.prototype.getMazeLeft = function (maze) {
 }
 
 Hero.prototype.getMazeRight = function (maze) {
-    let x = Math.ceil((this.loc.x) / 50);
-    let y = Math.ceil((this.loc.y) / 50);
+    let x = Math.floor((this.loc.x) / 50);
+    let y = Math.floor((this.loc.y) / 50);
 
-    let cell = maze.getCell(y - 1, x - 1);
-
-    x = x - 1;
-    y = y - 1;
+    let cell = maze.getCell(y, x);
 
     if (cell.rightWall()) {
         let position = { x: this.loc.x, y: this.loc.y, size: 5 };
