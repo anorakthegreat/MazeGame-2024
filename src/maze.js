@@ -158,7 +158,7 @@ Maze.prototype.checkNeighbors = function (r, c) {
 }
 
 Maze.prototype.loadImages = function () {
-    function loadImage(path, name) {
+    const loadImage = (path, name) => {
         this.images[name] = { image: new Image(), loaded: false };
         this.images[name].image.addEventListener("load", () => {
             this.images[name].loaded = true;
@@ -166,8 +166,8 @@ Maze.prototype.loadImages = function () {
         this.images[name].image.src = path;
     }
 
-    loadImage("/resources/bubble.png", "bubble");
-    loadImage("/resources/coral.jpg", "background");
+    loadImage("./resources/bubble.png", "bubble");
+    loadImage("./resources/coral.jpg", "background");
 }
 
 // Set the proper luminance for each cell with a breadth-first search

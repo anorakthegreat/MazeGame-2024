@@ -40,7 +40,8 @@ Cell.prototype.renderCenter = function () {
     const cellWidth = this.cellWidth;
     const wallWidth = this.wallWidth;
     
-    const center = world.levels[world.currentLevel].maze.getCenter();
+    const maze = this.world.levels[world.currentLevel].maze
+    const center = maze.getCenter();
     const x = (this.col - center.x) * cellWidth;
     const y = (this.row - center.y) * cellWidth;
     const xEnd = x + cellWidth;
@@ -54,12 +55,12 @@ Cell.prototype.renderCenter = function () {
     context.strokeStyle = "white";
     context.lineWidth = this.wallWidth;
 
-    const image = this.world.levels[world.currentLevel].maze.images[this.type];
+    const image = maze.images["background"];
     if (image && image.loaded && this.luminance > 0) {
-        let sourceX = 0;
-        let sourceY = 0;
-        let sourceWidth = image.image.width;
-        let sourceHeight = image.image.height;
+        let sourceWidth = image.image.width / maze.width;
+        let sourceHeight = image.image.height / maze.height;
+        let sourceX = this.col * sourceWidth;
+        let sourceY = this.row * sourceHeight;
         let destinationX = x;
         let destinationY = y;
         let destinationWidth = cellWidth;
@@ -70,7 +71,7 @@ Cell.prototype.renderCenter = function () {
         context.filter = `brightness(${brightness}%)`;
         context.drawImage(image.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
 
-        const bubble = this.world.levels[world.currentLevel].maze.images["bubble"];
+        const bubble = maze.images["bubble"];
         if (this.oxygen && bubble && bubble.loaded)
         {
             destinationHeight = cellWidth * this.oxygenDiameter * this.oxygen.air / 20;
