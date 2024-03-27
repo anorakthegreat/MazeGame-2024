@@ -58,6 +58,7 @@ Cell.prototype.renderCenter = function () {
 
     const image = maze.images["background"];
     if (image && image.loaded && this.luminance > 0) {
+        console.log("here")
         let sourceWidth = image.image.width / maze.width;
         let sourceHeight = image.image.height / maze.height;
         let sourceX = this.col * sourceWidth;

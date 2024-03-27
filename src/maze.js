@@ -13,7 +13,7 @@ function Maze(world, level, loc, row, col, renderCenter) {
     else
         this.cellWidth = 25;
     //width of the walls
-    this.wallWidth = 1;
+    this.wallWidth = 8;
     //array for all the cells 
     this.grid = [];
     for (let i = 0; i < this.row; i++) {
@@ -309,7 +309,7 @@ Maze.prototype.getCenter = function() {
 
 Maze.prototype.render = function (center) {
 
-    this.oxygenBubbles();
+    //this.oxygenBubbles();
     //render cells 
     for (let r = 0; r < this.row; r++) {
         for (let c = 0; c < this.col; c++) {
@@ -317,7 +317,7 @@ Maze.prototype.render = function (center) {
         }
     }
     if (!this.renderCenter) {
-        this.entryExitRender();
+        //this.entryExitRender();
     }    
 }
 
@@ -331,12 +331,12 @@ Maze.prototype.resetLuminances = function() {
 
 Maze.prototype.oxygenBubbles = function () {
     let mL = this.world.levels[this.world.currentLevel].mazeLength;
-    for (let row = 0; row < this.row / mL; row++) {
+    for (let row = 0; row < 1; row++) {
         for (let col = 0; col < this.col / mL; col++) {
             //count how many oxygen bubbles there are 
-            let count = [];
-            for (let r = row; r < row * mL + mL; r++) {
-                for (let c = col; c < col * mL + mL; c++) {
+            let count = 0;
+            for (let r = row*mL; r < row * mL + mL; r++) {
+                for (let c = col*mL; c < col * mL + mL; c++) {
                     if (this.grid[r][c].oxygen != null && this.grid[r][c].oxygen.air > 0) {
                         count++;
                     }
