@@ -1,7 +1,8 @@
 "use strict";
 /* A maze */
-function Maze(world, loc, row, col, renderCenter) {
+function Maze(world, level, loc, row, col, renderCenter) {
     this.world = world;
+    this.level = level;
     this.row = row;//num of rows in the maze 
     this.col = col;//num of cols in the maze 
     this.context = world.context;
@@ -15,7 +16,7 @@ function Maze(world, loc, row, col, renderCenter) {
     this.wallWidth = 1;
     //array for all the cells 
     this.grid = [];
-    for(let i = 0; i<this.row; i++){
+    for (let i = 0; i < this.row; i++) {
         this.grid[i] = [];
     }
     //top left of maze
@@ -33,13 +34,13 @@ function Maze(world, loc, row, col, renderCenter) {
 
 Object.defineProperty(Maze.prototype, "width", {
     get: function () {
-	return this.col;
+        return this.col;
     }
 });
 
 Object.defineProperty(Maze.prototype, "height", {
     get: function () {
-	return this.row;
+        return this.row;
     }
 });
 
@@ -54,31 +55,34 @@ Maze.prototype.regenerate = function (startRow, startCol, endRow, endCol, exits)
     // begin mazeGen before rendering 
     this.path = [];
     this.explore(startRow, startCol, endRow, endCol, startRow, startCol);
-   // this.entryExit();
+    //this.entryExit(startRow, startCol, endRow, endCol);
     // Load images
     this.images = {};
     this.loadImages();
 }
 
-Maze.prototype.entryExit = function () {
-    this.entry = this.grid[0][0];
+Maze.prototype.entryExit = function (startRow, startCol, endRow, endCol) {
+    // this.entry = this.grid[startRow][startCol];
+    // //always start at top left, remove left and top wall to signify entrance 
+    // this.entry.walls[0] = false;
+    // this.entry.walls[3] = false;
+
     this.exit;
-    //always start at top left, remove left and top wall to signify entrance 
-    this.entry.walls[0] = false;
-    this.entry.walls[3] = false;
     //make a random exit on the right or bottom of the maze 
-    if (Math.random() * 2 > 1) {//right exit 
-        let r = Math.floor(Math.random() * this.grid.length);
-        this.exit = this.grid[r][this.grid[0].length - 1];
-        //remove right wall 
-        this.exit.walls[1] = false;
-    }
-    else {//bottom exit 
-        let c = Math.floor(Math.random() * this.grid[0].length);
-        this.exit = this.grid[this.grid.length - 1][c];
-        //remove bottom wall 
-        this.exit.walls[2] = false;
-    }
+    // if (Math.random() * 2 > 1) {//right exit 
+    //     let r = Math.floor(Math.random() * this.grid.length);
+    //     this.exit = this.grid[r][this.grid[0].length - 1];
+    //     //remove right wall 
+    //     this.exit.walls[1] = false;
+    // }
+    // else {//bottom exit 
+    //     let c = Math.floor(Math.random() * this.grid[0].length);
+    //     this.exit = this.grid[this.grid.length - 1][c];
+    //     //remove bottom wall 
+    //     this.exit.walls[2] = false;
+    // }
+
+    if (startRow !== this.level.rows && this.startRow) { }
 }
 
 Maze.prototype.explore = function (startRow, startCol, endRow, endCol, r, c) {
@@ -304,7 +308,7 @@ Maze.prototype.getCell = function (r, c) {
 
 Maze.prototype.render = function (center) {
 
-    //this.oxygenBubbles();
+    this.oxygenBubbles();
     //render cells 
     if (center) {
         this.setCellLuminances();
@@ -317,8 +321,8 @@ Maze.prototype.render = function (center) {
     else {
         for (let r = 0; r < this.row; r++) {
             for (let c = 0; c < this.col; c++) {
-                if(this.grid[r][c] !== undefined)
-                this.grid[r][c].render(false);
+                if (this.grid[r][c] !== undefined)
+                    this.grid[r][c].render(false);
             }
         }
     }
@@ -329,28 +333,25 @@ Maze.prototype.render = function (center) {
 }
 
 Maze.prototype.oxygenBubbles = function () {
-    //count how many oxygen bubbles there are 
-    let count = 0;
-    for (let r = 0; r < this.grid.length; r++) {
-        for (let c = 0; c < this.grid[0].length; c++) {
-            if (this.grid[r][c].oxygen != null && this.grid[r][c].oxygen.air > 0) {
-                count++;
+    let mL = this.world.levels[this.world.currentLevel].mazeLength;
+    for (let row = 0; row < this.row / mL; row++) {
+        for (let col = 0; col < this.col / mL; col++) {
+            //count how many oxygen bubbles there are 
+            let count = [];
+            for (let r = row; r < row * mL + mL; r++) {
+                for (let c = col; c < col * mL + mL; c++) {
+                    if (this.grid[r][c].oxygen != null && this.grid[r][c].oxygen.air > 0) {
+                        count++;
+                    }
+                }
+            }
+            //oxygen bubbles on random tiles if 
+            if (count < 10) {
+                let ranR = Math.floor(Math.random() * (row * mL + mL - row + 1) + row);
+                let ranC = Math.floor(Math.random() * (col * mL + mL - col + 1) + col);
+                this.grid[ranR][ranC].oxygen = new Oxygen(this.grid[ranR][ranC], this.context);
             }
         }
-    }
-    //oxygen bubbles on random tiles if 
-    if (count < 10) {
-        let ranR = Math.floor(Math.random() * this.grid.length);
-        let ranC = Math.floor(Math.random() * this.grid[0].length);
-        if (ranR === 0 && ranC === 0) {
-            ranR = 1;
-            ranC = 0;
-        }
-        else if (ranR === this.exit.row && ranC === this.exit.col) {
-            ranR = 4;
-            ranC = 4;
-        }
-        this.grid[ranR][ranC].oxygen = new Oxygen(this.grid[ranR][ranC], this.context);
     }
 }
 
