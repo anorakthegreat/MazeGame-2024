@@ -24,7 +24,7 @@ function Cell(world, r, c, cellWidth, wallWidth) {
 
     /* @type {float} (0 <= luminance <= 1) */
     this.luminance = 0;
-    this.type = "coral"; // Types for images
+    // this.type = "coral"; // Types for images
 }
 
 Cell.prototype.render = function(center){
