@@ -23,8 +23,11 @@ class Level {
     run() {
         this.maze.render(this.renderCenter);
 
-        for (const enemy of this.enemies) {
-            enemy.run(this.renderCenter);
+        for (let i=0;i<this.enemies.length;i++) {
+            this.enemies[i].run(this.renderCenter);
+            if(this.enemies[i].health<=0){
+                this.enemies.splice(i, 1);
+            }
         }
 
         this.hero.run(this.renderCenter);

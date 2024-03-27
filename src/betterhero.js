@@ -16,7 +16,8 @@ class BetterHero {
         this.speed = 0.03;
         this.health = 100;
         this.oxygen = 100;
-        this.weapon=new Weapon(3, 500, 15, "./resources/sword");
+        this.weapon=new Weapon(3, 90, 10, this, "./resources/sword.jpg");
+        this.target=null;
 
         /* @type {JSVector} */
         this.position = initialPosition.copy();
@@ -91,6 +92,7 @@ class BetterHero {
 
         this.checkWalls();
         this.updateStatusBar();
+        this.updateWeapon();
     }
 
     /* Check the walls of the maze for collisions */
@@ -238,7 +240,27 @@ class BetterHero {
         o.innerHTML = oP + "%";
     }
 
-
+    updateWeapon(){ 
+        if(world.levels[world.currentLevel].enemies.length>0){
+            let enemies=world.levels[world.currentLevel].enemies;
+            let closeEnemy=enemies[0];
+        for(let i=0;i<enemies.length;i++){
+            if(enemies[i].path.length<closeEnemy.path.length){
+                closeEnemy=enemies[i];
+            }
+        }
+        this.target=closeEnemy;
+        if(this.weapon.attack(this.target)){
+            world.score+=150;
+            console.log("hit");
+            if(closeEnemy.health<=0){
+                world.score+=100;
+                console.log("death");
+            }
+        }
+        this.weapon.delayTime++;
+        }
+    }
     /* Render the enemy */
     renderCenter() {
         const cellWidth = world.levels[world.currentLevel].maze.cellWidth;
@@ -253,6 +275,10 @@ class BetterHero {
         context.beginPath();
         context.fillStyle = "red";
         context.fillRect(x, y, w, w);
+        if(this.weapon!==null){//render weapon if there is one
+            context.fillStyle="purple";
+            context.fillRect(x,y,10,20)
+        }
         context.restore();
     }
 
