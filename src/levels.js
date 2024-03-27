@@ -28,7 +28,9 @@ class Level {
             //enemy.run(this.renderCenter);
         }
 
-        //this.hero.run(world.context, world.canvas, this.maze);
+        //this.hero.run(this.renderCenter);
+        if(this.renderCenter)
+            this.maze.resetLuminances();
     }
 
     genLevel() {
@@ -44,6 +46,7 @@ class Level {
         // for (let i = 0; i < 2; i++) {
         //     this.enemies[i] = new Enemy(world, new JSVector(10, 10));
         // }
+       
     }
 
     // baseLevel() {

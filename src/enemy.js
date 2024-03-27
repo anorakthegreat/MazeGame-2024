@@ -13,7 +13,7 @@ class Enemy {
 
         /* @type {number} */
         this.width = 0.5;
-        this.speed = 0.01;
+        this.speed = 0.025;
 
         /* @type {JSVector} */
         this.position = initialPosition.copy();
@@ -147,8 +147,6 @@ class Enemy {
     }
 
     /* Check the walls of the maze for collisions */
-    // TODO: Doesn't work when one edge is outside of the cell that
-    // the center is in
     checkWalls() {
         const y = this.position.y;
         const x = this.position.x;
@@ -321,15 +319,21 @@ class Enemy {
 
     /* Render the enemy */
     renderCenter() {
-	const cellWidth = this.world.levels[this.world.currentLevel].maze.cellWidth;
-        const x = -0.5 * cellWidth * this.width;
-        const y = -0.5 * cellWidth * this.width;
+        const maze = world.levels[world.currentLevel].maze;
+        const cellWidth = maze.cellWidth;
+        const center = world.levels[world.currentLevel].maze.getCenter();
+        const x = (this.position.x - center.x) * cellWidth;
+        const y = (this.position.y - center.y) * cellWidth;
         const w = this.width * cellWidth;
-
+        const cell = this.position.copy();
+        cell.add(new JSVector(this.width*0.5, this.width*0.5));
+        cell.floor();
+        const luminance = maze.getCell(cell.y, cell.x).luminance;
         const context = this.world.context;
         context.save();
         context.translate(this.world.canvas.width / 2, this.world.canvas.height / 2);
         context.beginPath();
+        context.filter = `brightness(${100 * luminance}%)`;
         context.fillStyle = "red";
         context.fillRect(x, y, w, w);
         context.restore();

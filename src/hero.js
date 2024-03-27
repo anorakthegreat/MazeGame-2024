@@ -1,5 +1,4 @@
 function Hero(m) {
-
     this.mazePosition = new JSVector(1, 1)
     this.loc = new JSVector(1, 1)
     this.maze = m;
@@ -34,24 +33,28 @@ function Hero(m) {
 Hero.prototype.moveUp = function () {
     if (this.getMazeUp(world.levels[world.currentLevel].maze) == false) {
         this.loc.y -= this.moveIncrement;
+        this.oxygen-=0.02;
     }
 }
 
 Hero.prototype.moveDown = function () {
     if (this.getMazeDown(world.levels[world.currentLevel].maze) == false) {
         this.loc.y += this.moveIncrement;
+        this.oxygen-=0.02;
     }
 }
 
 Hero.prototype.moveLeft = function () {
     if (this.getMazeLeft(world.levels[world.currentLevel].maze) == false) {
         this.loc.x -= this.moveIncrement;
+        this.oxygen-=0.02;
     }
 }
 
 Hero.prototype.moveRight = function () {
     if (this.getMazeRight(world.levels[world.currentLevel].maze) == false) {
         this.loc.x += this.moveIncrement;
+        this.oxygen-=0.02;
     }
 }
 
@@ -96,13 +99,10 @@ Hero.prototype.run = function (ctx, canvas, maze) {
 }
 
 Hero.prototype.getMazeUp = function (maze) {
-    let x = Math.ceil((this.loc.x) / 50);
-    let y = Math.ceil((this.loc.y) / 50);
+    let x = Math.floor((this.loc.x) / 50);
+    let y = Math.floor((this.loc.y) / 50);
 
-    let cell = maze.getCell(y - 1, x - 1);
-
-    x = x - 1;
-    y = y - 1;
+    let cell = maze.getCell(y, x);
 
 
     if (cell.topWall()) {
@@ -122,13 +122,10 @@ Hero.prototype.getMazeUp = function (maze) {
 }
 
 Hero.prototype.getMazeDown = function (maze) {
-    let x = Math.ceil((this.loc.x) / 50);
-    let y = Math.ceil((this.loc.y) / 50);
+    let x = Math.floor((this.loc.x) / 50);
+    let y = Math.floor((this.loc.y) / 50);
 
-    let cell = maze.getCell(y - 1, x - 1);
-
-    x = x - 1;
-    y = y - 1;
+    let cell = maze.getCell(y, x);
 
     if (cell.bottomWall()) {
         let position = { x: this.loc.x, y: this.loc.y, size: 5 }
@@ -147,13 +144,10 @@ Hero.prototype.getMazeDown = function (maze) {
 }
 
 Hero.prototype.getMazeLeft = function (maze) {
-    let x = Math.ceil((this.loc.x) / 50);
-    let y = Math.ceil((this.loc.y) / 50);
+    let x = Math.floor((this.loc.x) / 50);
+    let y = Math.floor((this.loc.y) / 50);
 
-    let cell = maze.getCell(y - 1, x - 1);
-
-    x = x - 1;
-    y = y - 1;
+    let cell = maze.getCell(y, x);
 
 
 
@@ -175,13 +169,10 @@ Hero.prototype.getMazeLeft = function (maze) {
 }
 
 Hero.prototype.getMazeRight = function (maze) {
-    let x = Math.ceil((this.loc.x) / 50);
-    let y = Math.ceil((this.loc.y) / 50);
+    let x = Math.floor((this.loc.x) / 50);
+    let y = Math.floor((this.loc.y) / 50);
 
-    let cell = maze.getCell(y - 1, x - 1);
-
-    x = x - 1;
-    y = y - 1;
+    let cell = maze.getCell(y, x);
 
     if (cell.rightWall()) {
         let position = { x: this.loc.x, y: this.loc.y, size: 5 };
@@ -223,37 +214,55 @@ Hero.prototype.getMazeLocation = function () {
     return cell;
 }
 Hero.prototype.updateStatusBar = function () {
-    this.updateHealth();
     this.updateOxygen();
+    this.updateHealth();
 }
 Hero.prototype.updateHealth = function () {//assume max health will always be 100
     let h = document.getElementById("health");
-    let hB = document.getElementsByClassName("infoTile");
+    let iT = document.getElementsByClassName("infoTile");
     let hP = Math.round(this.health) / 100;
     hP=(hP*100).toFixed(0);
     h.innerHTML = hP + "%";
-    //color change not working rn
-    hB.item(0).style.color = "rgb(23," + 115 * hP + ",41)";
+    iT.item(1).style.boxShadow="0 0 6px 6px #1df505";
+    iT.item(1).style.backgroundImage="linear-gradient(#30db58,#3cc75c,#1e8a37)"
+    if(this.health<0){
+        iT.item(2).style.boxShadow="0 0 6px 6px #f50521";
+        iT.item(2).style.backgroundImage="linear-gradient(#e00d26,#d4152b,#bf192c)";
+        iT.item(1).style.boxShadow="0 0 6px 6px #f50521";
+        iT.item(1).style.backgroundImage="linear-gradient(#e00d26,#d4152b,#bf192c)";
+        world.deathScreen();
+    } else if(this.health<20){
+        iT.item(1).style.boxShadow="0 0 6px 6px #f50521";
+        iT.item(1).style.backgroundImage="linear-gradient(#e00d26,#d4152b,#bf192c)";
+    }else if(this.health<50){
+        iT.item(1).style.boxShadow="0 0 6px 6px #c7f705";
+        iT.item(1).style.backgroundImage="linear-gradient(#c8f70a,#bbe809,#b1d911)";
+   }
 }
 Hero.prototype.updateOxygen = function () {
-    if(this.health<0){
-        world.deathScreen();
-    }
-    this.oxygen -= 0.04;
+    let o = document.getElementById("oxygen");
+    let iT=document.getElementsByClassName("infoTile");
+    let oP = 0;
+    this.oxygen -= 0.005;
+    iT.item(2).style.boxShadow="0 0 6px 6px #1df505";
+    iT.item(2).style.backgroundImage="linear-gradient(#30db58,#3cc75c,#1e8a37)"
     if (this.oxygen <= 0 && this.health > 0) {
         this.health -= 0.1;
+        iT.item(2).style.boxShadow="0 0 6px 6px #f50521";
+        iT.item(2).style.backgroundImage="linear-gradient(#e00d26,#d4152b,#bf192c)";
     } else if (this.oxygen < 10 && this.health > 0) {
         this.health -= 0.01;
-    } else if (this.oxygen < 30 && this.health > 0) {
+        iT.item(2).style.boxShadow="0 0 6px 6px #f50521";
+        iT.item(2).style.backgroundImage="linear-gradient(#e00d26,#d4152b,#bf192c)";
+    } else if (this.oxygen < 40 && this.health > 0) {
         this.health -= 0.001;
-    }
-    let o = document.getElementById("oxygen");
-    let oP = 0;
+        iT.item(2).style.boxShadow="0 0 6px 6px #c7f705";
+        iT.item(2).style.backgroundImage="linear-gradient(#c8f70a,#bbe809,#b1d911)";
+    } 
     if (this.oxygen > 0) {
         oP = Math.round(this.oxygen) / 100;
     }
     oP=(oP*100).toFixed(0);
     o.innerHTML = oP + "%";
-    //need to add color change still
 }
 

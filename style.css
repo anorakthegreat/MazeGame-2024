@@ -10,7 +10,7 @@ html, body {
 
 body {
     margin: 0;
-    background-color: #83def5;
+    background-color: black;
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -80,13 +80,17 @@ canvas {
     font-size: 20px;
     width:100px;
     height:90px;
-    background-image: linear-gradient(#80a2ec,#4871f8, #0162f3 );
+    background-image: linear-gradient(#80a2ec,#4871f8, #0162f3);
     border-radius: 50%;
     margin:auto;
     margin-top:10px;
     padding-top:30px;
     box-shadow: 0 0 6px 6px #89a2f5;
     cursor: pointer;
+}
+#restartB{
+    background-image: linear-gradient(#35353b,#262629, #161617);
+    box-shadow:none;
 }
 .button{
     text-align: center;

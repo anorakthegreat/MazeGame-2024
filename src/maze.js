@@ -165,19 +165,16 @@ Maze.prototype.checkNeighbors = function (startRow, startCol, endRow, endCol, r,
 }
 
 Maze.prototype.loadImages = function () {
-    // BACKGROUND (TEMP)
-    this.images["coral"] = { image: new Image(), loaded: false };
-    this.images["coral"].image.addEventListener("load", () => {
-        this.images["coral"].loaded = true;
-    });
-    const n = 1 + Math.floor(Math.random() * 5);
-    this.images["coral"].image.src = `./resources/teal_pattern${n}.jpg`;
+    const loadImage = (path, name) => {
+        this.images[name] = { image: new Image(), loaded: false };
+        this.images[name].image.addEventListener("load", () => {
+            this.images[name].loaded = true;
+        });
+        this.images[name].image.src = path;
+    }
 
-    this.images["bubble"] = { image: new Image(), loaded: false };
-    this.images["bubble"].image.addEventListener("load", () => {
-        this.images["bubble"].loaded = true;
-    });
-    this.images["bubble"].image.src = "./resources/bubble.png";
+    loadImage("./resources/bubble.png", "bubble");
+    loadImage("./resources/coral.jpg", "background");
 }
 
 // Set the proper luminance for each cell with a breadth-first search
@@ -203,10 +200,8 @@ Maze.prototype.setCellLuminances = function () {
             return this.x === point.x &&
                 this.y === point.y;
         }
-
-
-
     }
+    
     const maxDistance = 8; // Up to two neighbors can be iluminated
     const queue = new Queue();
     const maze = this.grid;
@@ -215,9 +210,7 @@ Maze.prototype.setCellLuminances = function () {
             return false;
         });
     });
-    const hero = this.world.levels[this.world.currentLevel].enemies[0];
-    const centerCell = hero.position.copy(); // TEMPORARY
-    centerCell.add(new JSVector(hero.width * 0.5, hero.width * 0.5));
+    const centerCell = this.getCenter();
     centerCell.floor();
 
     queue.enqueue(new Point(centerCell.x, centerCell.y));
@@ -228,7 +221,7 @@ Maze.prototype.setCellLuminances = function () {
 
         const distance = cell.pathLength();
         if (distance <= maxDistance) {
-            maze[cell.y][cell.x].luminance = 1 - distance / (maxDistance + 1);
+            maze[cell.y][cell.x].luminance = 1 - (distance - 1) / (maxDistance);
             // console.log(cell.y, cell.x, maze[cell.y][cell.x].luminance);
         } else {
             continue;
@@ -306,29 +299,33 @@ Maze.prototype.getCell = function (r, c) {
     return this.grid[r][c];
 }
 
+Maze.prototype.getCenter = function() {
+    const hero = world.levels[world.currentLevel].hero;
+    const center = hero.position.copy();
+    center.x += hero.width / 2;
+    center.y += hero.width / 2;
+    return center;
+}
+
 Maze.prototype.render = function (center) {
 
     this.oxygenBubbles();
     //render cells 
-    if (center) {
-        this.setCellLuminances();
-        for (let r = 0; r < this.row; r++) {
-            for (let c = 0; c < this.col; c++) {
-                this.grid[r][c].render(true);
-            }
+    for (let r = 0; r < this.row; r++) {
+        for (let c = 0; c < this.col; c++) {
+            this.grid[r][c].render(center);
         }
     }
-    else {
-        for (let r = 0; r < this.row; r++) {
-            for (let c = 0; c < this.col; c++) {
-                if (this.grid[r][c] !== undefined)
-                    this.grid[r][c].render(false);
-            }
-        }
-    }
-
     if (!this.renderCenter) {
-        //this.entryExitRender();
+        this.entryExitRender();
+    }    
+}
+
+Maze.prototype.resetLuminances = function() {
+    for (let r = 0; r < this.row; r++) {
+        for (let c = 0; c < this.col; c++) {
+            this.grid[r][c].luminance = 0;
+        }
     }
 }
 

@@ -7,7 +7,7 @@ function Cell(world, maze, r, c, cellWidth, wallWidth) {
     //visited during explore 
     this.visited = false;
     this.oxygen = null;
-    this.oxygenRadius = 0.8 / 2;
+    this.oxygenDiameter = 0.8;
     this.cellWidth = cellWidth;
     this.wallWidth = wallWidth;
     this.walls = [true, true, true, true];//top, right, bottom, left (like a clock) 
@@ -25,7 +25,7 @@ function Cell(world, maze, r, c, cellWidth, wallWidth) {
 
     /* @type {float} (0 <= luminance <= 1) */
     this.luminance = 0;
-    this.type = "coral"; // Types for images
+    // this.type = "coral"; // Types for images
 }
 
 Cell.prototype.render = function(center){
@@ -40,10 +40,11 @@ Cell.prototype.render = function(center){
 Cell.prototype.renderCenter = function () {
     const cellWidth = this.cellWidth;
     const wallWidth = this.wallWidth;
-
-    const hero = this.world.levels[world.currentLevel].enemies[0]; // TEMPORARY
-    const x = (this.col - hero.position.x - 0.5 * hero.width) * cellWidth;
-    const y = (this.row - hero.position.y - 0.5 * hero.width) * cellWidth;
+    
+    const maze = this.world.levels[world.currentLevel].maze
+    const center = maze.getCenter();
+    const x = (this.col - center.x) * cellWidth;
+    const y = (this.row - center.y) * cellWidth;
     const xEnd = x + cellWidth;
     const yEnd = y + cellWidth;
 
@@ -55,26 +56,36 @@ Cell.prototype.renderCenter = function () {
     context.strokeStyle = "white";
     context.lineWidth = this.wallWidth;
 
-    const image = this.world.levels[world.currentLevel].maze.images[this.type];
+    const image = maze.images["background"];
     if (image && image.loaded && this.luminance > 0) {
-        const sourceX = 0;
-        const sourceY = 0;
-        const sourceWidth = image.image.width;
-        const sourceHeight = image.image.height;
-        const destinationX = x;
-        const destinationY = y;
-        const destinationWidth = cellWidth;
-        const destinationHeight = cellWidth;
+        let sourceWidth = image.image.width / maze.width;
+        let sourceHeight = image.image.height / maze.height;
+        let sourceX = this.col * sourceWidth;
+        let sourceY = this.row * sourceHeight;
+        let destinationX = x;
+        let destinationY = y;
+        let destinationWidth = cellWidth;
+        let destinationHeight = cellWidth;
         context.save();
         // context.beginPath();
         const brightness = 100 * this.luminance;
         context.filter = `brightness(${brightness}%)`;
         context.drawImage(image.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
 
-        const bubble = this.world.levels[world.currentLevel].maze.images["bubble"];
+        const bubble = maze.images["bubble"];
         if (this.oxygen && bubble && bubble.loaded)
         {
-            context.drawImage(bubble.image, sourceX, sourceY, bubble.image.width, bubble.image.height, destinationX, destinationY, destinationWidth, destinationHeight);            }
+            destinationHeight = cellWidth * this.oxygenDiameter * this.oxygen.air / 20;
+            destinationWidth = cellWidth * this.oxygenDiameter *this.oxygen.air / 20;
+            destinationY = y + 0.5 * (cellWidth - destinationHeight);
+            destinationX = x + 0.5 * (cellWidth - destinationWidth);
+            sourceHeight = bubble.image.height;
+            sourceWidth = bubble.image.width;
+            sourceY = 0;
+            sourceX = 0;
+            
+            context.drawImage(bubble.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
+        }
         context.restore();
     } else if (this.luminance <= 0) {
         context.stroke();
@@ -83,12 +94,8 @@ Cell.prototype.renderCenter = function () {
         return;
     }
 
-    this.luminance = 0;	// reset the luminance
-
-    // This thing
-    const centerCell = hero.position.copy();
-    centerCell.add(new JSVector(hero.width * 0.5, hero.width * 0.5));
-    centerCell.floor();
+    // // reset the luminance
+    // this.luminance = 0;	
 
     // top wall 
     if (this.walls[0]) {
