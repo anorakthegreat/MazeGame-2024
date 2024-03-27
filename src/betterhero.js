@@ -16,7 +16,7 @@ class BetterHero {
         this.speed = 0.03;
         this.health = 100;
         this.oxygen = 100;
-        this.weapon=null;
+        this.weapon=new Weapon(3, 500, 15, "./resources/sword");
 
         /* @type {JSVector} */
         this.position = initialPosition.copy();
