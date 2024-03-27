@@ -32,10 +32,13 @@ class Level {
 
     genLevel() {
         this.maze = new Maze(world, new JSVector(0, 0), this.rows, this.cols, this.renderCenter);
-        for(let i = 0; i<2; i++){
-            let loc = new JSVector(50*i, 50*i)//not sure how to do this with i 
+        for(let r = 0; r<this.rows/10; r++){
+            for(let c = 0; c<this.cols/10; c++){
+                this.maze.regenerate(10*r, 10*c, r*10+10, c*10+10);
+                console.log(r + " " + c);
+            }
         }
-        this.maze.regenerate(0, 0, 10, 10);
+        
         // this.hero = new Hero(level.maze);
         // for (let i = 0; i < 2; i++) {
         //     this.enemies[i] = new Enemy(world, new JSVector(10, 10));

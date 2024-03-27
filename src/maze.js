@@ -15,6 +15,9 @@ function Maze(world, loc, row, col, renderCenter) {
     this.wallWidth = 1;
     //array for all the cells 
     this.grid = [];
+    for(let i = 0; i<this.row; i++){
+        this.grid[i] = [];
+    }
     //top left of maze
     this.mazeLoc = loc;
     //keep track of cells visited 
@@ -43,17 +46,15 @@ Object.defineProperty(Maze.prototype, "height", {
 Maze.prototype.regenerate = function (startRow, startCol, endRow, endCol, exits) {
     /* reset everything starting with maze */
     //reset grid 
-    this.grid = [];
     for (let r = startRow; r < endRow; r++) {
-        this.grid[r] = [];
         for (let c = startCol; c < endCol; c++) {
             this.grid[r][c] = new Cell(this.world, this, r, c, this.cellWidth, this.wallWidth);
         }
     }
     // begin mazeGen before rendering 
     this.path = [];
-    this.explore(0, 0);
-    this.entryExit();
+    this.explore(startRow, startCol, endRow, endCol, startRow, startCol);
+   // this.entryExit();
     // Load images
     this.images = {};
     this.loadImages();
@@ -80,10 +81,10 @@ Maze.prototype.entryExit = function () {
     }
 }
 
-Maze.prototype.explore = function (r, c) {
+Maze.prototype.explore = function (startRow, startCol, endRow, endCol, r, c) {
     this.grid[r][c].visited = true;
     // make array of available places to move to next 
-    let goTo = this.checkNeighbors(r, c);
+    let goTo = this.checkNeighbors(startRow, startCol, endRow, endCol, r, c);
     // if there are cells to continue exploring 
     if (goTo.length > 0) {
         // add current cell to the path
@@ -94,12 +95,12 @@ Maze.prototype.explore = function (r, c) {
         // remove walls between the cells 
         this.removeWalls(r, c, newCell.row, newCell.col);
         // explore to new cell 
-        this.explore(newCell.row, newCell.col);
+        this.explore(startRow, startCol, endRow, endCol, newCell.row, newCell.col);
     }
     else if (this.path.length > 0) {
         // remove last cell visited from path because you're starting backtracking 
         let nextCell = this.path.pop();
-        this.explore(nextCell.row, nextCell.col);
+        this.explore(startRow, startCol, endRow, endCol, nextCell.row, nextCell.col);
     }
     else {
         return;
@@ -129,28 +130,28 @@ Maze.prototype.removeWalls = function (currentRow, currentCol, newRow, newCol) {
     }
 }
 
-Maze.prototype.checkNeighbors = function (r, c) {
+Maze.prototype.checkNeighbors = function (startRow, startCol, endRow, endCol, r, c) {
     let goTo = [];
     // if the cell is a wall, don't add those neighbors to the next place to go 
-    if (r !== 0) {// if cell is at the top row 
+    if (r !== startRow) {// if cell is at the top row 
         let topNeighbor = this.grid[r - 1][c];
         if (!topNeighbor.visited && topNeighbor.walls[0]) {
             goTo.push(topNeighbor);
         }
     }// if cell is on the right-most column 
-    if (c !== this.grid[0].length - 1) {
+    if (c !== endCol - 1) {
         let rightNeighbor = this.grid[r][c + 1];
         if (!rightNeighbor.visited && rightNeighbor.walls[1]) {
             goTo.push(rightNeighbor);
         }
     }// if cell is at the bottom row 
-    if (r !== this.grid.length - 1) {
+    if (r !== endRow - 1) {
         let bottomNeighbor = this.grid[r + 1][c];
         if (!bottomNeighbor.visited && bottomNeighbor.walls[2]) {
             goTo.push(bottomNeighbor);
         }
     }// if cell is on the left-most column 
-    if (c !== 0) {
+    if (c !== startCol) {
         let leftNeighbor = this.grid[r][c - 1];
         if (!leftNeighbor.visited && leftNeighbor.walls[3]) {
             goTo.push(leftNeighbor);
@@ -303,7 +304,7 @@ Maze.prototype.getCell = function (r, c) {
 
 Maze.prototype.render = function (center) {
 
-    this.oxygenBubbles();
+    //this.oxygenBubbles();
     //render cells 
     if (center) {
         this.setCellLuminances();
@@ -316,13 +317,14 @@ Maze.prototype.render = function (center) {
     else {
         for (let r = 0; r < this.row; r++) {
             for (let c = 0; c < this.col; c++) {
+                if(this.grid[r][c] !== undefined)
                 this.grid[r][c].render(false);
             }
         }
     }
 
     if (!this.renderCenter) {
-        this.entryExitRender();
+        //this.entryExitRender();
     }
 }
 
