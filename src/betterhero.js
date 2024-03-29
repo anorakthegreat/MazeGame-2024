@@ -16,8 +16,9 @@ class BetterHero {
         this.speed = 0.03;
         this.health = 100;
         this.oxygen = 100;
-        this.weapon=new Weapon(3, 90, 10, this, "./resources/sword.jpg");
+        this.weapon=new Weapon(3, 90, 10, this, "Sword", "./resources/sword.png");
         this.target=null;
+        this.killCount=0;
 
         /* @type {JSVector} */
         this.position = initialPosition.copy();
@@ -188,6 +189,7 @@ class BetterHero {
     updateStatusBar() {
         this.updateHealth();
         this.updateOxygen();
+        this.updateWeaponStatus();
     }
     
     updateHealth() {//assume max health will always be 100
@@ -212,7 +214,12 @@ class BetterHero {
             iT.item(1).style.backgroundImage="linear-gradient(#c8f70a,#bbe809,#b1d911)";
     }
     }
-
+    updateWeaponStatus(){
+        let w=document.getElementById("weapon");
+        w.innerHTML=this.weapon.name;
+        let k=document.getElementById("kills");
+        k.innerHTML=this.killCount;
+    }
     updateOxygen() {
         let o = document.getElementById("oxygen");
         let iT=document.getElementsByClassName("infoTile");
@@ -252,10 +259,9 @@ class BetterHero {
         this.target=closeEnemy;
         if(this.weapon.attack(this.target)){
             world.score+=150;
-            console.log("hit");
             if(closeEnemy.health<=0){
                 world.score+=100;
-                console.log("death");
+                this.killCount++;
             }
         }
         this.weapon.delayTime++;
@@ -276,8 +282,7 @@ class BetterHero {
         context.fillStyle = "red";
         context.fillRect(x, y, w, w);
         if(this.weapon!==null){//render weapon if there is one
-            context.fillStyle="purple";
-            context.fillRect(x,y,10,20)
+            this.weapon.render();
         }
         context.restore();
     }

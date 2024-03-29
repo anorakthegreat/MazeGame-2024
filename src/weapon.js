@@ -6,12 +6,13 @@ class Weapon {
      * @param {number} range - the wepons range (relative to a cell)
      * @param {string} imagePath - the path of the image of the enemy
      */
-    constructor(damage, delay, range, holder, imagePath) {
+    constructor(damage, delay, range, holder, name, imagePath) {
         // Stats
         this.damage = damage;
         this.delay = delay;
         this.range = range;
         this.holder=holder;
+        this.name=name;
         this.delayTime=delay;
         // Load the image
         this.image = {image: new Image(), loaded: false};
@@ -28,5 +29,9 @@ class Weapon {
         } else {
             return false;
         }
+    }
+    render(){
+        let ctx=world.context;
+        ctx.drawImage(this.image.image, this.holder.position.x-25, this.holder.position.y,15,15);
     }
 }
