@@ -16,7 +16,7 @@ class BetterHero {
         this.speed = 0.03;
         this.health = 100;
         this.oxygen = 100;
-        this.weapon=new Spear(this);
+        this.weapon=new Sword(this);
         this.target=null;
         this.killCount=0;
 
@@ -31,7 +31,8 @@ class BetterHero {
             "s": {pressed: false},
             "w": {pressed: false},
             "a": {pressed: false},
-            "d": {pressed: false}
+            "d": {pressed: false},
+            "e":{pressed:false}
         };
 
         window.addEventListener("keydown", (event) => {
@@ -93,6 +94,7 @@ class BetterHero {
 
         this.checkWalls();
         this.updateStatusBar();
+        this.pickUpWeapon();
         this.updateWeapon();
     }
 
@@ -246,7 +248,17 @@ class BetterHero {
         oP=(oP*100).toFixed(0);
         o.innerHTML = oP + "%";
     }
-
+    pickUpWeapon(){
+        let calvin = world.levels[world.currentLevel].hero.getMazeLocation().weapon;
+        //need to add a delay still
+        if(calvin!==null&&this.keys["e"].pressed){
+            let diego=world.levels[world.currentLevel].hero.weapon;
+            calvin.holder=this;
+            diego.holder=this.getMazeLocation();
+            world.levels[world.currentLevel].hero.weapon=calvin;
+            world.levels[world.currentLevel].hero.getMazeLocation().weapon=diego;
+        }
+    }
     updateWeapon(){ 
         let enemies=world.levels[world.currentLevel].enemies;
         let closeEnemy=enemies[0];
