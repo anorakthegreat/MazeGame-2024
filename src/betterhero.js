@@ -16,7 +16,7 @@ class BetterHero {
         this.speed = 0.03;
         this.health = 100;
         this.oxygen = 100;
-        this.weapon=new Weapon(3, 90, 10, this, "Sword", "./resources/sword.png");
+        this.weapon=new Spear(this);
         this.target=null;
         this.killCount=0;
 
@@ -248,9 +248,9 @@ class BetterHero {
     }
 
     updateWeapon(){ 
-        if(world.levels[world.currentLevel].enemies.length>0){
-            let enemies=world.levels[world.currentLevel].enemies;
-            let closeEnemy=enemies[0];
+        let enemies=world.levels[world.currentLevel].enemies;
+        let closeEnemy=enemies[0];
+        if(enemies.length>0){
         for(let i=0;i<enemies.length;i++){
             if(enemies[i].path.length<closeEnemy.path.length){
                 closeEnemy=enemies[i];
