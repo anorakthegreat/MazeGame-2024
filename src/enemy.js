@@ -14,6 +14,7 @@ class Enemy {
         /* @type {number} */
         this.width = 0.5;
         this.speed = 0.025;
+        this.distanceToRecognizeHero = 5;
 
         /* @type {JSVector} */
         this.position = initialPosition.copy();
@@ -63,11 +64,11 @@ class Enemy {
     wander() {
         // Check if the player is within a certain distance
         const target = this.target ? this.target.copy() : null;
-        this.target = this.world.levels[this.world.currentLevel].hero.position.copy();
+        this.target = JSVector.random(world.levels[world.currentLevel].maze.col,
+                                      world.levels[world.currentLevel].maze.row);
         this.target.floor();
         this.updatePath();
-        const distanceToRecognizeHero = 10;
-        if (this.path.length < distanceToRecognizeHero)
+        if (this.path.length < this.distanceToRecognizeHero)
         {
             this.pathType = PathType.SEEK;
             this.seekPlayer();
@@ -78,11 +79,13 @@ class Enemy {
         this.target = target;
         this.seekTarget(() => {
             if (!this.target) {
-                this.target = JSVector.random(this.world.maze.width, this.world.maze.height);
+                this.target = JSVector.random(this.world.maze.width,
+                                              this.world.maze.height);
                 this.target.floor();
             }
             if (this.path.empty()) {
-                this.target = JSVector.random(this.world.maze.width, this.world.maze.height);
+                this.target = JSVector.random(this.world.maze.width,
+                                              this.world.maze.height);
                 this.target.floor();
                 this.updatePath();
                 return true;
@@ -95,9 +98,18 @@ class Enemy {
         this.seekTarget(() => {
             const heroPosition = this.world.levels[this.world.currentLevel].hero.position.copy();
             heroPosition.floor();
-            if (!this.target || !this.target.equals(heroPosition) || this.path.empty())
+            if (!this.target || !this.target.equals(heroPosition))
             {
-                this.target = heroPosition;
+                this.target = heroPosition.copy();
+                this.target.floor();
+            }
+            
+            if (this.path.length > this.distanceToRecognizeHero) {
+                this.pathType = PathType.WANDER;
+                this.wander();
+                return;
+            }
+            if (this.path.empty()) {
                 this.updatePath();
                 return true;
             }
@@ -365,7 +377,7 @@ class Point {
     equals(point) {
         return this.x === point.x &&
                this.y === point.y;
-    }
+p    }
 }
 
 
