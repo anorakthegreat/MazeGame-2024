@@ -13,7 +13,7 @@ class Spear extends Weapon{
 }
 class Trident extends Weapon{
     constructor(holder){
-        super(4,100,15, holder,"Trident","./reosources/trident.png");
+        super(4,100,15, holder,"Trident","./resources/trident.png");
     }
 }
 class Dagger extends Weapon{

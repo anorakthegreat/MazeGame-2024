@@ -32,6 +32,6 @@ class Weapon {
     }
     render(){
         let ctx=world.context;
-        ctx.drawImage(this.image.image, this.holder.position.x-25, this.holder.position.y,15,15);
+        ctx.drawImage(this.image.image, this.holder.position.x-30, this.holder.position.y-15,25,25);
     }
 }

@@ -264,7 +264,7 @@ Maze.prototype.setCellLuminances = function () {
             queue.enqueue(neighbor);
         }
     }
-
+}
     Maze.prototype.entryExit = function () {
         this.entry = this.grid[0][0];
         this.exit;
@@ -286,7 +286,7 @@ Maze.prototype.setCellLuminances = function () {
         }
 
     }
-}
+
 
 Maze.prototype.getCell = function (r, c) {
     return this.grid[r][c];
@@ -359,7 +359,7 @@ Maze.prototype.weaponCreation=function(){
         }
     }
     //weapons on random tiles if 
-    if (count < 3) {
+    if (count < 4) {
         let ranR = Math.floor(Math.random() * this.grid.length);
         let ranC = Math.floor(Math.random() * this.grid[0].length);
         if (ranR === 0 && ranC === 0) {
@@ -372,14 +372,14 @@ Maze.prototype.weaponCreation=function(){
         }
         if(this.grid[ranR][ranC].oxygen===null){
             let r=Math.random()*4;
-            if(r<1){
+            if(r<1.5){
                 this.grid[ranR][ranC].weapon = new Sword(this.grid[ranR][ranC]);
-            } else if(r<2){
-                this.grid[ranR][ranC].weapon = new Spear(this.grid[ranR][ranC]);
-            } else if(r<3){
-                this.grid[ranR][ranC].weapon = new Trident(this.grid[ranR][ranC]);
-            } else if(r<4){
+            } else if(r<2.5){
                 this.grid[ranR][ranC].weapon = new Dagger(this.grid[ranR][ranC]);
+            } else if(r<3.5){
+                this.grid[ranR][ranC].weapon = new Spear(this.grid[ranR][ranC]);
+            } else if(r<4){
+                this.grid[ranR][ranC].weapon = new Trident(this.grid[ranR][ranC]);
             }
         }
     }
