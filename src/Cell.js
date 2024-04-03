@@ -10,7 +10,6 @@ function Cell(world, maze, r, c, cellWidth, wallWidth) {
     this.oxygenDiameter = 0.8;
     this.cellWidth = cellWidth;
     this.wallWidth = wallWidth;
-    this.walls = [true, true, true, true];//top, right, bottom, left (like a clock) 
     this.color = "rgba(0, 0, 255, 1)";
     this.topLx = this.col * this.cellWidth+this.maze.mazeLoc.x;
     this.topLy = this.row * this.cellWidth+this.maze.mazeLoc.y;
@@ -23,12 +22,20 @@ function Cell(world, maze, r, c, cellWidth, wallWidth) {
 
     this.walls = [true, true, true, true];//top, right, bottom, left (like a clock)
 
+    this.safeZone = false;
+
     /* @type {float} (0 <= luminance <= 1) */
     this.luminance = 0;
     // this.type = "coral"; // Types for images
 }
 
 Cell.prototype.render = function(center){
+    if(this.safeZone){//if its a safe zone, remove all walls 
+        this.walls[0] = false;
+        this.walls[1] = false;
+        this.walls[2] = false;
+        this.walls[3] = false;
+    }
     if(center){
         this.renderCenter();
     }

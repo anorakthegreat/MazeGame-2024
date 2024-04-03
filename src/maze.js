@@ -3,8 +3,8 @@
 function Maze(world, level, loc, row, col, renderCenter) {
     this.world = world;
     this.level = level;
-    this.row = row;//num of rows in the maze 
-    this.col = col;//num of cols in the maze 
+    this.rows = row;//num of rows in the maze 
+    this.cols = col;//num of cols in the maze 
     this.context = world.context;
     //width of the square cells 
     this.renderCenter = renderCenter;
@@ -13,10 +13,10 @@ function Maze(world, level, loc, row, col, renderCenter) {
     else
         this.cellWidth = 25;
     //width of the walls
-    this.wallWidth = 8;
+    this.wallWidth = 1;
     //array for all the cells 
     this.grid = [];
-    for (let i = 0; i < this.row; i++) {
+    for (let i = 0; i < this.rows; i++) {
         this.grid[i] = [];
     }
     //top left of maze
@@ -27,6 +27,9 @@ function Maze(world, level, loc, row, col, renderCenter) {
     this.entry;
     this.exit;
 
+    //safe zone locs (top left cells)
+    this.sloc = [];
+
     // Load images
     this.images = {};
     //this.loadImages();
@@ -34,13 +37,13 @@ function Maze(world, level, loc, row, col, renderCenter) {
 
 Object.defineProperty(Maze.prototype, "width", {
     get: function () {
-        return this.col;
+        return this.cols;
     }
 });
 
 Object.defineProperty(Maze.prototype, "height", {
     get: function () {
-        return this.row;
+        return this.rows;
     }
 });
 
@@ -56,9 +59,26 @@ Maze.prototype.regenerate = function (startRow, startCol, endRow, endCol, exits)
     this.path = [];
     this.explore(startRow, startCol, endRow, endCol, startRow, startCol);
     //this.entryExit(startRow, startCol, endRow, endCol);
+    //creates center safe zone for each group of four mazes 
+    let mL = this.world.levels[this.world.currentLevel].mazeLength;
+    this.safeZone(startRow / mL, startCol / mL);
+    // console.log(this.safeZone(startRow / mL, startCol / mL));
+    // console.log(startRow/mL + "   " + startCol/mL);
     // Load images
     this.images = {};
     this.loadImages();
+}
+
+Maze.prototype.safeZone = function (r, c) {
+    let mL = this.world.levels[this.world.currentLevel].mazeLength;
+    if (r + 1 < this.rows / mL && c + 1 < this.cols / mL) {
+        let ar = {
+            row: r * mL+mL-1,
+            col: c * mL+mL-1
+        }
+        this.sloc.push(ar);
+    }
+    return this.sloc;
 }
 
 Maze.prototype.entryExit = function (startRow, startCol, endRow, endCol) {
@@ -201,7 +221,7 @@ Maze.prototype.setCellLuminances = function () {
                 this.y === point.y;
         }
     }
-    
+
     const maxDistance = 8; // Up to two neighbors can be iluminated
     const queue = new Queue();
     const maze = this.grid;
@@ -299,7 +319,7 @@ Maze.prototype.getCell = function (r, c) {
     return this.grid[r][c];
 }
 
-Maze.prototype.getCenter = function() {
+Maze.prototype.getCenter = function () {
     const hero = world.levels[world.currentLevel].hero;
     const center = hero.position.copy();
     center.x += hero.width / 2;
@@ -311,19 +331,19 @@ Maze.prototype.render = function (center) {
 
     //this.oxygenBubbles();
     //render cells 
-    for (let r = 0; r < this.row; r++) {
-        for (let c = 0; c < this.col; c++) {
+    for (let r = 0; r < this.rows; r++) {
+        for (let c = 0; c < this.cols; c++) {
             this.grid[r][c].render(center);
         }
     }
     if (!this.renderCenter) {
         //this.entryExitRender();
-    }    
+    }
 }
 
-Maze.prototype.resetLuminances = function() {
-    for (let r = 0; r < this.row; r++) {
-        for (let c = 0; c < this.col; c++) {
+Maze.prototype.resetLuminances = function () {
+    for (let r = 0; r < this.rows; r++) {
+        for (let c = 0; c < this.cols; c++) {
             this.grid[r][c].luminance = 0;
         }
     }
@@ -332,11 +352,11 @@ Maze.prototype.resetLuminances = function() {
 Maze.prototype.oxygenBubbles = function () {
     let mL = this.world.levels[this.world.currentLevel].mazeLength;
     for (let row = 0; row < 1; row++) {
-        for (let col = 0; col < this.col / mL; col++) {
+        for (let col = 0; col < this.cols / mL; col++) {
             //count how many oxygen bubbles there are 
             let count = 0;
-            for (let r = row*mL; r < row * mL + mL; r++) {
-                for (let c = col*mL; c < col * mL + mL; c++) {
+            for (let r = row * mL; r < row * mL + mL; r++) {
+                for (let c = col * mL; c < col * mL + mL; c++) {
                     if (this.grid[r][c].oxygen != null && this.grid[r][c].oxygen.air > 0) {
                         count++;
                     }
