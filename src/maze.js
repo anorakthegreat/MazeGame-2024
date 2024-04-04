@@ -7,13 +7,15 @@ function Maze(world, level, loc, row, col, renderCenter) {
     this.cols = col;//num of cols in the maze 
     this.context = world.context;
     //width of the square cells 
-    this.renderCenter = renderCenter;
-    if (renderCenter)
-        this.cellWidth = this.world.canvas.width / 15; // For center rendering
-    else
-        this.cellWidth = 25;
     //width of the walls
-    this.wallWidth = 1;
+    this.renderCenter = renderCenter;
+    if (renderCenter) {
+        this.cellWidth = this.world.canvas.width / 10; // For center rendering
+        this.wallWidth = this.cellWidth * 4 / 50;
+    } else {
+        this.cellWidth = 50;
+        this.wallWidth = 8;
+    }
     //array for all the cells 
     this.grid = [];
     for (let i = 0; i < this.rows; i++) {
@@ -64,6 +66,7 @@ Maze.prototype.regenerate = function (startRow, startCol, endRow, endCol, exits)
     this.safeZone(startRow / mL, startCol / mL);
     // console.log(this.safeZone(startRow / mL, startCol / mL));
     // console.log(startRow/mL + "   " + startCol/mL);
+    this.addPaths(15);
     // Load images
     this.images = {};
     this.loadImages();
@@ -184,6 +187,25 @@ Maze.prototype.checkNeighbors = function (startRow, startCol, endRow, endCol, r,
     return goTo;
 }
 
+Maze.prototype.addPaths = function(walls) {
+    for (let i = 0; i < walls; ++i) {
+        let x, y, wall;
+        do {
+            x = 1 + Math.floor(Math.random() * (this.col - 2));
+            y = 1 + Math.floor(Math.random() * (this.row - 2));
+            wall = Math.floor(Math.random() * 4);
+        } while (!this.grid[y][x].walls[wall]);
+        this.grid[y][x].walls[wall] = false;
+        switch (wall) {
+        case 0: --y; break;
+        case 1: ++x; break;
+        case 2: ++y; break;
+        case 3: --x; break;
+        }
+        this.grid[y][x].walls[(wall + 2) % 4] = false;
+    }
+}
+
 Maze.prototype.loadImages = function () {
     const loadImage = (path, name) => {
         this.images[name] = { image: new Image(), loaded: false };
@@ -221,8 +243,8 @@ Maze.prototype.setCellLuminances = function () {
                 this.y === point.y;
         }
     }
-
-    const maxDistance = 8; // Up to two neighbors can be iluminated
+    
+    const maxDistance = 5; // Up to N neighbors can be iluminated
     const queue = new Queue();
     const maze = this.grid;
     let visited = Array.from(new Array(maze.length), () => {
@@ -291,7 +313,7 @@ Maze.prototype.setCellLuminances = function () {
             queue.enqueue(neighbor);
         }
     }
-
+}
     Maze.prototype.entryExit = function () {
         this.entry = this.grid[0][0];
         this.exit;
@@ -313,7 +335,7 @@ Maze.prototype.setCellLuminances = function () {
         }
 
     }
-}
+
 
 Maze.prototype.getCell = function (r, c) {
     return this.grid[r][c];
@@ -328,9 +350,11 @@ Maze.prototype.getCenter = function () {
 }
 
 Maze.prototype.render = function (center) {
+
+    //this.oxygenBubbles();
+    this.weaponCreation();
     if(center)
         this.setCellLuminances();
-    //this.oxygenBubbles();
     //render cells 
     for (let r = 0; r < this.rows; r++) {
         for (let c = 0; c < this.cols; c++) {
@@ -368,6 +392,41 @@ Maze.prototype.oxygenBubbles = function () {
                 let ranR = Math.floor(Math.random() * (row * mL + mL - row + 1) + row);
                 let ranC = Math.floor(Math.random() * (col * mL + mL - col + 1) + col);
                 this.grid[ranR][ranC].oxygen = new Oxygen(this.grid[ranR][ranC], this.context);
+            }
+        }
+    }
+}
+Maze.prototype.weaponCreation=function(){
+    let count=0;
+    for (let r = 0; r < this.grid.length; r++) {
+        for (let c = 0; c < this.grid[0].length; c++) {
+            if (this.grid[r][c].weapon != null) {
+                count++;
+            }
+        }
+    }
+    //weapons on random tiles if 
+    if (count < 4) {
+        let ranR = Math.floor(Math.random() * this.grid.length);
+        let ranC = Math.floor(Math.random() * this.grid[0].length);
+        if (ranR === 0 && ranC === 0) {
+            ranR = 1;
+            ranC = 0;
+        }
+        else if (ranR === this.exit.row && ranC === this.exit.col) {
+            ranR = 4;
+            ranC = 4;
+        }
+        if(this.grid[ranR][ranC].oxygen===null){
+            let r=Math.random()*4;
+            if(r<1.5){
+                this.grid[ranR][ranC].weapon = new Sword(this.grid[ranR][ranC]);
+            } else if(r<2.5){
+                this.grid[ranR][ranC].weapon = new Dagger(this.grid[ranR][ranC]);
+            } else if(r<3.5){
+                this.grid[ranR][ranC].weapon = new Spear(this.grid[ranR][ranC]);
+            } else if(r<4){
+                this.grid[ranR][ranC].weapon = new Trident(this.grid[ranR][ranC]);
             }
         }
     }

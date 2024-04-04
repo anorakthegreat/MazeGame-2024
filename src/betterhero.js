@@ -16,10 +16,13 @@ class BetterHero {
         this.speed = 0.03;
         this.health = 100;
         this.oxygen = 100;
+        this.weapon=new Sword(this);
+        this.target=null;
+        this.killCount=0;
 
         /* @type {JSVector} */
         this.position = initialPosition.copy();
-        this.position.add(new JSVector(this.width*0.5, this.width*0.5));
+        this.position.add(new JSVector(0.5 - this.width / 2, 0.5 - this.width / 2));
         this.velocity = new JSVector(0, 0);
         this.acceleration = new JSVector(0, 0);
 
@@ -28,7 +31,8 @@ class BetterHero {
             "s": {pressed: false},
             "w": {pressed: false},
             "a": {pressed: false},
-            "d": {pressed: false}
+            "d": {pressed: false},
+            "e":{pressed:false}
         };
 
         window.addEventListener("keydown", (event) => {
@@ -90,6 +94,8 @@ class BetterHero {
 
         this.checkWalls();
         this.updateStatusBar();
+        this.pickUpWeapon();
+        this.updateWeapon();
     }
 
     /* Check the walls of the maze for collisions */
@@ -185,6 +191,7 @@ class BetterHero {
     updateStatusBar() {
         this.updateHealth();
         this.updateOxygen();
+        this.updateWeaponStatus();
     }
     
     updateHealth() {//assume max health will always be 100
@@ -209,7 +216,12 @@ class BetterHero {
             iT.item(1).style.backgroundImage="linear-gradient(#c8f70a,#bbe809,#b1d911)";
     }
     }
-
+    updateWeaponStatus(){
+        let w=document.getElementById("weapon");
+        w.innerHTML=this.weapon.name;
+        let k=document.getElementById("kills");
+        k.innerHTML=this.killCount;
+    }
     updateOxygen() {
         let o = document.getElementById("oxygen");
         let iT=document.getElementsByClassName("infoTile");
@@ -236,8 +248,37 @@ class BetterHero {
         oP=(oP*100).toFixed(0);
         o.innerHTML = oP + "%";
     }
-
-
+    pickUpWeapon(){
+        let calvin = world.levels[world.currentLevel].hero.getMazeLocation().weapon;
+        //need to add a delay still
+        if(calvin!==null&&this.keys["e"].pressed){
+            let diego=world.levels[world.currentLevel].hero.weapon;
+            calvin.holder=this;
+            diego.holder=this.getMazeLocation();
+            world.levels[world.currentLevel].hero.weapon=calvin;
+            world.levels[world.currentLevel].hero.getMazeLocation().weapon=diego;
+        }
+    }
+    updateWeapon(){ 
+        let enemies=world.levels[world.currentLevel].enemies;
+        let closeEnemy=enemies[0];
+        if(enemies.length>0){
+        for(let i=0;i<enemies.length;i++){
+            if(enemies[i].path.length<closeEnemy.path.length){
+                closeEnemy=enemies[i];
+            }
+        }
+        this.target=closeEnemy;
+        if(this.weapon.attack(this.target)){
+            world.score+=150;
+            if(closeEnemy.health<=0){
+                world.score+=100;
+                this.killCount++;
+            }
+        }
+        this.weapon.delayTime++;
+        }
+    }
     /* Render the enemy */
     renderCenter() {
         const cellWidth = world.levels[world.currentLevel].maze.cellWidth;
@@ -252,6 +293,9 @@ class BetterHero {
         context.beginPath();
         context.fillStyle = "red";
         context.fillRect(x, y, w, w);
+        if(this.weapon!==null){//render weapon if there is one
+            this.weapon.render();
+        }
         context.restore();
     }
 
