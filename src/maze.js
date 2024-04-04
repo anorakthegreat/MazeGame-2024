@@ -13,8 +13,8 @@ function Maze(world, level, loc, row, col, renderCenter) {
         this.cellWidth = this.world.canvas.width / 10; // For center rendering
         this.wallWidth = this.cellWidth * 4 / 50;
     } else {
-        this.cellWidth = 50;
-        this.wallWidth = 8;
+        this.cellWidth = 20;
+        this.wallWidth = 1;
     }
     //array for all the cells 
     this.grid = [];
@@ -66,7 +66,6 @@ Maze.prototype.regenerate = function (startRow, startCol, endRow, endCol, exits)
     this.safeZone(startRow / mL, startCol / mL);
     // console.log(this.safeZone(startRow / mL, startCol / mL));
     // console.log(startRow/mL + "   " + startCol/mL);
-    this.addPaths(15);
     // Load images
     this.images = {};
     this.loadImages();
@@ -191,8 +190,8 @@ Maze.prototype.addPaths = function(walls) {
     for (let i = 0; i < walls; ++i) {
         let x, y, wall;
         do {
-            x = 1 + Math.floor(Math.random() * (this.col - 2));
-            y = 1 + Math.floor(Math.random() * (this.row - 2));
+            x = 1 + Math.floor(Math.random() * (this.cols - 2));
+            y = 1 + Math.floor(Math.random() * (this.rows - 2));
             wall = Math.floor(Math.random() * 4);
         } while (!this.grid[y][x].walls[wall]);
         this.grid[y][x].walls[wall] = false;
@@ -409,14 +408,14 @@ Maze.prototype.weaponCreation=function(){
     if (count < 4) {
         let ranR = Math.floor(Math.random() * this.grid.length);
         let ranC = Math.floor(Math.random() * this.grid[0].length);
-        if (ranR === 0 && ranC === 0) {
-            ranR = 1;
-            ranC = 0;
-        }
-        else if (ranR === this.exit.row && ranC === this.exit.col) {
-            ranR = 4;
-            ranC = 4;
-        }
+        // if (ranR === 0 && ranC === 0) {
+        //     ranR = 1;
+        //     ranC = 0;
+        // }
+        // else if (ranR === this.exit.row && ranC === this.exit.col) {
+        //     ranR = 4;
+        //     ranC = 4;
+        // }
         if(this.grid[ranR][ranC].oxygen===null){
             let r=Math.random()*4;
             if(r<1.5){

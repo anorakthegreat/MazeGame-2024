@@ -45,6 +45,7 @@ class Level {
                 this.maze.regenerate(mL*r, mL*c, r*mL+mL, c*mL+mL);
             }
         }
+        this.maze.addPaths(15);
         console.log(this.maze.sloc);
         this.safeZones();
         this.hero = new BetterHero(world, new JSVector(0, 0));
@@ -60,10 +61,18 @@ class Level {
             let r = sloc[i].row;
             let c = sloc[i].col;
             let grid = this.maze.grid;
-            grid[r][c].safeZone = true;
-            grid[r+1][c].safeZone = true;
-            grid[r][c+1].safeZone = true;
-            grid[r+1][c+1].safeZone = true;
+            grid[r][c].safeZone = true;//box 1
+            grid[r-1][c].walls[2] = false;//top cell removes bottom wall 
+            grid[r][c-1].walls[1] = false;//left cell removes right wall
+            grid[r][c+1].safeZone = true;//box 2
+            grid[r-1][c+1].walls[2] = false;//top cell removes bottom wall 
+            grid[r][c+2].walls[3] = false;//left cell removes right wall 
+            grid[r+1][c].safeZone = true;//box 3
+            grid[r+2][c].walls[0] = false;//bottom cell removes top wall 
+            grid[r+1][c-1].walls[1] = false;//left cell removes right wall 
+            grid[r+1][c+1].safeZone = true;//box 4 
+            grid[r+2][c+1].walls[0] = false;//bottom cell removes top wall 
+            grid[r+1][c+2].walls[3] = false;//right cell removes left wall 
             /*
             r and c are the row and column (respectively) 
             of box 1 in the safe zone 
