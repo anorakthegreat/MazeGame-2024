@@ -64,8 +64,6 @@ Maze.prototype.regenerate = function (startRow, startCol, endRow, endCol, exits)
     //creates center safe zone for each group of four mazes 
     let mL = this.world.levels[this.world.currentLevel].mazeLength;
     this.safeZone(startRow / mL, startCol / mL);
-    // console.log(this.safeZone(startRow / mL, startCol / mL));
-    // console.log(startRow/mL + "   " + startCol/mL);
     // Load images
     this.images = {};
     this.loadImages();
