@@ -71,6 +71,7 @@ this.l=1;
         s.innerHTML = this.score;
     }
 
+
     genLevel(level) {
         level.maze = new Maze(this, level.rows, level.cols, level.renderCenter);
         level.maze.regenerate();

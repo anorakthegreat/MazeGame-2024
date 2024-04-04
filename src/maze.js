@@ -286,7 +286,7 @@ Maze.prototype.setCellLuminances = function () {
             queue.enqueue(neighbor);
         }
     }
-
+}
     Maze.prototype.entryExit = function () {
         this.entry = this.grid[0][0];
         this.exit;
@@ -308,7 +308,7 @@ Maze.prototype.setCellLuminances = function () {
         }
 
     }
-}
+
 
 Maze.prototype.getCell = function (r, c) {
     return this.grid[r][c];
@@ -325,6 +325,7 @@ Maze.prototype.getCenter = function() {
 Maze.prototype.render = function (center) {
 
     this.oxygenBubbles();
+    this.weaponCreation();
     this.setCellLuminances();
     //render cells 
     for (let r = 0; r < this.row; r++) {
@@ -368,6 +369,41 @@ Maze.prototype.oxygenBubbles = function () {
             ranC = 4;
         }
         this.grid[ranR][ranC].oxygen = new Oxygen(this.grid[ranR][ranC], this.context);
+    }
+}
+Maze.prototype.weaponCreation=function(){
+    let count=0;
+    for (let r = 0; r < this.grid.length; r++) {
+        for (let c = 0; c < this.grid[0].length; c++) {
+            if (this.grid[r][c].weapon != null) {
+                count++;
+            }
+        }
+    }
+    //weapons on random tiles if 
+    if (count < 4) {
+        let ranR = Math.floor(Math.random() * this.grid.length);
+        let ranC = Math.floor(Math.random() * this.grid[0].length);
+        if (ranR === 0 && ranC === 0) {
+            ranR = 1;
+            ranC = 0;
+        }
+        else if (ranR === this.exit.row && ranC === this.exit.col) {
+            ranR = 4;
+            ranC = 4;
+        }
+        if(this.grid[ranR][ranC].oxygen===null){
+            let r=Math.random()*4;
+            if(r<1.5){
+                this.grid[ranR][ranC].weapon = new Sword(this.grid[ranR][ranC]);
+            } else if(r<2.5){
+                this.grid[ranR][ranC].weapon = new Dagger(this.grid[ranR][ranC]);
+            } else if(r<3.5){
+                this.grid[ranR][ranC].weapon = new Spear(this.grid[ranR][ranC]);
+            } else if(r<4){
+                this.grid[ranR][ranC].weapon = new Trident(this.grid[ranR][ranC]);
+            }
+        }
     }
 }
 
