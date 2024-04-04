@@ -22,7 +22,7 @@ class BetterHero {
 
         /* @type {JSVector} */
         this.position = initialPosition.copy();
-        this.position.add(new JSVector(this.width*0.5, this.width*0.5));
+        this.position.add(new JSVector(0.5 - this.width / 2, 0.5 - this.width / 2));
         this.velocity = new JSVector(0, 0);
         this.acceleration = new JSVector(0, 0);
 
