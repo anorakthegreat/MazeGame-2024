@@ -47,7 +47,6 @@ Cell.prototype.render = function(center){
 Cell.prototype.renderCenter = function () {
     const cellWidth = this.cellWidth;
     const wallWidth = this.wallWidth;
-    
     const maze = this.world.levels[world.currentLevel].maze
     const center = maze.getCenter();
     const x = (this.col - center.x) * cellWidth;
@@ -65,7 +64,6 @@ Cell.prototype.renderCenter = function () {
 
     const image = maze.images["background"];
     if (image && image.loaded && this.luminance > 0) {
-        console.log("here")
         let sourceWidth = image.image.width / maze.width;
         let sourceHeight = image.image.height / maze.height;
         let sourceX = this.col * sourceWidth;

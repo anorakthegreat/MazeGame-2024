@@ -328,7 +328,8 @@ Maze.prototype.getCenter = function () {
 }
 
 Maze.prototype.render = function (center) {
-
+    if(center)
+        this.setCellLuminances();
     //this.oxygenBubbles();
     //render cells 
     for (let r = 0; r < this.rows; r++) {
