@@ -30,6 +30,7 @@ class Enemy {
         
         /* @type {JSVector} */
         this.target = null;
+        this.health=15;
     }    
 
     /* Run the enemy (once per frame) */

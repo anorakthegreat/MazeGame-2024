@@ -7,6 +7,7 @@ function Cell(world, r, c, cellWidth, wallWidth) {
     this.visited = false;
     this.oxygen = null;
     this.oxygenDiameter = 0.8;
+    this.weapon=null;
     this.cellWidth = cellWidth;
     this.wallWidth = wallWidth;
     this.walls = [true, true, true, true];//top, right, bottom, left (like a clock) 
@@ -84,6 +85,17 @@ Cell.prototype.renderCenter = function () {
             sourceX = 0;
             
             context.drawImage(bubble.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
+        }
+        if(this.weapon){//can't get weapons to draw
+            destinationHeight = cellWidth/ 20;
+            destinationWidth = cellWidth / 20;
+            destinationY = y + 0.5 * (cellWidth - destinationHeight);
+            destinationX = x + 0.5 * (cellWidth - destinationWidth);
+            sourceHeight = this.weapon.image.image.height;
+            sourceWidth = this.weapon.image.image.width;
+            sourceY = 0;
+            sourceX = 0;
+            context.drawImage(this.weapon.image.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
         }
         context.restore();
     } else if (this.luminance <= 0) {
