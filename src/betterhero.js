@@ -16,9 +16,9 @@ class BetterHero {
         this.speed = 0.03;
         this.health = 100;
         this.oxygen = 100;
-        this.weapon=new Sword(this);
-        this.target=null;
-        this.killCount=0;
+        this.weapon = new Sword(this);
+        this.target = null;
+        this.killCount = 0;
 
         /* @type {JSVector} */
         this.position = initialPosition.copy();
@@ -32,7 +32,7 @@ class BetterHero {
             "w": {pressed: false},
             "a": {pressed: false},
             "d": {pressed: false},
-            "e":{pressed:false}
+            "e": {pressed: false}
         };
 
         window.addEventListener("keydown", (event) => {
@@ -251,7 +251,7 @@ class BetterHero {
     pickUpWeapon(){
         let calvin = world.levels[world.currentLevel].hero.getMazeLocation().weapon;
         //need to add a delay still
-        if(calvin!==null&&this.keys["e"].pressed){
+        if (calvin!==null&&this.keys["e"].pressed) {
             let diego=world.levels[world.currentLevel].hero.weapon;
             calvin.holder=this;
             diego.holder=this.getMazeLocation();
