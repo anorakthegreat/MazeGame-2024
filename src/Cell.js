@@ -8,12 +8,12 @@ function Cell(world, maze, r, c, cellWidth, wallWidth) {
     this.visited = false;
     this.oxygen = null;
     this.oxygenDiameter = 0.8;
-    this.weapon=null;
+    this.weapon = null;
     this.cellWidth = cellWidth;
     this.wallWidth = wallWidth;
     this.color = "rgba(0, 0, 255, 1)";
-    this.topLx = this.col * this.cellWidth+this.maze.mazeLoc.x;
-    this.topLy = this.row * this.cellWidth+this.maze.mazeLoc.y;
+    this.topLx = this.col * this.cellWidth + this.maze.mazeLoc.x;
+    this.topLy = this.row * this.cellWidth + this.maze.mazeLoc.y;
     this.topRx = this.topLx + this.cellWidth;
     this.topRy = this.topLy;
     this.bottomRx = this.topRx;
@@ -30,17 +30,17 @@ function Cell(world, maze, r, c, cellWidth, wallWidth) {
     // this.type = "coral"; // Types for images
 }
 
-Cell.prototype.render = function(center){
-    if(this.safeZone){//if its a safe zone, remove all walls 
+Cell.prototype.render = function (center) {
+    if (this.safeZone) {//if its a safe zone, remove all walls 
         this.walls[0] = false;
         this.walls[1] = false;
         this.walls[2] = false;
         this.walls[3] = false;
     }
-    if(center){
+    if (center) {
         this.renderCenter();
     }
-    else{
+    else {
         this.renderClassic();
     }
 }
@@ -80,21 +80,20 @@ Cell.prototype.renderCenter = function () {
         context.drawImage(image.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
 
         const bubble = maze.images["bubble"];
-        if (this.oxygen && bubble && bubble.loaded)
-        {
+        if (this.oxygen && bubble && bubble.loaded) {
             destinationHeight = cellWidth * this.oxygenDiameter * this.oxygen.air / 20;
-            destinationWidth = cellWidth * this.oxygenDiameter *this.oxygen.air / 20;
+            destinationWidth = cellWidth * this.oxygenDiameter * this.oxygen.air / 20;
             destinationY = y + 0.5 * (cellWidth - destinationHeight);
             destinationX = x + 0.5 * (cellWidth - destinationWidth);
             sourceHeight = bubble.image.height;
             sourceWidth = bubble.image.width;
             sourceY = 0;
             sourceX = 0;
-            
+
             context.drawImage(bubble.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
         }
-        if(this.weapon){//can't get weapons to draw
-            destinationHeight = cellWidth/ 20;
+        if (this.weapon) {//can't get weapons to draw
+            destinationHeight = cellWidth / 20;
             destinationWidth = cellWidth / 20;
             destinationY = y + 0.5 * (cellWidth - destinationHeight);
             destinationX = x + 0.5 * (cellWidth - destinationWidth);
@@ -139,6 +138,8 @@ Cell.prototype.renderCenter = function () {
     context.stroke();
     context.closePath();
     context.restore();
+
+
 }
 
 Cell.prototype.renderClassic = function () {
@@ -173,6 +174,13 @@ Cell.prototype.renderClassic = function () {
 
     if (this.oxygen != null) {
         this.oxygen.render();
+    }
+    if (this.safeZone) {
+        this.context.save();
+        this.context.rect(this.topLx, this.topLy, this.cellWidth, this.cellWidth);
+        this.context.fillStyle = "rgba(255, 116, 0, 0.2)";
+        this.context.fill();
+        this.context.restore();
     }
 }
 

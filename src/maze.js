@@ -75,8 +75,8 @@ Maze.prototype.safeZone = function (r, c) {
     let mL = this.world.levels[this.world.currentLevel].mazeLength;
     if (r + 1 < this.rows / mL && c + 1 < this.cols / mL) {
         let ar = {
-            row: r * mL+mL-1,
-            col: c * mL+mL-1
+            row: r * mL + mL - 1,
+            col: c * mL + mL - 1
         }
         this.sloc.push(ar);
     }
@@ -186,7 +186,7 @@ Maze.prototype.checkNeighbors = function (startRow, startCol, endRow, endCol, r,
     return goTo;
 }
 
-Maze.prototype.addPaths = function(walls) {
+Maze.prototype.addPaths = function (walls) {
     for (let i = 0; i < walls; ++i) {
         let x, y, wall;
         do {
@@ -196,10 +196,10 @@ Maze.prototype.addPaths = function(walls) {
         } while (!this.grid[y][x].walls[wall]);
         this.grid[y][x].walls[wall] = false;
         switch (wall) {
-        case 0: --y; break;
-        case 1: ++x; break;
-        case 2: ++y; break;
-        case 3: --x; break;
+            case 0: --y; break;
+            case 1: ++x; break;
+            case 2: ++y; break;
+            case 3: --x; break;
         }
         this.grid[y][x].walls[(wall + 2) % 4] = false;
     }
@@ -242,7 +242,7 @@ Maze.prototype.setCellLuminances = function () {
                 this.y === point.y;
         }
     }
-    
+
     const maxDistance = 5; // Up to N neighbors can be iluminated
     const queue = new Queue();
     const maze = this.grid;
@@ -313,27 +313,27 @@ Maze.prototype.setCellLuminances = function () {
         }
     }
 }
-    Maze.prototype.entryExit = function () {
-        this.entry = this.grid[0][0];
-        this.exit;
-        //always start at top left, remove left and top wall to signify entrance 
-        this.entry.walls[0] = false;
-        this.entry.walls[3] = false;
-        //make a random exit on the right or bottom of the maze 
-        if (Math.random() * 2 > 1) {//right exit 
-            let r = Math.floor(Math.random() * this.grid.length);
-            this.exit = this.grid[r][this.grid[0].length - 1];
-            //remove right wall 
-            this.exit.walls[1] = false;
-        }
-        else {//bottom exit 
-            let c = Math.floor(Math.random() * this.grid[0].length);
-            this.exit = this.grid[this.grid.length - 1][c];
-            //remove bottom wall 
-            this.exit.walls[2] = false;
-        }
-
+Maze.prototype.entryExit = function () {
+    this.entry = this.grid[0][0];
+    this.exit;
+    //always start at top left, remove left and top wall to signify entrance 
+    this.entry.walls[0] = false;
+    this.entry.walls[3] = false;
+    //make a random exit on the right or bottom of the maze 
+    if (Math.random() * 2 > 1) {//right exit 
+        let r = Math.floor(Math.random() * this.grid.length);
+        this.exit = this.grid[r][this.grid[0].length - 1];
+        //remove right wall 
+        this.exit.walls[1] = false;
     }
+    else {//bottom exit 
+        let c = Math.floor(Math.random() * this.grid[0].length);
+        this.exit = this.grid[this.grid.length - 1][c];
+        //remove bottom wall 
+        this.exit.walls[2] = false;
+    }
+
+}
 
 
 Maze.prototype.getCell = function (r, c) {
@@ -350,9 +350,9 @@ Maze.prototype.getCenter = function () {
 
 Maze.prototype.render = function (center) {
 
-    //this.oxygenBubbles();
+    this.oxygenBubbles();
     this.weaponCreation();
-    if(center)
+    if (center)
         this.setCellLuminances();
     //render cells 
     for (let r = 0; r < this.rows; r++) {
@@ -377,26 +377,34 @@ Maze.prototype.oxygenBubbles = function () {
     let mL = this.world.levels[this.world.currentLevel].mazeLength;
     for (let row = 0; row < 1; row++) {
         for (let col = 0; col < this.cols / mL; col++) {
-            //count how many oxygen bubbles there are 
-            let count = 0;
-            for (let r = row * mL; r < row * mL + mL; r++) {
-                for (let c = col * mL; c < col * mL + mL; c++) {
-                    if (this.grid[r][c].oxygen != null && this.grid[r][c].oxygen.air > 0) {
-                        count++;
+            let done = false;
+            while (!done) {
+                //count how many oxygen bubbles there are 
+                let count = 0;
+                for (let r = row * mL; r < row * mL + mL; r++) {
+                    for (let c = col * mL; c < col * mL + mL; c++) {
+                        if (this.grid[r][c].oxygen != null && this.grid[r][c].oxygen.air > 0) {
+                            count++;
+                        }
                     }
                 }
-            }
-            //oxygen bubbles on random tiles if 
-            if (count < 10) {
-                let ranR = Math.floor(Math.random() * (row * mL + mL - row + 1) + row);
-                let ranC = Math.floor(Math.random() * (col * mL + mL - col + 1) + col);
-                this.grid[ranR][ranC].oxygen = new Oxygen(this.grid[ranR][ranC], this.context);
+                //oxygen bubbles on random tiles if 
+                if (count < 10) {
+                    let ranR = Math.floor(Math.random() * (row * mL + mL - row + 1) + row);
+                    let ranC = Math.floor(Math.random() * (col * mL + mL - col + 1) + col);
+                    while (this.grid[ranR][ranC].safeZone) {
+                        ranR = Math.floor(Math.random() * (row * mL + mL - row + 1) + row);
+                        ranC = Math.floor(Math.random() * (col * mL + mL - col + 1) + col);
+                    }
+                    this.grid[ranR][ranC].oxygen = new Oxygen(this.grid[ranR][ranC], this.context);
+                }
+                else { done = true; }
             }
         }
     }
 }
-Maze.prototype.weaponCreation=function(){
-    let count=0;
+Maze.prototype.weaponCreation = function () {
+    let count = 0;
     for (let r = 0; r < this.grid.length; r++) {
         for (let c = 0; c < this.grid[0].length; c++) {
             if (this.grid[r][c].weapon != null) {
@@ -416,15 +424,15 @@ Maze.prototype.weaponCreation=function(){
         //     ranR = 4;
         //     ranC = 4;
         // }
-        if(this.grid[ranR][ranC].oxygen===null){
-            let r=Math.random()*4;
-            if(r<1.5){
+        if (this.grid[ranR][ranC].oxygen === null) {
+            let r = Math.random() * 4;
+            if (r < 1.5) {
                 this.grid[ranR][ranC].weapon = new Sword(this.grid[ranR][ranC]);
-            } else if(r<2.5){
+            } else if (r < 2.5) {
                 this.grid[ranR][ranC].weapon = new Dagger(this.grid[ranR][ranC]);
-            } else if(r<3.5){
+            } else if (r < 3.5) {
                 this.grid[ranR][ranC].weapon = new Spear(this.grid[ranR][ranC]);
-            } else if(r<4){
+            } else if (r < 4) {
                 this.grid[ranR][ranC].weapon = new Trident(this.grid[ranR][ranC]);
             }
         }
