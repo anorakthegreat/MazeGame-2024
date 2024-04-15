@@ -25,6 +25,7 @@ class Weapon {
         if(((this.delayTime>=this.delay))&&target.position.distance(this.holder.position)<this.range){
             this.delayTime=0;
             target.health-=this.damage;
+            console.log(`${this.holder.constructor.name} hit ${target.constructor.name} at ${Date.now()}`);
             return true;
         } else {
             return false;
