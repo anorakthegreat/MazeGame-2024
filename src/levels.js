@@ -30,6 +30,7 @@ class Level {
             this.enemies[i].run(this.renderCenter);
             if(this.enemies[i].health<=0){
                 this.enemies.splice(i, 1);
+                console.log(`Enemy killed at ${Date.now()}`);
             }
         }
 
@@ -50,7 +51,7 @@ class Level {
         this.safeZones();
         this.hero = new BetterHero(world, new JSVector(0, 0));
         for (let i = 0; i < 2; i++) {
-            this.enemies[i] = new Enemy(world, new JSVector(1, 1));
+            this.enemies[i] = new Enemy(world, new JSVector(1 + i, i + 1));
         }
         
     }
