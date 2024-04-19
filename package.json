@@ -1,0 +1,22 @@
+{
+  "name": "mazegame-2024fork",
+  "version": "1.0.0",
+  "description": "gmae",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anorakthegreat/MazeGame-2024.git"
+  },
+  "author": "m",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anorakthegreat/MazeGame-2024/issues"
+  },
+  "homepage": "https://github.com/anorakthegreat/MazeGame-2024#readme",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
